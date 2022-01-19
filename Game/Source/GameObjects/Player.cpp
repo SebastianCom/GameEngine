@@ -16,6 +16,8 @@ Player::~Player()
 
 void Player::Update(float deltaTime)
 {
+    GameObject::Update( deltaTime );
+
     float speed = 5.0f;
 
     vec2 newPos = m_Position;
@@ -63,7 +65,7 @@ void Player::Update(float deltaTime)
 
     if( m_pPlayerController->WasPressed( PlayerController::Action::Teleport ) )
     {
-        m_Position = vec2( rand()/(float)RAND_MAX * 15, rand()/(float)RAND_MAX * 15 );
+        m_Position = vec2( fw::Random::GetFloat( 0, 15 ), fw::Random::GetFloat( 0, 15 ) );
     }
 
     if( m_pSpriteSheet )
