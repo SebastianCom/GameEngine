@@ -22,7 +22,6 @@ void GameObject::Update(float deltaTime)
     {
         b2Vec2 physicsPosition = m_pPhysicsBody->GetPosition();
         ImGui::Text("%0.2f, %0.2f", physicsPosition.x, physicsPosition.y);
-
         m_Position.Set(physicsPosition.x, physicsPosition.y);
     }
 }
@@ -37,24 +36,26 @@ void GameObject::Draw(Camera* pCamera)
 void GameObject::CreateBody(PhysicsWorld* pWorld, bool isDynamic, vec2 size, float density)
 {
 
-    b2World* pWorld2D = static_cast<PhysicsWorldBox2D*>(pWorld)->Getb2World();
+    m_pPhysicsBody = pWorld->CreateBody(isDynamic, size, density);
 
-    b2BodyDef bodyDef;
+    //b2World* pWorld2D = static_cast<PhysicsWorldBox2D*>(pWorld)->Getb2World();
 
-    bodyDef.position.Set( m_Position.x, m_Position.y );
-    if( isDynamic )
-        bodyDef.type = b2_dynamicBody;
-    bodyDef.userData.pointer = reinterpret_cast<uintptr_t>( this );
+    //b2BodyDef bodyDef;
 
-    b2PolygonShape shape;
-    shape.SetAsBox( size.x/2, size.y/2 );
+    //bodyDef.position.Set( m_Position.x, m_Position.y );
+    //if( isDynamic )
+    //    bodyDef.type = b2_dynamicBody;
+    //bodyDef.userData.pointer = reinterpret_cast<uintptr_t>( this );
 
-    b2FixtureDef fixtureDef;
-    fixtureDef.shape = &shape;
-    fixtureDef.density = density;
+    //b2PolygonShape shape;
+    //shape.SetAsBox( size.x/2, size.y/2 );
 
-    m_pPhysicsBody = pWorld2D->CreateBody( &bodyDef );
-    m_pPhysicsBody->CreateFixture( &fixtureDef );
+    //b2FixtureDef fixtureDef;
+    //fixtureDef.shape = &shape;
+    //fixtureDef.density = density;
+
+    //m_pPhysicsBody = pWorld2D->CreateBody( &bodyDef );
+    //m_pPhysicsBody->CreateFixture( &fixtureDef );
 }
 
 } // namespace fw

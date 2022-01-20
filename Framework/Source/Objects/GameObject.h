@@ -2,6 +2,7 @@
 
 #include "../Libraries/box2d/include/box2d/box2d.h"
 #include "Math/Vector.h"
+#include "Physics/PhysicsBody.h"
 
 namespace fw {
 
@@ -30,7 +31,9 @@ public:
     void SetTexture(Texture* pTexture) { m_pTexture = pTexture; }
 
 protected:
-    b2Body* m_pPhysicsBody = nullptr;
+
+    PhysicsBody* m_pPhysicsBody = nullptr;
+    //b2Body* m_pPhysicsBody = nullptr;
 
     Mesh* m_pMesh = nullptr;
 
