@@ -1,5 +1,7 @@
 #pragma once
 
+#include "../Libraries/box2d/include/box2d/box2d.h"
+
 namespace fw {
 
 class vec2
@@ -65,6 +67,8 @@ public:
     {
         return x*o.x + y*o.y;
     }
+
+   operator b2Vec2() const { return b2Vec2(x, y); }
 
 public:
     float x = 0;

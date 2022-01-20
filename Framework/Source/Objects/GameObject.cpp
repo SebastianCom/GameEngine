@@ -18,10 +18,13 @@ GameObject::~GameObject()
 
 void GameObject::Update(float deltaTime)
 {
-    b2Vec2 physicsPosition = m_pPhysicsBody->GetPosition();
-    ImGui::Text( "%0.2f, %0.2f", physicsPosition.x, physicsPosition.y );
+    if (m_pPhysicsBody)
+    {
+        b2Vec2 physicsPosition = m_pPhysicsBody->GetPosition();
+        ImGui::Text("%0.2f, %0.2f", physicsPosition.x, physicsPosition.y);
 
-    m_Position.Set( physicsPosition.x, physicsPosition.y );
+        m_Position.Set(physicsPosition.x, physicsPosition.y);
+    }
 }
 
 void GameObject::Draw(Camera* pCamera)
@@ -31,8 +34,11 @@ void GameObject::Draw(Camera* pCamera)
     m_pMesh->Draw( pCamera, m_pShader, m_pTexture, m_Scale, m_Position, m_UVScale, m_UVOffset, 0.0f );
 }
 
-void GameObject::CreateBody(b2World* pWorld, bool isDynamic, vec2 size, float density)
+void GameObject::CreateBody(PhysicsWorld* pWorld, bool isDynamic, vec2 size, float density)
 {
+
+    b2World* pWorld2D = static_cast<PhysicsWorldBox2D*>(pWorld)->Getb2World();
+
     b2BodyDef bodyDef;
 
     bodyDef.position.Set( m_Position.x, m_Position.y );
@@ -47,7 +53,7 @@ void GameObject::CreateBody(b2World* pWorld, bool isDynamic, vec2 size, float de
     fixtureDef.shape = &shape;
     fixtureDef.density = density;
 
-    m_pPhysicsBody = pWorld->CreateBody( &bodyDef );
+    m_pPhysicsBody = pWorld2D->CreateBody( &bodyDef );
     m_pPhysicsBody->CreateFixture( &fixtureDef );
 }
 

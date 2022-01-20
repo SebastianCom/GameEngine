@@ -10,6 +10,7 @@ class GameCore;
 class Mesh;
 class ShaderProgram;
 class Texture;
+class PhysicsWorld;
 
 class GameObject
 {
@@ -20,7 +21,7 @@ public:
     virtual void Update(float deltaTime);
     virtual void Draw(Camera* pCamera);
 
-    void CreateBody(b2World* pWorld, bool isDynamic, vec2 size, float density);
+    void CreateBody(PhysicsWorld* pWorld, bool isDynamic, vec2 size, float density);
 
     // Getters.
     vec2 GetPosition() { return m_Position; }

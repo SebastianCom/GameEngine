@@ -64,7 +64,9 @@ void Game::Init()
     m_Textures["Sprites"] = new fw::Texture( "Data/Textures/Sprites.png" );
     m_SpriteSheets["Sprites"] = new fw::SpriteSheet( "Data/Textures/Sprites.json", m_Textures["Sprites"] );
 
-    m_pPhysicsWorld = new b2World( b2Vec2(0, -0.1) );
+    m_pPhysicsWorld = new fw::PhysicsWorldBox2D(); //new b2World( b2Vec2(0, -0.1) );
+    m_pPhysicsWorld->SetGravity( vec2(0,-10) );
+
 
     m_pTilemap = new Tilemap( this, g_MainMap, ivec2(g_MainMapWidth, g_MainMapHeight), vec2(1.5f, 1.5f) );
 
@@ -105,7 +107,7 @@ void Game::Update(float deltaTime)
 {
     ImGui::ShowDemoWindow();
 
-    m_pPhysicsWorld->Step( deltaTime, 8, 3 );
+   m_pPhysicsWorld->Update(deltaTime);
 
     for( auto it = m_Objects.begin(); it != m_Objects.end(); it++ )
     {
