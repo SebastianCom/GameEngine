@@ -35,7 +35,6 @@ void GameObject::Draw(Camera* pCamera)
 
 void GameObject::CreateBody(PhysicsWorld* pWorld, bool isDynamic, vec2 size, float density)
 {
-
     m_pPhysicsBody = pWorld->CreateBody(isDynamic, size, density);
     m_pPhysicsBody->SetPosition(vec2(5, 5));
 }
