@@ -8,7 +8,6 @@ namespace fw {
 	{
 	public:
 
-		PhysicsBody() {};
 		virtual ~PhysicsBody() = 0 {};
 		
 		virtual void SetPosition(vec2 pos) { m_Position = pos; }

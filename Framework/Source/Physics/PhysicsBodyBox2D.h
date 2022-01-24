@@ -2,10 +2,19 @@
 
 #include "Physics/PhysicsBody.h"
 
+
+
+
+
 namespace fw{
+
+	class PhysicsWorldBox2D;
+	
 	class PhysicsBodyBox2D : public PhysicsBody
 	{
-		PhysicsBodyBox2D(bool isDynamic, vec2 size, float density);
+	public:
+		
+		PhysicsBodyBox2D(PhysicsWorldBox2D* pWorld, bool isDynamic, vec2 size, float density);
 		virtual ~PhysicsBodyBox2D();
 
 	protected:

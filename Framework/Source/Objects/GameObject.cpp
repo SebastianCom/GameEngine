@@ -37,25 +37,7 @@ void GameObject::CreateBody(PhysicsWorld* pWorld, bool isDynamic, vec2 size, flo
 {
 
     m_pPhysicsBody = pWorld->CreateBody(isDynamic, size, density);
-
-    //b2World* pWorld2D = static_cast<PhysicsWorldBox2D*>(pWorld)->Getb2World();
-
-    //b2BodyDef bodyDef;
-
-    //bodyDef.position.Set( m_Position.x, m_Position.y );
-    //if( isDynamic )
-    //    bodyDef.type = b2_dynamicBody;
-    //bodyDef.userData.pointer = reinterpret_cast<uintptr_t>( this );
-
-    //b2PolygonShape shape;
-    //shape.SetAsBox( size.x/2, size.y/2 );
-
-    //b2FixtureDef fixtureDef;
-    //fixtureDef.shape = &shape;
-    //fixtureDef.density = density;
-
-    //m_pPhysicsBody = pWorld2D->CreateBody( &bodyDef );
-    //m_pPhysicsBody->CreateFixture( &fixtureDef );
+    m_pPhysicsBody->SetPosition(vec2(5, 5));
 }
 
 } // namespace fw

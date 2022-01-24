@@ -23,5 +23,6 @@
 #include "Objects/SpriteSheet.h"
 #include "Objects/Texture.h"
 #include "Physics/PhysicsWorldBox2D.h"
+#include "Physics/PhysicsBodyBox2D.h"
 #include "UI/ImGuiManager.h"
 #include "Utility/Utility.h"

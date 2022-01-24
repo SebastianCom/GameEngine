@@ -64,6 +64,18 @@ void Mesh::Draw(Camera* pCamera, ShaderProgram* pShader, Texture* pTexture, vec2
 
     // Setup the uniforms.
     glUseProgram( pShader->GetProgram() );
+
+    // Program u_WorldMatrix.
+        float worldMat[16] =
+    {
+        scale.x, 0, 0, 0,
+        0, scale.y, 0, 0,
+        0, 0, 1, 0,
+        pos.x, pos.y, 0, 1,
+    };
+
+    GLint location = glGetUniformLocation(pShader->GetProgram(), "u_WorldMatrix");
+    glUniformMatrix4fv(location, 1, false, &worldMat[0]);
     
     // Transform uniforms.
     SetupUniform( pShader, "u_ObjectTranslation", pos );

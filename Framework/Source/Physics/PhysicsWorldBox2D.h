@@ -13,6 +13,7 @@ namespace fw {
         virtual ~PhysicsWorldBox2D();
         virtual void Update(float deltaTime) override;
         virtual void SetGravity(vec2 gravity) override;
+        virtual PhysicsBody* CreateBody(bool isDynamic, vec2 size, float density) override;
 
         b2World* Getb2World() { return m_pWorld; };
 
