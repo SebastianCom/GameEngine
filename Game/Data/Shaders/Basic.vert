@@ -1,5 +1,5 @@
 
-attribute vec2 a_Position;
+attribute vec3 a_Position;
 attribute vec4 a_Color;
 attribute vec2 a_UVCoord;
 
@@ -21,7 +21,7 @@ void main()
 {
 
 
-    vec4 objectSpacePosition = vec4( a_Position, 0, 1 );
+    vec4 objectSpacePosition = vec4( a_Position, 1 );
     vec4 worldSpacePosition = u_WorldMatrix * objectSpacePosition;
     vec4 viewSpacePosition = u_ViewMatrix * worldSpacePosition;
     vec4 clipSpacePostion = u_ProjMatrix * viewSpacePosition;

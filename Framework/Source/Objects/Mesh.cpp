@@ -59,32 +59,31 @@ void Mesh::Draw(Camera* pCamera, ShaderProgram* pShader, Texture* pTexture, vec2
 
     // Get the attribute variable’s location from the shader.
     // Describe the attributes in the VBO to OpenGL.
-    SetupAttribute( pShader, "a_Position", 2, GL_FLOAT, GL_FALSE, 20, 0 );
-    SetupAttribute( pShader, "a_Color", 4, GL_UNSIGNED_BYTE, GL_TRUE, 20, 8 );
-    SetupAttribute( pShader, "a_UVCoord", 2, GL_FLOAT, GL_FALSE, 20, 12 );
+    SetupAttribute( pShader, "a_Position", 3, GL_FLOAT, GL_FALSE, sizeof(VertexFormat), offsetof(VertexFormat, pos) );
+    SetupAttribute( pShader, "a_Color", 4, GL_UNSIGNED_BYTE, GL_TRUE, sizeof(VertexFormat), offsetof(VertexFormat, color));
+    SetupAttribute( pShader, "a_UVCoord", 2, GL_FLOAT, GL_FALSE, sizeof(VertexFormat), offsetof(VertexFormat, uv));
 
     // Setup the uniforms.
     glUseProgram( pShader->GetProgram() );
 
     //// Program u_WorldMatrix.
-   
     MyMatrix worldMat;
-    worldMat.CreateSRT(scale, 0, pos);
+    worldMat.CreateSRT(vec3(scale,1), 0, pos);
 
     GLint location = glGetUniformLocation(pShader->GetProgram(), "u_WorldMatrix");
     glUniformMatrix4fv(location, 1, false, &worldMat.m11);
 
     MyMatrix viewMat;
-    viewMat.CreateLookAtView(vec3(pCamera->GetPosition(), -1), vec3(0, 1, 0), vec3(pCamera->GetPosition(), 0));
+    viewMat.CreateLookAtView(vec3(pCamera->GetPosition(), -20), vec3(0, 1, 0), vec3(pCamera->GetPosition(), 0));
 
     location = glGetUniformLocation(pShader->GetProgram(), "u_ViewMatrix");
     glUniformMatrix4fv(location, 1, false, &viewMat.m11);
 
     MyMatrix projMat;
-    projMat.CreateOrtho(-10, 10, -10, 10, -10, 10);
+    projMat.CreatePerspectiveVFoV(45.0f, 1.0f, 0.01f, 100.0f);
     location = glGetUniformLocation(pShader->GetProgram(), "u_ProjMatrix");
     glUniformMatrix4fv(location, 1, false, &projMat.m11);
-
+   
 
 
     SetupUniform(pShader, "u_ProjectionScale", pCamera->GetProjectionScale());
