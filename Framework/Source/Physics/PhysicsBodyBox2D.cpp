@@ -13,7 +13,7 @@ namespace fw {
 
         b2BodyDef bodyDef;
 
-        bodyDef.position.Set(m_Position.x, m_Position.y);
+        bodyDef.position.Set(m_Position.x, m_Position.y); /// this is not updating now, this is why gravity is not working i think
         if (isDynamic)
             bodyDef.type = b2_dynamicBody;
         bodyDef.userData.pointer = reinterpret_cast<uintptr_t>(this);

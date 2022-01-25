@@ -107,7 +107,7 @@ void Game::Update(float deltaTime)
 {
     ImGui::ShowDemoWindow();
 
-   m_pPhysicsWorld->Update(deltaTime);
+   m_pPhysicsWorld->Update(deltaTime); //maybbe this is what sets gavity
 
     for( auto it = m_Objects.begin(); it != m_Objects.end(); it++ )
     {

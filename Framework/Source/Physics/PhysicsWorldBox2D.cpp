@@ -8,6 +8,7 @@ namespace fw {
 	PhysicsWorldBox2D::~PhysicsWorldBox2D()
 	{
 		delete m_pWorld;
+		delete m_pBody;
 	}
 
 	void PhysicsWorldBox2D::Update(float deltaTime)
