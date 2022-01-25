@@ -33,7 +33,7 @@ public:
 protected:
 
     PhysicsBody* m_pPhysicsBody = nullptr;
- /*   b2Body* m_pPhysicsBody = nullptr;*/
+    //b2Body* m_pPhysicsBody = nullptr;
 
     Mesh* m_pMesh = nullptr;
 

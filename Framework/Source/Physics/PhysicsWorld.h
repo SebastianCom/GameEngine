@@ -14,6 +14,7 @@ namespace fw {
         PhysicsBody* m_pBody = nullptr;
 
     public:
+        
         virtual ~PhysicsWorld() = 0 {}
         virtual void Update(float deltaTime) = 0;
         virtual void SetGravity(vec2 gravity) = 0;

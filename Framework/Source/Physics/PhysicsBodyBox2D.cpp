@@ -34,4 +34,19 @@ namespace fw {
 	{
 	}
 
+    void PhysicsBodyBox2D::SetPosition(vec2 pos)
+    {
+        m_pBody->SetTransform(pos, 0);
+    }
+
+    b2Vec2 PhysicsBodyBox2D::GetPosition()
+    {
+        return  m_pBody->GetPosition();
+    }
+
+    b2Body* PhysicsBodyBox2D::GetBody()
+    {
+        return m_pBody;
+    }
+
 }
