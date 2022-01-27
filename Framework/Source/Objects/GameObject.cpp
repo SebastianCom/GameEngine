@@ -1,11 +1,13 @@
 #include "Framework.h"
 
 #include "GameObject.h"
+#include "Scene.h"
 
 namespace fw {
 
-GameObject::GameObject(GameCore* pGame, Mesh* pMesh, Material* pMaterial, vec2 pos)
+GameObject::GameObject(Scene* pScene, Mesh* pMesh, Material* pMaterial, vec2 pos)
     : m_pMesh( pMesh )
+    , m_pScene( pScene)
     , m_Position( pos )
     , m_Material( pMaterial)
 {

@@ -4,10 +4,12 @@
 
 namespace fw {
 
+ class Scene;
+
 class Camera : public GameObject
 {
 public:
-    Camera(GameCore* pGameCore, vec2 pos, vec2 projScale);
+    Camera(Scene* pScene, vec2 pos, vec2 projScale);
     virtual ~Camera();
 
     virtual void Update(float deltaTime) override;

@@ -5,6 +5,7 @@
 #include "GameObjects/PlayerController.h"
 #include "Meshes/Shapes.h"
 #include "GameEvents/GameEvents.h"
+#include "Scenes/PhysicsScene.h"
 
 Game::Game(fw::FWCore& fwCore)
     : m_FWCore( fwCore )
@@ -14,14 +15,8 @@ Game::Game(fw::FWCore& fwCore)
 
 Game::~Game()
 {
-    for( fw::GameObject* pObject : m_Objects )
-    {
-        delete pObject;
-    }
 
-    delete m_pPlayerController;
-
-    delete m_pPhysicsWorld;
+    delete m_pPhysicsScene;
 
     for( auto& it : m_Meshes )
     {
@@ -70,73 +65,36 @@ void Game::Init()
 
     //TODO
     //m_pCubeScene = new CubeScene(this);
-    //m_pPhysicsScene = new PhysicsScene(this);
-    //m_pCurrentScene = CubeScene;
+    m_pPhysicsScene = new PhysicsScene(this);
+    m_pCurrentScene = m_pPhysicsScene;
 
-    // ^^ Replaces
-    {
-        m_pPhysicsWorld = new fw::PhysicsWorldBox2D(); //new b2World( b2Vec2(0, -0.1) );
-        m_pPhysicsWorld->SetGravity(vec2(0, -10));
+    //// ^^ Replaces
+    //{
 
-
-        m_pCamera = new fw::Camera(this, vec2(1.5f * 10, 1.5f * 10) / 2, vec2(1 / 10.0f, 1 / 10.0f));
-
-        m_pPlayerController = new PlayerController();
-
-        Player* pPlayer = new Player(this, m_Meshes["Sprite"], m_Materials["Sokoban"], vec2(7.0f, 9.0f), m_pPlayerController);
-        pPlayer->SetSpriteSheet(m_SpriteSheets["Sprites"]);
-        pPlayer->CreateBody(m_pPhysicsWorld, true, vec2(1, 1), 1);
-        m_Objects.push_back(pPlayer);
-    }
+    //}
 }
 
 void Game::StartFrame(float deltaTime)
 {
     m_pImGuiManager->StartFrame( deltaTime );
     
-    //m_CurrentScene->StartFrame();
-    //^^ Replaces
-    m_pPlayerController->StartFrame();
+    m_pCurrentScene->StartFrame(deltaTime);
+
 }
 
 void Game::OnEvent(fw::Event* pEvent)
 {
 
-    //m_CurrentScene->OnEvent( pEvent)
+    m_pCurrentScene->OnEvent(pEvent);
 
-    //^^ Replaces 
-    {
-        m_pPlayerController->OnEvent(pEvent);
-
-        if (pEvent->GetEventType() == RemoveFromGameEvent::GetStaticEventType())
-        {
-            RemoveFromGameEvent* pRemoveFromGameEvent = static_cast<RemoveFromGameEvent*>(pEvent);
-            fw::GameObject* pObject = pRemoveFromGameEvent->GetGameObject();
-
-            auto it = std::find(m_Objects.begin(), m_Objects.end(), pObject);
-            m_Objects.erase(it);
-
-            delete pObject;
-        }
-    }
 }
 
 void Game::Update(float deltaTime)
 {
     ImGui::ShowDemoWindow();
 
-   /* m_CurrentScene->Update(deltaTime);*/
+   m_pCurrentScene->Update(deltaTime);
 
-    //^^ replaces
-    {
-        m_pPhysicsWorld->Update(deltaTime); //maybbe this is what sets gavity
-
-        for (auto it = m_Objects.begin(); it != m_Objects.end(); it++)
-        {
-            fw::GameObject* pObject = *it;
-            pObject->Update(deltaTime);
-        }
-    }
 }
 
 void Game::Draw()
@@ -145,12 +103,9 @@ void Game::Draw()
     glClearColor( 0.0f, 0.0f, 0.2f, 1.0f );
     glClear( GL_COLOR_BUFFER_BIT );
 
+    m_pCurrentScene->Draw();
 
-    for( auto it = m_Objects.begin(); it != m_Objects.end(); it++ )
-    {
-        fw::GameObject* pObject = *it;
-        pObject->Draw( m_pCamera );
-    }
-
+    //m_pPlayerController->OnEvent(pEvent);
+    
     m_pImGuiManager->EndFrame();
 }

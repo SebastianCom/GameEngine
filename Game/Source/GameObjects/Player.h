@@ -5,11 +5,12 @@
 #include "Objects/GameObject.h"
 
 class PlayerController;
+class Scene;
 
 class Player : public fw::GameObject
 {
 public:
-    Player(fw::GameCore* pGame, fw::Mesh* pMesh, fw::Material* pMaterial, vec2 pos, PlayerController* pController);
+    Player(fw::Scene* pScene, fw::Mesh* pMesh, fw::Material* pMaterial, vec2 pos, PlayerController* pController);
     virtual ~Player();
 
     virtual void Update(float deltaTime) override;

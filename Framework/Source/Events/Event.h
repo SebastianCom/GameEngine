@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Math/Vector.h"
+#include "Objects/GameObject.h"
 
 namespace fw {
 
@@ -49,5 +50,29 @@ protected:
     int m_ID;
     vec2 m_Pos;
 };
+
+//===============================================
+// RemoveFromGameEvent class
+//===============================================
+class RemoveFromGameEvent : public Event
+{
+public:
+    RemoveFromGameEvent(GameObject* pObject)
+    {
+        m_pObject = pObject;
+    }
+    virtual ~RemoveFromGameEvent() {}
+
+    // Event Type Getters.
+    static const char* GetStaticEventType() { return "RemoveFromGameEvent"; }
+    virtual const char* GetEventType() override { return GetStaticEventType(); }
+
+    // Getters.
+    GameObject* GetGameObject() { return m_pObject; }
+
+protected:
+    GameObject* m_pObject = nullptr;
+};
+
 
 } // namespace fw

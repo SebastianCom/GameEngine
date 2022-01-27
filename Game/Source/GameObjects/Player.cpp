@@ -3,8 +3,8 @@
 #include "Player.h"
 #include "PlayerController.h"
 
-Player::Player(fw::GameCore* pGame, fw::Mesh* pMesh, fw::Material* pMaterial, vec2 pos, PlayerController* pController)
-    : GameObject( pGame, pMesh, pMaterial, pos )
+Player::Player(fw::Scene* pScene, fw::Mesh* pMesh, fw::Material* pMaterial, vec2 pos, PlayerController* pController)
+    : GameObject(pScene, pMesh, pMaterial, pos )
     , m_pPlayerController( pController )
 {
 }

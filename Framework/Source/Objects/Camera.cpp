@@ -1,11 +1,12 @@
 #include "CoreHeaders.h"
 
 #include "Camera.h"
+#include "Scene.h"
 
 namespace fw {
 
-Camera::Camera(GameCore* pGameCore, vec2 pos, vec2 projScale)
-    : GameObject( pGameCore, nullptr,  nullptr, pos )
+Camera::Camera(Scene* pScene, vec2 pos, vec2 projScale)
+    : GameObject(pScene, nullptr,  nullptr, pos )
     , m_ProjectionScale( projScale )
 {
 }

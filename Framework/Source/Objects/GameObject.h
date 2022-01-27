@@ -9,14 +9,14 @@ namespace fw {
 class Camera;
 class GameCore;
 class Mesh;
-
+class Scene;
 class PhysicsWorld;
 class Material;
 
 class GameObject
 {
 public:
-    GameObject(GameCore* pGame, Mesh* pMesh, Material* pMaterial, vec2 pos);
+    GameObject(Scene* pScene, Mesh* pMesh, Material* pMaterial, vec2 pos);
     virtual ~GameObject();
 
     virtual void Update(float deltaTime);
@@ -31,6 +31,8 @@ public:
     //void SetTexture(Texture* pTexture) { m_pTexture = pTexture; }
 
 protected:
+
+    Scene* m_pScene = nullptr;
 
     PhysicsBody* m_pPhysicsBody = nullptr;
     //b2Body* m_pPhysicsBody = nullptr;

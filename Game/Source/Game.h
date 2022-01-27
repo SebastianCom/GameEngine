@@ -37,11 +37,7 @@ protected:
     std::map<std::string, fw::SpriteSheet*> m_SpriteSheets;
     std::map<std::string, fw::Material*> m_Materials;
 
+    fw::Scene* m_pPhysicsScene = nullptr;
+    fw::Scene* m_pCurrentScene = nullptr;
 
-    PlayerController* m_pPlayerController = nullptr;
-    fw::Camera* m_pCamera = nullptr;
-
-    fw::PhysicsWorld* m_pPhysicsWorld;
-
-    std::vector<fw::GameObject*> m_Objects;
 };
