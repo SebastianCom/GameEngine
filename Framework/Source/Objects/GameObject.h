@@ -9,14 +9,14 @@ namespace fw {
 class Camera;
 class GameCore;
 class Mesh;
-class ShaderProgram;
-class Texture;
+
 class PhysicsWorld;
+class Material;
 
 class GameObject
 {
 public:
-    GameObject(GameCore* pGame, Mesh* pMesh, ShaderProgram* pShader, Texture* pTexture, vec2 pos);
+    GameObject(GameCore* pGame, Mesh* pMesh, Material* pMaterial, vec2 pos);
     virtual ~GameObject();
 
     virtual void Update(float deltaTime);
@@ -28,7 +28,7 @@ public:
     vec2 GetPosition() { return m_Position; }
 
     // Setters.
-    void SetTexture(Texture* pTexture) { m_pTexture = pTexture; }
+    //void SetTexture(Texture* pTexture) { m_pTexture = pTexture; }
 
 protected:
 
@@ -36,9 +36,9 @@ protected:
     //b2Body* m_pPhysicsBody = nullptr;
 
     Mesh* m_pMesh = nullptr;
+    
+    Material* m_Material = nullptr;
 
-    ShaderProgram* m_pShader = nullptr;    
-    Texture* m_pTexture = nullptr;
     vec2 m_UVScale = vec2( 1, 1 );
     vec2 m_UVOffset = vec2( 0, 0 );
 

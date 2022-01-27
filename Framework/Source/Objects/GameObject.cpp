@@ -4,11 +4,10 @@
 
 namespace fw {
 
-GameObject::GameObject(GameCore* pGame, Mesh* pMesh, ShaderProgram* pShader, Texture* pTexture, vec2 pos)
+GameObject::GameObject(GameCore* pGame, Mesh* pMesh, Material* pMaterial, vec2 pos)
     : m_pMesh( pMesh )
-    , m_pShader( pShader )
-    , m_pTexture( pTexture )
     , m_Position( pos )
+    , m_Material( pMaterial)
 {
 }
 
@@ -30,7 +29,7 @@ void GameObject::Draw(Camera* pCamera)
 {
     vec2 m_Scale = vec2( 1, 1 );
 
-    m_pMesh->Draw( pCamera, m_pShader, m_pTexture, m_Scale, m_Position, m_UVScale, m_UVOffset, 0.0f );
+    m_pMesh->Draw( pCamera, m_Material, m_Scale, m_Position, m_UVScale, m_UVOffset, 0.0f );
 }
 
 void GameObject::CreateBody(PhysicsWorld* pWorld, bool isDynamic, vec2 size, float density)

@@ -22,6 +22,7 @@
 #include "Objects/ShaderProgram.h"
 #include "Objects/SpriteSheet.h"
 #include "Objects/Texture.h"
+#include "Objects/Material.h"
 #include "Physics/PhysicsWorldBox2D.h"
 #include "Physics/PhysicsBodyBox2D.h"
 #include "UI/ImGuiManager.h"

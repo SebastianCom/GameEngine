@@ -24,7 +24,6 @@ namespace fw {
 	PhysicsBody* PhysicsWorldBox2D::CreateBody(bool isDynamic, vec2 size, float density)
 	{
 		m_pBody = new PhysicsBodyBox2D(this, isDynamic, size, density);
-		//m_pBody = nullptr;
 		return m_pBody;
 	}
 }

@@ -6,6 +6,7 @@
 #include "Texture.h"
 #include "Utility/Utility.h"
 #include "Math/MyMatrix.h"
+#include "Material.h"
 
 namespace fw {
 
@@ -52,8 +53,13 @@ void Mesh::SetupAttribute(ShaderProgram* pShader, char* name, int size, GLenum t
     }
 }
 
-void Mesh::Draw(Camera* pCamera, ShaderProgram* pShader, Texture* pTexture, vec2 scale, vec2 pos, vec2 uvScale, vec2 uvOffset, float time)
+void Mesh::Draw(Camera* pCamera, Material* pMaterial, vec2 scale, vec2 pos, vec2 uvScale, vec2 uvOffset, float time)
 {
+
+
+    ShaderProgram* pShader = pMaterial->GetShader();
+    Texture* pTexture = pMaterial->GetTexture();
+
     // Set this VBO to be the currently active one.
     glBindBuffer( GL_ARRAY_BUFFER, m_VBO );
 

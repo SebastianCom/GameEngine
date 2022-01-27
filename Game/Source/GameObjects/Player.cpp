@@ -2,10 +2,9 @@
 
 #include "Player.h"
 #include "PlayerController.h"
-#include "Tilemap/Tilemap.h"
 
-Player::Player(fw::GameCore* pGame, fw::Mesh* pMesh, fw::ShaderProgram* pShader, fw::Texture* pTexture, vec2 pos, PlayerController* pController)
-    : GameObject( pGame, pMesh, pShader, pTexture, pos )
+Player::Player(fw::GameCore* pGame, fw::Mesh* pMesh, fw::Material* pMaterial, vec2 pos, PlayerController* pController)
+    : GameObject( pGame, pMesh, pMaterial, pos )
     , m_pPlayerController( pController )
 {
 }
@@ -33,13 +32,9 @@ void Player::Update(float deltaTime)
             newPos.y -= speed * deltaTime;
         }
 
-        if( m_pTilemap->IsWorldPositionWalkable( newPos + vec2(0.4f, 0.1f) ) &&
-            m_pTilemap->IsWorldPositionWalkable( newPos + vec2(0.6f, 0.1f) ) &&
-            m_pTilemap->IsWorldPositionWalkable( newPos + vec2(0.4f, 0.3f) ) &&
-            m_pTilemap->IsWorldPositionWalkable( newPos + vec2(0.6f, 0.3f) ) )
-        {
-            m_Position = newPos;
-        }
+        
+         // m_Position = newPos;
+
     }
 
     // Try moving left/right.
@@ -54,13 +49,7 @@ void Player::Update(float deltaTime)
             newPos.x += speed * deltaTime;
         }
 
-        if( m_pTilemap->IsWorldPositionWalkable( newPos + vec2(0.4f, 0.1f) ) &&
-            m_pTilemap->IsWorldPositionWalkable( newPos + vec2(0.6f, 0.1f) ) &&
-            m_pTilemap->IsWorldPositionWalkable( newPos + vec2(0.4f, 0.3f) ) &&
-            m_pTilemap->IsWorldPositionWalkable( newPos + vec2(0.6f, 0.3f) ) )
-        {
-            m_Position = newPos;
-        }
+        //m_Position = newPos;
     }
 
     if( m_pPlayerController->WasPressed( PlayerController::Action::Teleport ) )

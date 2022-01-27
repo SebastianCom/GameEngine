@@ -1,15 +1,16 @@
 
 #include "PhysicsBodyBox2D.h"
 #include "PhysicsWorldBox2D.h"
+#include "PhysicsWorld.h"
 
 
 namespace fw {
 
-	PhysicsBodyBox2D::PhysicsBodyBox2D(PhysicsWorldBox2D* pWorld, bool isDynamic, vec2 size, float density)
+	PhysicsBodyBox2D::PhysicsBodyBox2D(PhysicsWorld* pWorld, bool isDynamic, vec2 size, float density)
 	{
 
-        //b2World* pWorld2D = static_cast<PhysicsWorldBox2D*>(pWorld)->Getb2World();
-        b2World* pWorld2D = pWorld->Getb2World();
+        b2World* pWorld2D = static_cast<PhysicsWorldBox2D*>(pWorld)->Getb2World();
+        //b2World* pWorld2D = pWorld->Getb2World();
 
         b2BodyDef bodyDef;
 
@@ -32,6 +33,7 @@ namespace fw {
 
 	PhysicsBodyBox2D::~PhysicsBodyBox2D()
 	{
+
 	}
 
     void PhysicsBodyBox2D::SetPosition(vec2 pos)
