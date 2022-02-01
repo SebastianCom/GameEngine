@@ -10,7 +10,7 @@ public:
     virtual ~PhysicsScene();
 
     virtual void StartFrame(float deltaTime) override;
-    //virtual void Update(float deltaTime);
+    virtual void Update(float deltaTime);
     virtual void OnEvent(fw::Event* pEvent) override;
     //virtual void Draw();
 

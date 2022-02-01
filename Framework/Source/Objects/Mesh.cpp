@@ -25,6 +25,17 @@ Mesh::Mesh(GLenum primitiveType, const std::vector<VertexFormat>& verts)
     glBufferData( GL_ARRAY_BUFFER, sizeof(VertexFormat)*m_NumVerts, &verts[0], GL_STATIC_DRAW );
 }
 
+Mesh::Mesh(GLenum primitiveType, const std::vector<VertexFormat>& verts, const std::vector<unsigned int>& indices)
+    :Mesh(primitiveType, verts)
+{
+    m_NumIndices = (int)indices.size();
+
+    // Generate a buffer for our indices.
+    glGenBuffers(1, &m_IBO);
+    glBindBuffer(GL_ARRAY_BUFFER, m_IBO);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(unsigned int) * m_NumIndices, &indices[0], GL_STATIC_DRAW);
+}
+
 Mesh::~Mesh()
 {
     // Release the memory.
@@ -62,6 +73,7 @@ void Mesh::Draw(Camera* pCamera, Material* pMaterial, vec2 scale, vec2 pos, vec2
 
     // Set this VBO to be the currently active one.
     glBindBuffer( GL_ARRAY_BUFFER, m_VBO );
+    glBindBuffer( GL_ELEMENT_ARRAY_BUFFER, m_IBO );
 
     // Get the attribute variable’s location from the shader.
     // Describe the attributes in the VBO to OpenGL.
@@ -107,7 +119,14 @@ void Mesh::Draw(Camera* pCamera, Material* pMaterial, vec2 scale, vec2 pos, vec2
     glBindTexture( GL_TEXTURE_2D, pTexture->GetTextureID() );
 
     // Draw the primitive.
-    glDrawArrays( m_PrimitiveType, 0, m_NumVerts );
+    if (m_NumIndices > 0)
+    {
+        glDrawElements(m_PrimitiveType, m_NumIndices, GL_UNSIGNED_INT, 0);
+    }
+    else
+    {
+        glDrawArrays(m_PrimitiveType, 0, m_NumVerts);
+    }
 }
 
 } // namespace fw

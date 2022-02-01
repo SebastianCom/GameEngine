@@ -13,8 +13,8 @@ namespace fw {
 
     Material::~Material()
     {
-        delete m_Shader;
-        delete m_Texture;
+        //delete m_Shader;
+       // delete m_Texture;
     }
 
     ShaderProgram* Material::GetShader()

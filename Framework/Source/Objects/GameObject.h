@@ -26,9 +26,14 @@ public:
 
     // Getters.
     vec2 GetPosition() { return m_Position; }
+    vec3 GetRotation() { return m_Rotation; }
+    vec3 GetScale() { return m_Scale; }
 
     // Setters.
-    //void SetTexture(Texture* pTexture) { m_pTexture = pTexture; }
+    // void SetTexture(Texture* pTexture) { m_pTexture = pTexture; }
+    void SetPosition(vec2 pos) { m_Position = pos; }
+    void SetRotation(vec3 rot) { m_Rotation = rot; }
+    void SetScale(vec3 scale) { m_Scale = scale; }
 
 protected:
 
@@ -45,6 +50,8 @@ protected:
     vec2 m_UVOffset = vec2( 0, 0 );
 
     vec2 m_Position = vec2( 0, 0 );
+    vec3 m_Rotation = vec3( 0, 0,0 );
+    vec3 m_Scale = vec3( 0, 0,0 );
 };
 
 } // namespace fw

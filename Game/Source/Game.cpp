@@ -51,12 +51,19 @@ void Game::Init()
     m_pImGuiManager = new fw::ImGuiManager( &m_FWCore );
 
     // OpenGL settings.
+    glClearColor(0.0f, 0.0f, 0.2f, 1.0f);
     glPointSize( 10 );
     glEnable( GL_BLEND );
     glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );
+    glEnable(GL_DEPTH_TEST);
+    glEnable(GL_CULL_FACE);
+    glFrontFace(GL_CW);
 
     //Scene needs to access these VV
-    m_Meshes["Sprite"] = new fw::Mesh( GL_TRIANGLE_STRIP, g_SpriteVerts );
+    //m_Meshes["Sprite"] = new fw::Mesh( GL_TRIANGLE_STRIP, g_SpriteVerts );
+    m_Meshes["Sprite"] = new fw::Mesh( GL_TRIANGLES, g_SpriteVerts, g_SpriteIndices);
+    m_Meshes["Plane"] = CreatePlane();
+    //m_Meshes["Cube"] = new fw::Mesh(GL_TRIANGLES, g_SpriteVerts, g_SpriteIndices);
     m_Shaders["Basic"] = new fw::ShaderProgram( "Data/Shaders/Basic.vert", "Data/Shaders/Basic.frag" );
     m_Textures["Sprites"] = new fw::Texture( "Data/Textures/Sprites.png" );
     m_SpriteSheets["Sprites"] = new fw::SpriteSheet( "Data/Textures/Sprites.json", m_Textures["Sprites"] );
@@ -99,9 +106,7 @@ void Game::Update(float deltaTime)
 
 void Game::Draw()
 {
-
-    glClearColor( 0.0f, 0.0f, 0.2f, 1.0f );
-    glClear( GL_COLOR_BUFFER_BIT );
+    glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 
     m_pCurrentScene->Draw();
 

@@ -20,6 +20,7 @@ class Mesh
 {
 public:
     Mesh(GLenum primitiveType, const std::vector<VertexFormat>& verts);
+    Mesh(GLenum primitiveType, const std::vector<VertexFormat>& verts, const std::vector<unsigned int>& indices);
     virtual ~Mesh();
 
     void SetupUniform(ShaderProgram* pShader, char* name, float value);
@@ -29,8 +30,11 @@ public:
 
 protected:
     GLuint m_VBO = 0;
+    GLuint m_IBO = 0;
     GLenum m_PrimitiveType = GL_POINTS;
     int m_NumVerts = 0;
+    int m_NumIndices = 0;
+
 };
 
 } // namespace fw
