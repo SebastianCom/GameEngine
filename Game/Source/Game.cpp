@@ -67,9 +67,11 @@ void Game::Init()
     //m_Meshes["Cube"] = new fw::Mesh(GL_TRIANGLES, g_SpriteVerts, g_SpriteIndices);
     m_Shaders["Basic"] = new fw::ShaderProgram( "Data/Shaders/Basic.vert", "Data/Shaders/Basic.frag" );
     m_Textures["Sprites"] = new fw::Texture( "Data/Textures/Sprites.png" );
+    m_Textures["BaseColor"] = new fw::Texture();
     m_SpriteSheets["Sprites"] = new fw::SpriteSheet( "Data/Textures/Sprites.json", m_Textures["Sprites"] );
 
     m_Materials["Sokoban"] = new fw::Material(m_Shaders["Basic"], m_Textures["Sprites"], fw::Color4f::Blue);
+    m_Materials["BaseColor"] = new fw::Material(m_Shaders["Basic"], m_Textures["BaseColor"], fw::Color4f::Black);
 
     //TODO
     //m_pCubeScene = new CubeScene(this);
