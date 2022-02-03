@@ -21,7 +21,7 @@ PhysicsScene::PhysicsScene(Game* pGame)
     m_pPlayerController = new PlayerController();
 
     //Player* pPlayer = new Player(this, pGame->GetMesh("Sprite"), pGame->GetMaterial("Sokoban"), vec2(7.0f, 9.0f), m_pPlayerController);
-    Player* pPlayer = new Player(this, pGame->GetMesh("Plane"), pGame->GetMaterial("Sokoban"), vec2(0.0f, 0.0f), m_pPlayerController);
+    Player* pPlayer = new Player(this, pGame->GetMesh("Sprite"), pGame->GetMaterial("Sokoban"), vec2(0.0f, 0.0f), m_pPlayerController);
     pPlayer->SetSpriteSheet(pGame->GetSpriteSheet("Sprites"));
     pPlayer->CreateBody(m_pPhysicsWorld, true, vec2(1, 1), 1);
     m_Objects.push_back(pPlayer);

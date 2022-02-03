@@ -16,7 +16,7 @@ class Material;
 class GameObject
 {
 public:
-    GameObject(Scene* pScene, Mesh* pMesh, Material* pMaterial, vec2 pos);
+    GameObject(Scene* pScene, Mesh* pMesh, Material* pMaterial, vec3 pos);
     virtual ~GameObject();
 
     virtual void Update(float deltaTime);
@@ -25,13 +25,13 @@ public:
     void CreateBody(PhysicsWorld* pWorld, bool isDynamic, vec2 size, float density);
 
     // Getters.
-    vec2 GetPosition() { return m_Position; }
+    vec3 GetPosition() { return m_Position; }
     vec3 GetRotation() { return m_Rotation; }
     vec3 GetScale() { return m_Scale; }
 
     // Setters.
     // void SetTexture(Texture* pTexture) { m_pTexture = pTexture; }
-    void SetPosition(vec2 pos) { m_Position = pos; }
+    void SetPosition(vec3 pos) { m_Position = pos; }
     void SetRotation(vec3 rot) { m_Rotation = rot; }
     void SetScale(vec3 scale) { m_Scale = scale; }
 
@@ -49,9 +49,9 @@ protected:
     vec2 m_UVScale = vec2( 1, 1 );
     vec2 m_UVOffset = vec2( 0, 0 );
 
-    vec2 m_Position = vec2( 0, 0 );
-    vec3 m_Rotation = vec3( 0, 0,0 );
-    vec3 m_Scale = vec3( 0, 0,0 );
+    vec3 m_Position = vec3( 0, 0, 0 );
+    vec3 m_Rotation = vec3( 0, 0, 0 );
+    vec3 m_Scale = vec3( 0, 0, 0 );
 };
 
 } // namespace fw

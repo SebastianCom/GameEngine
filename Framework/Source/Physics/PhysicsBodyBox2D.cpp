@@ -36,7 +36,7 @@ namespace fw {
 
 	}
 
-    void PhysicsBodyBox2D::SetPosition(vec2 pos)
+    void PhysicsBodyBox2D::SetPosition(vec3 pos)
     {
         m_pBody->SetTransform(pos, 0);
     }

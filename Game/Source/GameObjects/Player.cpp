@@ -3,7 +3,7 @@
 #include "Player.h"
 #include "PlayerController.h"
 
-Player::Player(fw::Scene* pScene, fw::Mesh* pMesh, fw::Material* pMaterial, vec2 pos, PlayerController* pController)
+Player::Player(fw::Scene* pScene, fw::Mesh* pMesh, fw::Material* pMaterial, vec3 pos, PlayerController* pController)
     : GameObject(pScene, pMesh, pMaterial, pos )
     , m_pPlayerController( pController )
 {
@@ -19,7 +19,7 @@ void Player::Update(float deltaTime)
 
     float speed = 5.0f;
 
-    vec2 newPos = m_Position;
+    vec3 newPos = m_Position;
 
     // Try moving up/down.
     {

@@ -5,7 +5,7 @@
 
 namespace fw {
 
-GameObject::GameObject(Scene* pScene, Mesh* pMesh, Material* pMaterial, vec2 pos)
+GameObject::GameObject(Scene* pScene, Mesh* pMesh, Material* pMaterial, vec3 pos)
     : m_pMesh( pMesh )
     , m_pScene( pScene)
     , m_Position( pos )
@@ -22,8 +22,8 @@ void GameObject::Update(float deltaTime)
     if (m_pPhysicsBody)
     {
         b2Vec2 physicsPosition = m_pPhysicsBody->GetPosition();
-        ImGui::Text("%0.2f, %0.2f", physicsPosition.x, physicsPosition.y);
-        m_Position.Set(physicsPosition.x, physicsPosition.y);
+        ImGui::Text("%0.2f, %0.2f, %0.2f", physicsPosition.x, physicsPosition.y);
+        m_Position.Set(physicsPosition.x, physicsPosition.y, 0);
     }
 }
 
