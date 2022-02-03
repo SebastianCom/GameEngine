@@ -11,6 +11,7 @@ uniform vec2 u_ObjectScale;
 uniform vec2 u_UVScale;
 uniform vec2 u_UVOffset;
 uniform float u_Time;
+uniform float u_Color;
 
 varying vec2 v_UVCoord;
 varying vec4 v_Color;

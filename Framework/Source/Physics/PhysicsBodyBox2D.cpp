@@ -14,7 +14,8 @@ namespace fw {
 
         b2BodyDef bodyDef;
 
-        bodyDef.position.Set(m_Position.x, m_Position.y); /// this is not updating now, this is why gravity is not working i think
+        bodyDef.position.Set(m_Position.x, m_Position.y);
+        bodyDef.angle = -m_Rotation.z / 180.0f * PI;
         if (isDynamic)
             bodyDef.type = b2_dynamicBody;
         bodyDef.userData.pointer = reinterpret_cast<uintptr_t>(this);
@@ -38,12 +39,24 @@ namespace fw {
 
     void PhysicsBodyBox2D::SetPosition(vec3 pos)
     {
+        m_Position = pos;
         m_pBody->SetTransform(pos, 0);
     }
 
     b2Vec2 PhysicsBodyBox2D::GetPosition()
     {
         return  m_pBody->GetPosition();
+    }
+
+    void PhysicsBodyBox2D::SetRotation(vec3 rot)
+    {
+        m_Rotation = rot;
+        m_pBody->SetTransform(m_Position, rot.z);
+    }
+
+    vec3 PhysicsBodyBox2D::GetRotation()
+    {
+        return m_Rotation;
     }
 
     b2Body* PhysicsBodyBox2D::GetBody()

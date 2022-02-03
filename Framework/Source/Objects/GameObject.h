@@ -4,6 +4,7 @@
 #include "Math/Vector.h"
 #include "Physics/PhysicsBody.h"
 
+
 namespace fw {
 
 class Camera;
@@ -12,6 +13,7 @@ class Mesh;
 class Scene;
 class PhysicsWorld;
 class Material;
+class MeshComponent;
 
 class GameObject
 {
@@ -42,12 +44,12 @@ protected:
     PhysicsBody* m_pPhysicsBody = nullptr;
     //b2Body* m_pPhysicsBody = nullptr;
 
-    Mesh* m_pMesh = nullptr;
-    
-    Material* m_Material = nullptr;
 
-    vec2 m_UVScale = vec2( 1, 1 );
-    vec2 m_UVOffset = vec2( 0, 0 );
+
+    MeshComponent* m_pMeshComponent = nullptr;
+
+
+
 
     vec3 m_Position = vec3( 0, 0, 0 );
     vec3 m_Rotation = vec3( 0, 0, 0 );

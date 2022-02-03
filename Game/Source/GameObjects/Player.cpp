@@ -19,17 +19,17 @@ void Player::Update(float deltaTime)
 
     float speed = 5.0f;
 
-    vec3 newPos = m_Position;
+   // vec3 newPos = m_Position;
 
     // Try moving up/down.
     {
         if( m_pPlayerController->IsHeld( PlayerController::Action::Up ) )
         {
-            newPos.y += speed * deltaTime;
+           // newPos.y += speed * deltaTime;
         }
         if( m_pPlayerController->IsHeld( PlayerController::Action::Down ) )
         {
-            newPos.y -= speed * deltaTime;
+           // newPos.y -= speed * deltaTime;
         }
 
         
@@ -39,15 +39,21 @@ void Player::Update(float deltaTime)
 
     // Try moving left/right.
     {
-        newPos = m_Position;
+       // newPos = m_Position;
         if( m_pPlayerController->IsHeld( PlayerController::Action::Left ) )
         {
-            newPos.x -= speed * deltaTime;
+           // newPos.x -= speed * deltaTime;
+           // m_Rotation.z -= 90.0f * deltaTime;
+
+            m_pPhysicsBody->GetBody()->ApplyForceToCenter(b2Vec2(-10, 0), true);
         }
         if( m_pPlayerController->IsHeld( PlayerController::Action::Right ) )
         {
-            newPos.x += speed * deltaTime;
+           // newPos.x += speed * deltaTime;
+            //m_Rotation.z += 90.0f * deltaTime;
+            m_pPhysicsBody->GetBody()->ApplyForceToCenter(b2Vec2(10, 0), true); //Wrapper is def built wrong apparently you pass in vec3s and the wrapper converts it to b2 stuff
         }
+
 
         //m_Position = newPos;
     }
@@ -60,7 +66,7 @@ void Player::Update(float deltaTime)
     if( m_pSpriteSheet )
     {
         fw::SpriteSheet::SpriteInfo info = m_pSpriteSheet->GetSpriteByName( "player_06" );
-        m_UVScale = info.uvScale;
-        m_UVOffset = info.uvOffset;
+        m_pMeshComponent->SetUVScale(info.uvScale);
+        m_pMeshComponent->SetUVOffset(info.uvOffset);
     }
 }

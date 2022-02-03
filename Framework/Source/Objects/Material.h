@@ -14,7 +14,7 @@ namespace fw {
 
         ShaderProgram* GetShader();
         Texture* GetTexture();
- 
+        Color4f GetColor();
     
     protected:
      

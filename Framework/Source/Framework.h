@@ -16,6 +16,8 @@
 #include "Events/EventManager.h"
 #include "Math/Random.h"
 #include "Math/Vector.h"
+#include "Components/MeshComponent.h"
+#include "Components/ComponentManager.h"
 #include "Objects/Camera.h"
 #include "Objects/GameObject.h"
 #include "Objects/Mesh.h"

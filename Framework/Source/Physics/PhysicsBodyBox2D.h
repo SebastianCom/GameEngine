@@ -19,9 +19,11 @@ namespace fw{
 		virtual ~PhysicsBodyBox2D() override;
 		virtual void SetPosition(vec3 pos) override;
 		virtual  b2Vec2 GetPosition() override;
+		virtual void SetRotation(vec3 rot) override;
+		virtual vec3 GetRotation() override;
 		b2Body* m_pBody = nullptr;
 
-		b2Body* GetBody();
+		virtual b2Body* GetBody() override;
 	protected:
 		
 	};

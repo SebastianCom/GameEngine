@@ -27,6 +27,11 @@ namespace fw {
         return m_Texture;
     }
 
+    Color4f Material::GetColor()
+    {
+        return Color;
+    }
+
 
 } // namespace fw
 
