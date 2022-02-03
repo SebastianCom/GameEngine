@@ -36,7 +36,8 @@ void GameObject::Update(float deltaTime)
 
 void GameObject::Draw(Camera* pCamera)
 {
-    m_Scale = vec3(1.f, 1.f, .5f); //z must be half of x and y
+    
+    m_Scale = vec3(1.f, 1.f, 1.f); 
 
     MyMatrix worldMat;
     worldMat.CreateSRT(m_Scale, m_Rotation, m_Position);

@@ -51,6 +51,6 @@ void PhysicsScene::Update(float deltaTime)
 {
     Scene::Update(deltaTime);
 
-    //float time = (float)fw::GetSystemTimeSinceGameStart() * 50;
-    //m_Objects[1]->SetRotation(vec3(time, time, 0));
+    float time = (float)fw::GetSystemTimeSinceGameStart() * 50;
+    m_Objects[1]->SetRotation(vec3(time, time, 0));
 }
