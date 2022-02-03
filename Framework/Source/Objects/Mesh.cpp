@@ -8,6 +8,7 @@
 #include "Math/MyMatrix.h"
 #include "Material.h"
 
+
 namespace fw {
 
 Mesh::Mesh(GLenum primitiveType, const std::vector<VertexFormat>& verts)
@@ -64,7 +65,7 @@ void Mesh::SetupAttribute(ShaderProgram* pShader, char* name, int size, GLenum t
     }
 }
 
-void Mesh::Draw(Camera* pCamera, Material* pMaterial, vec2 scale, vec3 pos, vec2 uvScale, vec2 uvOffset, float time)
+void Mesh::Draw(Camera* pCamera, Material* pMaterial, MyMatrix worldMat, vec2 uvScale, vec2 uvOffset, float time)
 {
 
 
@@ -85,8 +86,8 @@ void Mesh::Draw(Camera* pCamera, Material* pMaterial, vec2 scale, vec3 pos, vec2
     glUseProgram( pShader->GetProgram() );
 
     //// Program u_WorldMatrix.
-    MyMatrix worldMat;
-    worldMat.CreateSRT(vec3(scale,1), 0, pos);
+    //MyMatrix worldMat;
+    //worldMat.CreateSRT(vec3(scale,1), 0, pos);
 
     GLint location = glGetUniformLocation(pShader->GetProgram(), "u_WorldMatrix");
     glUniformMatrix4fv(location, 1, false, &worldMat.m11);
@@ -106,8 +107,8 @@ void Mesh::Draw(Camera* pCamera, Material* pMaterial, vec2 scale, vec3 pos, vec2
 
     SetupUniform(pShader, "u_ProjectionScale", pCamera->GetProjectionScale());
     // Transform uniforms.
-    SetupUniform( pShader, "u_ObjectTranslation", pos );
-    SetupUniform( pShader, "u_ObjectScale", scale );
+    SetupUniform( pShader, "u_ObjectTranslation", worldMat.GetTranslation() );
+    SetupUniform( pShader, "u_ObjectScale", worldMat.GetScale() );
     SetupUniform( pShader, "u_UVScale", uvScale );
     SetupUniform( pShader, "u_UVOffset", uvOffset );
     

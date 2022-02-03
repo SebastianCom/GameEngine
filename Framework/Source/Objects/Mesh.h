@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Math/Vector.h"
+#include "Math/MyMatrix.h"
 
 namespace fw {
 
@@ -26,7 +27,7 @@ public:
     void SetupUniform(ShaderProgram* pShader, char* name, float value);
     void SetupUniform(ShaderProgram* pShader, char* name, vec3 value);
     void SetupAttribute(ShaderProgram* pShader, char* name, int size, GLenum type, GLboolean normalize, int stride, int64_t startIndex);
-    void Draw(Camera* pCamera, Material* pMaterial, vec2 scale, vec3 pos, vec2 uvScale, vec2 uvOffset, float time);
+    void Draw(Camera* pCamera, Material* pMaterial, MyMatrix worldMat, vec2 uvScale, vec2 uvOffset, float time);
 
 protected:
     GLuint m_VBO = 0;
