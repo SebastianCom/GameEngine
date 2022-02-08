@@ -620,6 +620,7 @@ public:
     static const Color4f DarkBlue()         { return Color4f(0.0f, 0.0f, 0.3f, 1.0f); }
     static const Color4f Cyan()             { return Color4f(0.0f, 1.0f, 1.0f, 1.0f); }
     static const Color4f CornflowerBlue()   { return Color4f(0.39f, 0.05f, 0.92f, 1.0f); }
+    static const Color4f WaterBlue()        { return Color4f(0.05f, 0.4f, 0.89f, 1.0f); }
 
 public:
     float r = 1.0f;

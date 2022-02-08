@@ -71,12 +71,12 @@ const std::vector<unsigned int> g_CubeIndices =
 fw::Mesh* CreatePlane()
 {
     std::vector<fw::VertexFormat> verts;
-    for (int x = 0; x < 10; x++)
+    for (int x = 0; x < 1000; x++)
     {
-        for (int y = 0; y < 10; y++)
+        for (int y = 0; y < 1000; y++) // x * stepsize.x, y * stepsize.y
         {
-           vec3 pos = vec3(float(x), float(y));
-            verts.push_back({ pos,  255,255,255,255,  vec2(0.5f,0.5f) });
+           vec3 pos = vec3(x*(1 / 100.f),0, y*(1 / 100.f));
+            verts.push_back({ pos,  255,255,255,255,  vec2(pos.x/5.0f,pos.z / 5.0f) });
         }
     }
 

@@ -55,6 +55,12 @@ void Mesh::SetupUniform(ShaderProgram* pShader, char* name, vec3 value)
     glUniform2f( location, value.x, value.y );
 }
 
+void Mesh::SetupUniform(ShaderProgram* pShader, char* name, Color4f value)
+{
+    GLint location = glGetUniformLocation(pShader->GetProgram(), name);
+    glUniform4f(location, value.r, value.g, value.b, value.a);
+}
+
 //void Mesh::SetupUniform(ShaderProgram* pShader, char* name, Color4f value)
 //{
 //    GLint location = glGetUniformLocation(pShader->GetProgram(), name);
@@ -96,7 +102,8 @@ void Mesh::Draw(Camera* pCamera, Material* pMaterial, MyMatrix worldMat, vec2 uv
     glUniformMatrix4fv(location, 1, false, &worldMat.m11);
 
     MyMatrix viewMat;
-    viewMat.CreateLookAtView(vec3(pCamera->GetPosition().x, pCamera->GetPosition().y, -20), vec3(0, 1, 0), vec3(pCamera->GetPosition().x, pCamera->GetPosition().y, 0));
+   //   viewMat.CreateLookAtView(vec3(pCamera->GetPosition().x, pCamera->GetPosition().y, -20), vec3(0, 1, 0), vec3(pCamera->GetPosition().x, pCamera->GetPosition().y, 0));
+   viewMat.CreateLookAtView(pCamera->GetPosition() + vec3(0,0,-10), vec3(0, 1, 0), vec3(0, 0, 0));
 
     location = glGetUniformLocation(pShader->GetProgram(), "u_ViewMatrix");
     glUniformMatrix4fv(location, 1, false, &viewMat.m11);
@@ -114,6 +121,7 @@ void Mesh::Draw(Camera* pCamera, Material* pMaterial, MyMatrix worldMat, vec2 uv
     SetupUniform( pShader, "u_ObjectScale", worldMat.GetScale() );
     SetupUniform( pShader, "u_UVScale", uvScale );
     SetupUniform( pShader, "u_UVOffset", uvOffset );
+    SetupUniform( pShader, "u_Tint", pMaterial->GetColor());
     //SetupUniform( pShader, "u_Color", pMaterial->GetColor() );
     
     
