@@ -6,15 +6,24 @@
 
 namespace fw {
 
-GameObject::GameObject(Scene* pScene, Mesh* pMesh, Material* pMaterial, vec3 pos)
+GameObject::GameObject(Scene* pScene, vec3 pos)
     : m_pScene( pScene)
     , m_Position( pos )
 {
-    m_pMeshComponent = new MeshComponent(pMesh, pMaterial);
+
+
+    //pScene->GetComponentManager()->AddComponent(m_pMeshComponent);
+
+    m_Scale = vec3(1.f, 1.f, 1.f);
 }
 
 GameObject::~GameObject()
 {
+    //for (Component* pComponent : m_Component)
+    //{
+    //    m_pScene->GetComponentManager()->RemoveComponent(pComponent);
+    //    delete pComponent;
+    //}
 }
 
 void GameObject::Update(float deltaTime)
@@ -34,18 +43,12 @@ void GameObject::Update(float deltaTime)
     }
 }
 
-void GameObject::Draw(Camera* pCamera)
-{
-    
-    m_Scale = vec3(1.f, 1.f, 1.f); 
-
-    MyMatrix worldMat;
-    worldMat.CreateSRT(m_Scale, m_Rotation, m_Position);
-
-
-    m_pMeshComponent->Draw(pCamera, worldMat);
-   
-}
+//void GameObject::Draw(Camera* pCamera)
+//{
+//    GetWorldTransform();
+//
+//    m_pMeshComponent->Draw(pCamera, m_WorldTransform);
+//}
 
 void GameObject::CreateBody(PhysicsWorld* pWorld, bool isDynamic, vec2 size, float density)
 {
@@ -53,6 +56,19 @@ void GameObject::CreateBody(PhysicsWorld* pWorld, bool isDynamic, vec2 size, flo
     m_pPhysicsBody->SetPosition(m_Position);
     m_pPhysicsBody->SetRotation(m_Rotation);
 
+}
+
+const MyMatrix& GameObject::GetWorldTransform()
+{
+    m_WorldTransform.CreateSRT(m_Scale, m_Rotation, m_Position);
+    return m_WorldTransform;
+}
+
+void GameObject::AddComponent(MeshComponent* pMeshComp)
+{
+    m_pMeshComponent = pMeshComp;
+    m_pMeshComponent->SetGameObject(this);
+    m_pScene->GetComponentManager()->AddComponent(m_pMeshComponent);
 }
 
 } // namespace fw

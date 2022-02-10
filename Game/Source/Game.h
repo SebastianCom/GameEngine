@@ -18,6 +18,7 @@ public:
     virtual void Update(float deltaTime) override;
     virtual void Draw() override;
 
+
     // Getters.
     fw::Mesh* GetMesh(std::string name) { return m_Meshes[name]; }
     fw::ShaderProgram* GetShader(std::string name) { return m_Shaders[name]; }

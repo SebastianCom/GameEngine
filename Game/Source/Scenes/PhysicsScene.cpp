@@ -5,6 +5,7 @@
 #include "GameObjects/PlayerController.h"
 #include "GameObjects/Player.h"
 #include "Game.h"
+#include "Components/MeshComponent.h"
 
 
 
@@ -22,13 +23,15 @@ PhysicsScene::PhysicsScene(Game* pGame)
 
     //Player* pPlayer = new Player(this, pGame->GetMesh("Sprite"), pGame->GetMaterial("Sokoban"), vec2(7.0f, 9.0f), m_pPlayerController);
     //Player* pPlayer = new Player(this, pGame->GetMesh("Cube"), pGame->GetMaterial("BaseColor"), vec2(5.0f, 5.0f), m_pPlayerController);
-    Player* pPlayer = new Player(this, pGame->GetMesh("Sprite"), pGame->GetMaterial("Sokoban"), vec2(7.0f, 9.0f), m_pPlayerController);
-    fw::GameObject* pGameObject = new fw::GameObject(this, pGame->GetMesh("Plane"), pGame->GetMaterial("Water"), vec2(-5, -4));
-    pPlayer->SetSpriteSheet(pGame->GetSpriteSheet("Sprites"));
-    pPlayer->CreateBody(m_pPhysicsWorld, true, vec2(1, 1), 1);
-    pGameObject->CreateBody(m_pPhysicsWorld, true, vec2(1, 1), 0);
-    m_Objects.push_back(pPlayer);
-    m_Objects.push_back(pGameObject);
+    //Player* pPlayer = new Player(this, pGame->GetMesh("Sprite"), pGame->GetMaterial("Sokoban"), vec2(7.0f, 9.0f), m_pPlayerController);
+    //pPlayer->SetSpriteSheet(pGame->GetSpriteSheet("Sprites"));
+    // pPlayer->CreateBody(m_pPhysicsWorld, true, vec2(1, 1), 1);
+    // m_Objects.push_back(pPlayer);
+    // fw::GameObject* pGameObject = new fw::GameObject(this, pGame->GetMesh("Plane"), pGame->GetMaterial("Water"), vec2(-5, -4));
+    fw::GameObject* pWaterObject = new fw::GameObject(this, vec2(-5, -4));
+    pWaterObject->AddComponent(new fw::MeshComponent(pGame->GetMesh("Plane"), pGame->GetMaterial("Water")));
+    pWaterObject->CreateBody(m_pPhysicsWorld, true, vec2(1, 1), 0);
+    m_Objects.push_back(pWaterObject);
 }
 
 PhysicsScene::~PhysicsScene()

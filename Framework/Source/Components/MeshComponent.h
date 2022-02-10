@@ -22,7 +22,7 @@ public:
     static const char* GetStaticType() { return "MeshComponent"; }
     virtual const char* GetType() override { return GetStaticType(); }
 
-    virtual void Draw(Camera* pCamera, MyMatrix& worldMat);
+    virtual void Draw(Camera* pCamera, const MyMatrix& worldMat);
 
 
     void SetUVScale( vec2 uvScale);

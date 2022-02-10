@@ -17,8 +17,9 @@ MeshComponent::~MeshComponent()
 {
 }
 
-void MeshComponent::Draw(Camera* pCamera, MyMatrix& worldMat)
+void MeshComponent::Draw(Camera* pCamera, const MyMatrix& worldMat)
 {
+    if(m_pMesh != nullptr)
     m_pMesh->Draw( pCamera, m_pMaterial, worldMat, m_UVScale, m_UVOffset, 0.0f );
 }
 

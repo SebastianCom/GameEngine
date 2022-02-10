@@ -41,6 +41,7 @@ Mesh::~Mesh()
 {
     // Release the memory.
     glDeleteBuffers( 1, &m_VBO );
+    glDeleteBuffers( 1, &m_IBO );
 }
 
 void Mesh::SetupUniform(ShaderProgram* pShader, char* name, float value)

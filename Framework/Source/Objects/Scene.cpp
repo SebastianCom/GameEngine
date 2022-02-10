@@ -5,6 +5,7 @@
 #include "Objects/GameObject.h"
 #include "Events/Event.h"
 #include "Objects/Camera.h"
+#include "Components/ComponentManager.h"
 
 namespace fw {
 
@@ -12,6 +13,7 @@ Scene::Scene(GameCore* pGameCore)
 {
 	m_pGame = pGameCore;
 
+    m_pComponentManager = new ComponentManager();
 
 }
 
@@ -21,10 +23,14 @@ Scene::~Scene()
     {
         delete pObject;
     }
+    
+    delete m_pCamera;
+    
+    delete m_pComponentManager;
 
     delete m_pPhysicsWorld;
 
-    delete m_pCamera;
+
 }
 
 void Scene::Update(float deltaTime)
@@ -56,11 +62,13 @@ void Scene::OnEvent(Event* pEvent)
 void Scene::Draw()
 {
 
-    for (auto it = m_Objects.begin(); it != m_Objects.end(); it++)
-    {
-        fw::GameObject* pObject = *it;
-        pObject->Draw(m_pCamera);
-    }
+    m_pComponentManager->Draw(m_pCamera);
+
+    //for (auto it = m_Objects.begin(); it != m_Objects.end(); it++)
+    //{
+    //    fw::GameObject* pObject = *it;
+    //    pObject->Draw(m_pCamera);
+    //}
 }
 
 } // namespace fw

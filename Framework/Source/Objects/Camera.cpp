@@ -6,7 +6,7 @@
 namespace fw {
 
 Camera::Camera(Scene* pScene, vec2 pos, vec2 projScale)
-    : GameObject(pScene, nullptr,  nullptr, pos )
+    : GameObject(pScene, pos )
     , m_ProjectionScale( projScale )
 {
 }

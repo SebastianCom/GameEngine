@@ -3,6 +3,7 @@
 #include "../Libraries/box2d/include/box2d/box2d.h"
 #include "Math/Vector.h"
 #include "Physics/PhysicsBody.h"
+#include "Math/MyMatrix.h"
 
 
 namespace fw {
@@ -14,23 +15,28 @@ class Scene;
 class PhysicsWorld;
 class Material;
 class MeshComponent;
+class Component;
 
 class GameObject
 {
 public:
-    GameObject(Scene* pScene, Mesh* pMesh, Material* pMaterial, vec3 pos);
+    GameObject(Scene* pScene, vec3 pos);
     virtual ~GameObject();
 
     virtual void Update(float deltaTime);
-    virtual void Draw(Camera* pCamera);
+    //virtual void Draw(Camera* pCamera);
 
     void CreateBody(PhysicsWorld* pWorld, bool isDynamic, vec2 size, float density);
 
     // Getters.
+    const MyMatrix& GetWorldTransform();
     vec3 GetPosition() { return m_Position; }
     vec3 GetRotation() { return m_Rotation; }
     vec3 GetScale() { return m_Scale; }
 
+
+    void AddComponent(MeshComponent* pMeshComp);
+    
     // Setters.
     // void SetTexture(Texture* pTexture) { m_pTexture = pTexture; }
     void SetPosition(vec3 pos) { m_Position = pos; }
@@ -44,11 +50,13 @@ protected:
     PhysicsBody* m_pPhysicsBody = nullptr;
     //b2Body* m_pPhysicsBody = nullptr;
 
-
+    //TransformComponent* m_pTransform;
+    //std::vector<component*> m_Components;
 
     MeshComponent* m_pMeshComponent = nullptr;
+    Component* Component = nullptr;
 
-
+    MyMatrix m_WorldTransform;
 
 
     vec3 m_Position = vec3( 0, 0, 0 );

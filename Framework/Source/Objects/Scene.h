@@ -7,6 +7,7 @@ namespace fw {
     class GameCore;
     class GameObject;
     class PhysicsWorld;
+    class ComponentManager;
 
 class Scene
 {
@@ -19,6 +20,8 @@ public:
     virtual void OnEvent(Event* pEvent);
     virtual void Draw();
 
+    ComponentManager* GetComponentManager() { return m_pComponentManager; }
+
 
 protected:
 
@@ -26,6 +29,7 @@ protected:
     Camera* m_pCamera = nullptr;
     PhysicsWorld* m_pPhysicsWorld;
     std::vector<fw::GameObject*> m_Objects;
+    ComponentManager* m_pComponentManager = nullptr;
 
 };
 

@@ -4,7 +4,7 @@
 #include "PlayerController.h"
 
 Player::Player(fw::Scene* pScene, fw::Mesh* pMesh, fw::Material* pMaterial, vec3 pos, PlayerController* pController)
-    : GameObject(pScene, pMesh, pMaterial, pos )
+    : GameObject(pScene,  pos )
     , m_pPlayerController( pController )
 {
 }
@@ -66,6 +66,7 @@ void Player::Update(float deltaTime)
     if( m_pSpriteSheet )
     {
         fw::SpriteSheet::SpriteInfo info = m_pSpriteSheet->GetSpriteByName( "player_06" );
+        //GetComponent(fw::MeshComponent::GetStaticType())->SetUVScale(info.uvScale);
         m_pMeshComponent->SetUVScale(info.uvScale);
         m_pMeshComponent->SetUVOffset(info.uvOffset);
     }

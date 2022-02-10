@@ -63,7 +63,8 @@ void Game::Init()
     //m_Meshes["Sprite"] = new fw::Mesh( GL_TRIANGLE_STRIP, g_SpriteVerts );
     m_Meshes["Sprite"] = new fw::Mesh( GL_TRIANGLES, g_SpriteVerts, g_SpriteIndices);
     m_Meshes["Cube"] = new fw::Mesh(GL_TRIANGLES, g_CubeVerts, g_CubeIndices);
-    m_Meshes["Plane"] = CreatePlane();
+    // TODO
+    m_Meshes["Plane"] = CreatePlane(); /// pass in parameters WORLDSIZE AND GRIDSIZE
     //m_Meshes["Cube"] = new fw::Mesh(GL_TRIANGLES, g_SpriteVerts, g_SpriteIndices);
     m_Shaders["Basic"] = new fw::ShaderProgram( "Data/Shaders/Basic.vert", "Data/Shaders/Basic.frag" );
     m_Shaders["Water"] = new fw::ShaderProgram( "Data/Shaders/Water.vert", "Data/Shaders/Water.frag" );
@@ -120,3 +121,5 @@ void Game::Draw()
     
     m_pImGuiManager->EndFrame();
 }
+
+
