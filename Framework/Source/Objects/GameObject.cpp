@@ -30,6 +30,7 @@ void GameObject::Update(float deltaTime)
 {
     if (m_pPhysicsBody)
     {
+
         b2Vec2 physicsPosition = m_pPhysicsBody->GetPosition();
         ImGui::Text("%0.2f, %0.2f, %0.2f", physicsPosition.x, physicsPosition.y, m_Position.z);
         
@@ -37,7 +38,7 @@ void GameObject::Update(float deltaTime)
         m_Rotation = rotation;
 
         float zAngle = -m_pPhysicsBody->GetBody()->GetAngle() / PI * 90.0f; //Put this in wrapper and fix wrapper
-       m_Rotation.Set(0, 0, zAngle);
+        m_Rotation.Set(0, 0, zAngle);
 
         m_Position.Set(physicsPosition.x, physicsPosition.y, 0);
     }

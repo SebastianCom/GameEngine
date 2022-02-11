@@ -29,8 +29,8 @@ void main()
 
     //objectSpacePosition.y += sin(a_Position.x + u_Time);
     //objectSpacePosition.y += sin(a_Position.z + u_Time);
-    //objectSpacePosition.y += sin(a_Position.x + (u_Time/2)) * 0.25;
-    //objectSpacePosition.y += sin(a_Position.z - (u_Time)) * 0.25;
+    objectSpacePosition.y += sin(a_Position.x + (u_Time/2)) * 0.15;
+    objectSpacePosition.y += sin(a_Position.z - (u_Time)) * 0.15;
 
 
     vec4 worldSpacePosition = u_WorldMatrix * objectSpacePosition;

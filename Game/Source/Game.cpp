@@ -69,7 +69,11 @@ void Game::Init()
     m_Meshes["Sprite"] = new fw::Mesh( GL_TRIANGLES, g_SpriteVerts, g_SpriteIndices);
     m_Meshes["Cube"] = new fw::Mesh(GL_TRIANGLES, g_CubeVerts, g_CubeIndices);
     // TODO
-    m_Meshes["Plane"] = CreatePlane(); /// pass in parameters WORLDSIZE AND GRIDSIZE
+    m_GridSize = vec2(500, 500);
+    m_WorldSize = vec3(50, 50, 50);
+    m_Meshes["Plane"] = CreatePlane(m_GridSize, m_WorldSize);
+    m_OldGridSize = m_GridSize;
+    m_OldWorldSize = m_WorldSize;
     //m_Meshes["Cube"] = new fw::Mesh(GL_TRIANGLES, g_SpriteVerts, g_SpriteIndices);
     m_Shaders["Basic"] = new fw::ShaderProgram( "Data/Shaders/Basic.vert", "Data/Shaders/Basic.frag" );
     m_Shaders["Water"] = new fw::ShaderProgram( "Data/Shaders/Water.vert", "Data/Shaders/Water.frag" );
@@ -88,15 +92,8 @@ void Game::Init()
     m_Scenes["Water"] = new WaterScene(this);
 
 
-    //TODO
-    //m_pCubeScene = new CubeScene(this);
-   // m_pPhysicsScene = new PhysicsScene(this);
-    m_pCurrentScene = m_Scenes["Physics"];
+    m_pCurrentScene = m_Scenes["Water"];
 
-    //// ^^ Replaces
-    //{
-
-    //}
 }
 
 void Game::StartFrame(float deltaTime)
@@ -118,6 +115,17 @@ void Game::Update(float deltaTime)
 {
     ImGui::ShowDemoWindow();
 
+   SwitchScene();
+
+   if(m_pCurrentScene == m_Scenes["Water"])
+   ChangeWindowSize();
+
+   m_pCurrentScene->Update(deltaTime);
+
+}
+
+void Game::SwitchScene()
+{
     if (ImGui::Button("Physics Scene"))
     {
         delete m_Scenes["Physics"];
@@ -127,12 +135,45 @@ void Game::Update(float deltaTime)
     if (ImGui::Button("Cube Scene"))
         m_pCurrentScene = m_Scenes["Cube"];
     if (ImGui::Button("Water Scene"))
+    {
         m_pCurrentScene = m_Scenes["Water"];
+    }
+}
 
+void Game::ChangeWindowSize()
+{
+    static int GridImguiX = { int(m_GridSize.x) };
+    static int GridImguiY = { int(m_GridSize.y) };
+    ImGui::InputInt("Grid X", &GridImguiX, 100);
+    ImGui::InputInt("Grid Y", &GridImguiY, 100);
+    if (GridImguiX >= 10)
+        m_GridSize.x = GridImguiX;
+    if(GridImguiY >=10)
+        m_GridSize.y = GridImguiY;
 
+    static int WorldImguiX = { int(m_WorldSize.x) };
+    static int WorldImguiY = { int(m_WorldSize.z) };
+    ImGui::InputInt("World X", &WorldImguiX, 10);
+    ImGui::InputInt("World Z", &WorldImguiY, 10);
+    if (WorldImguiX >= 10)
+        m_WorldSize.x = WorldImguiX;
+    if (WorldImguiY >= 10)
+        m_WorldSize.z = WorldImguiY;
 
-   m_pCurrentScene->Update(deltaTime);
+    if (m_GridSize != m_OldGridSize || m_WorldSize != m_OldWorldSize)
+    {
+        delete m_Meshes["Plane"];
+        m_Meshes["Plane"] = CreatePlane(m_GridSize, m_WorldSize);
 
+        //Alright So here is the deal, i know this is bad. I know i shouldnt have to do this. However with the current set up and 
+        //components i really struggled here. My grid would only draw a third of the time when making changes unless i reset the scene
+        //i tried many things to combat this and ultimatley wasted way too much time. This is function so it will last as a place holder for now.
+        delete m_Scenes["Water"];
+        m_Scenes["Water"] = new WaterScene(this);
+        m_pCurrentScene = m_Scenes["Water"];
+        m_OldGridSize = m_GridSize;
+        m_OldWorldSize = m_WorldSize;
+    }
 }
 
 void Game::Draw()

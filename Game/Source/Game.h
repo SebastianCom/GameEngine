@@ -16,6 +16,8 @@ public:
     virtual void StartFrame(float deltaTime) override;
     virtual void OnEvent(fw::Event* pEvent) override;
     virtual void Update(float deltaTime) override;
+    void SwitchScene();
+    void ChangeWindowSize();
     virtual void Draw() override;
 
 
@@ -30,7 +32,11 @@ protected:
     fw::FWCore& m_FWCore;
     fw::ImGuiManager* m_pImGuiManager = nullptr;
 
+    fw::vec2 m_GridSize;
+    fw::vec2 m_OldGridSize;
 
+    fw::vec3 m_WorldSize;
+    fw::vec3 m_OldWorldSize;
 
     std::map<std::string, fw::Mesh*> m_Meshes;
     std::map<std::string, fw::ShaderProgram*> m_Shaders;

@@ -24,10 +24,10 @@ const std::vector<unsigned int> g_SpriteIndices =
 const std::vector<fw::VertexFormat> g_CubeVerts =
 {
     // Front
-    { vec3(0.0f,1.0f,0.5f),  255,255,255,255,  vec2(0.0f,1.0f) }, // top left
+    { vec3(1.0f,0.0f,0.5f),  255,255,255,255,  vec2(1.0f,0.0f) }, // bottom right
     { vec3(1.0f,1.0f,0.5f),  255,255,255,255,  vec2(1.0f,1.0f) }, // top right
     { vec3(0.0f,0.0f,0.5f),  255,255,255,255,  vec2(0.0f,0.0f) }, // bottom left
-    { vec3(1.0f,0.0f,0.5f),  255,255,255,255,  vec2(1.0f,0.0f) }, // bottom right
+    { vec3(0.0f,1.0f,0.5f),  255,255,255,255,  vec2(0.0f,1.0f) }, // top left
     
 
     // Back
@@ -37,52 +37,61 @@ const std::vector<fw::VertexFormat> g_CubeVerts =
     { vec3(1.0f,0.0f,-0.5f),  255,255,255,255,  vec2(1.0f,0.0f) }, // bottom right
 
      // Right
-    { vec3(1.0f,1.0f, 0.5f),  255,255,255,255,  vec2(0.0f,1.0f) }, // top left
+    { vec3(1.0f,0.0f,-0.5f),  255,255,255,255,  vec2(1.0f,0.0f) }, // bottom right
     { vec3(1.0f,1.0f,-0.5f),  255,255,255,255,  vec2(1.0f,1.0f) }, // top right
     { vec3(1.0f,0.0f, 0.5f),  255,255,255,255,  vec2(0.0f,0.0f) }, // bottom left
-    { vec3(1.0f,0.0f,-0.5f),  255,255,255,255,  vec2(1.0f,0.0f) }, // bottom right
+    { vec3(1.0f,1.0f, 0.5f),  255,255,255,255,  vec2(0.0f,1.0f) }, // top left
 
      // Left
-    { vec3(0.0f,1.0f,-0.5f),  255,255,255,255,  vec2(0.0f,1.0f) }, // top left
+    { vec3(0.0f,0.0f, 0.5f),  255,255,255,255,  vec2(1.0f,0.0f) }, // bottom right
     { vec3(0.0f,1.0f, 0.5f),  255,255,255,255,  vec2(1.0f,1.0f) }, // top right
     { vec3(0.0f,0.0f,-0.5f),  255,255,255,255,  vec2(0.0f,0.0f) }, // bottom left
-    { vec3(0.0f,0.0f, 0.5f),  255,255,255,255,  vec2(1.0f,0.0f) }, // bottom right
+    { vec3(0.0f,1.0f,-0.5f),  255,255,255,255,  vec2(0.0f,1.0f) }, // top left
 
      // Top
-    { vec3(0.0f,1.0f,-0.5f),  255,255,255,255,  vec2(0.0f,1.0f) }, // top left
+    { vec3(1.0f,1.0f, 0.5f),  255,255,255,255,  vec2(1.0f,0.0f) }, // bottom right
     { vec3(1.0f,1.0f,-0.5f),  255,255,255,255,  vec2(1.0f,1.0f) }, // top right
     { vec3(0.0f,1.0f, 0.5f),  255,255,255,255,  vec2(0.0f,0.0f) }, // bottom left
-    { vec3(1.0f,1.0f, 0.5f),  255,255,255,255,  vec2(1.0f,0.0f) }, // bottom right
+    { vec3(0.0f,1.0f,-0.5f),  255,255,255,255,  vec2(0.0f,1.0f) }, // top left
                       
      // Bottom
-    { vec3(0.0f,0.0f, 0.5f),  255,255,255,255,  vec2(0.0f,1.0f) }, // top left
+    { vec3(1.0f,0.0f,-0.5f),  255,255,255,255,  vec2(1.0f,0.0f) }, // bottom right
     { vec3(1.0f,0.0f, 0.5f),  255,255,255,255,  vec2(1.0f,1.0f) }, // top right
     { vec3(0.0f,0.0f,-0.5f),  255,255,255,255,  vec2(0.0f,0.0f) }, // bottom left
-    { vec3(1.0f,0.0f,-0.5f),  255,255,255,255,  vec2(1.0f,0.0f) }, // bottom right
+    { vec3(0.0f,0.0f, 0.5f),  255,255,255,255,  vec2(0.0f,1.0f) }, // top left
 
 };
 
 const std::vector<unsigned int> g_CubeIndices =
 {
-    3,1,2,2,1,0, 4,5,6,6,5,7, 11,9,10,10,9,8, 15,13,14,14,13,12, 19,17,18,18,17,16, 23,21,22,22,21,20 //WHY DOES THIS WORK!? forsome reason some have to be backwards
+    0,1,2,2,1,3, 4,5,6,6,5,7, 8,9,10,10,9,11, 12,13,14,14,13,15, 16,17,18,18,17,19, 20,21,22,22,21,23 
 
 };
 
-fw::Mesh* CreatePlane()
+fw::Mesh* CreatePlane(vec2 gridSize, vec3 worldSize)
 {
-    std::vector<fw::VertexFormat> verts;
-    for (int x = 0; x < 1000; x++)
+   std::vector<unsigned int> g_WaterIndices;
+   std::vector<fw::VertexFormat> g_WaterVerts;
+    for (int x = 0; x < gridSize.x; x++)
     {
-        for (int y = 0; y < 1000; y++) // x * stepsize.x, y * stepsize.y
+        for (int y = 0; y < gridSize.y; y++) // x * stepsize.x, y * stepsize.y
         {
-           vec3 pos = vec3(x*(1 / 100.f),0, y*(1 / 100.f));
-            verts.push_back({ pos,  255,255,255,255,  vec2(pos.x/5.0f,pos.z / 5.0f) });
+            vec3 GridSize = vec3(x*(1 / (gridSize.x /worldSize.x)),0, y*(1 / (gridSize.y / worldSize.z)));
+            
+            g_WaterVerts.push_back({ GridSize,  255,255,255,255,  vec2(GridSize.x/10.f,GridSize.z / 10.f) });
+            int bp = 1;
         }
     }
 
-    //std::vector<unsigned int> indices;
+    //g_WaterIndices.push_back(gridSize.x * gridSize.y);
+    //g_WaterIndices.push_back(gridSize.x);
+    //g_WaterIndices.push_back((gridSize.x * gridSize.y) - gridSize.x);
+    //
+    //g_WaterIndices.push_back((gridSize.x * gridSize.y) - gridSize.x);
+    //g_WaterIndices.push_back(gridSize.x);
+    //g_WaterIndices.push_back(0);
 
-    fw::Mesh* pMesh = new fw::Mesh(GL_POINTS, verts); //, indices );
+    fw::Mesh* pMesh = new fw::Mesh(GL_POINTS, g_WaterVerts); //, indices );
     return pMesh;
 }
 

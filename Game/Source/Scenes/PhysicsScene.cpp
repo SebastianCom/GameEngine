@@ -56,5 +56,4 @@ void PhysicsScene::Reset()
 void PhysicsScene::Update(float deltaTime)
 {
     Scene::Update(deltaTime);
-
 }
