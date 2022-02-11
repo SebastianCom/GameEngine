@@ -19,6 +19,7 @@ public:
     virtual void Update(float deltaTime);
     virtual void OnEvent(Event* pEvent);
     virtual void Draw();
+    virtual void Reset() = 0;
 
     ComponentManager* GetComponentManager() { return m_pComponentManager; }
 

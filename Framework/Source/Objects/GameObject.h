@@ -36,18 +36,21 @@ public:
 
 
     void AddComponent(MeshComponent* pMeshComp);
+    MeshComponent* GetComponent() { return m_pMeshComponent; }
+    MeshComponent* GetComponent(static const char* CompName);
     
     // Setters.
     // void SetTexture(Texture* pTexture) { m_pTexture = pTexture; }
     void SetPosition(vec3 pos) { m_Position = pos; }
     void SetRotation(vec3 rot) { m_Rotation = rot; }
     void SetScale(vec3 scale) { m_Scale = scale; }
+   
+    PhysicsBody* m_pPhysicsBody = nullptr;
 
 protected:
 
     Scene* m_pScene = nullptr;
 
-    PhysicsBody* m_pPhysicsBody = nullptr;
     //b2Body* m_pPhysicsBody = nullptr;
 
     //TransformComponent* m_pTransform;

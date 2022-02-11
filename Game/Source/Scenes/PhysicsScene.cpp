@@ -13,25 +13,22 @@ PhysicsScene::PhysicsScene(Game* pGame)
     :fw::Scene( pGame )
 {
     m_pPhysicsWorld = new fw::PhysicsWorldBox2D();
-    //m_pPhysicsWorld->SetGravity(vec2(0, -10));
     m_pPhysicsWorld->SetGravity(vec2(0, -10));
 
 
-    m_pCamera = new fw::Camera(this, vec2(0,5) / 2, vec2(1 / 10.0f, 1 / 10.0f));
-
+    m_pCamera = new fw::Camera(this, vec2(0, 0), vec2(1 / 10.0f, 1 / 10.0f)); //BROKEN
     m_pPlayerController = new PlayerController();
 
-    //Player* pPlayer = new Player(this, pGame->GetMesh("Sprite"), pGame->GetMaterial("Sokoban"), vec2(7.0f, 9.0f), m_pPlayerController);
-    //Player* pPlayer = new Player(this, pGame->GetMesh("Cube"), pGame->GetMaterial("BaseColor"), vec2(5.0f, 5.0f), m_pPlayerController);
-    //Player* pPlayer = new Player(this, pGame->GetMesh("Sprite"), pGame->GetMaterial("Sokoban"), vec2(7.0f, 9.0f), m_pPlayerController);
-    //pPlayer->SetSpriteSheet(pGame->GetSpriteSheet("Sprites"));
-    // pPlayer->CreateBody(m_pPhysicsWorld, true, vec2(1, 1), 1);
-    // m_Objects.push_back(pPlayer);
-    // fw::GameObject* pGameObject = new fw::GameObject(this, pGame->GetMesh("Plane"), pGame->GetMaterial("Water"), vec2(-5, -4));
-    fw::GameObject* pWaterObject = new fw::GameObject(this, vec2(-5, -4));
-    pWaterObject->AddComponent(new fw::MeshComponent(pGame->GetMesh("Plane"), pGame->GetMaterial("Water")));
-    pWaterObject->CreateBody(m_pPhysicsWorld, true, vec2(1, 1), 0);
-    m_Objects.push_back(pWaterObject);
+    Player* pPlayer = new Player(this,vec2(0, 5), m_pPlayerController);
+    pPlayer->SetSpriteSheet(pGame->GetSpriteSheet("Sprites"));
+    pPlayer->AddComponent(new fw::MeshComponent(pGame->GetMesh("Sprite"), pGame->GetMaterial("Sokoban")));
+    pPlayer->CreateBody(m_pPhysicsWorld, true, vec2(1, 1), 1);
+    m_Objects.push_back(pPlayer);
+    
+    fw::GameObject* pCubeObject = new fw::GameObject(this, vec2(0.6, 0));
+    pCubeObject->AddComponent(new fw::MeshComponent(pGame->GetMesh("Cube"), pGame->GetMaterial("BaseColor")));
+    pCubeObject->CreateBody(m_pPhysicsWorld, true, vec2(1, 1), 0);
+    m_Objects.push_back(pCubeObject);
 }
 
 PhysicsScene::~PhysicsScene()
@@ -50,10 +47,14 @@ void PhysicsScene::OnEvent(fw::Event* pEvent)
     fw::Scene::OnEvent(pEvent);
 }
 
+void PhysicsScene::Reset()
+{
+    //m_Objects[0]->SetPosition(vec2(0, 5));
+
+}
+
 void PhysicsScene::Update(float deltaTime)
 {
     Scene::Update(deltaTime);
 
-   // float time = (float)fw::GetSystemTimeSinceGameStart() * 50;
-  //  m_Objects[1]->SetRotation(vec3(time, time, 0));
 }

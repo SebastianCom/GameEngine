@@ -6,6 +6,8 @@
 #include "Meshes/Shapes.h"
 #include "GameEvents/GameEvents.h"
 #include "Scenes/PhysicsScene.h"
+#include "Scenes/WaterScene.h"
+#include "Scenes/CubeScene.h"
 
 Game::Game(fw::FWCore& fwCore)
     : m_FWCore( fwCore )
@@ -16,7 +18,10 @@ Game::Game(fw::FWCore& fwCore)
 Game::~Game()
 {
 
-    delete m_pPhysicsScene;
+    for (auto& it : m_Scenes)
+    {
+        delete it.second;
+    }
 
     for( auto& it : m_Meshes )
     {
@@ -76,11 +81,17 @@ void Game::Init()
     m_Materials["Sokoban"] = new fw::Material(m_Shaders["Basic"], m_Textures["Sprites"], fw::Color4f::Blue);
     m_Materials["BaseColor"] = new fw::Material(m_Shaders["Basic"], m_Textures["BaseColor"], fw::Color4f::Black);
     m_Materials["Water"] = new fw::Material(m_Shaders["Water"], m_Textures["Water"], fw::Color4f::WaterBlue);
+    
+    
+    m_Scenes["Physics"] = new PhysicsScene(this);
+    m_Scenes["Cube"] = new CubeScene(this);
+    m_Scenes["Water"] = new WaterScene(this);
+
 
     //TODO
     //m_pCubeScene = new CubeScene(this);
-    m_pPhysicsScene = new PhysicsScene(this);
-    m_pCurrentScene = m_pPhysicsScene;
+   // m_pPhysicsScene = new PhysicsScene(this);
+    m_pCurrentScene = m_Scenes["Physics"];
 
     //// ^^ Replaces
     //{
@@ -106,6 +117,19 @@ void Game::OnEvent(fw::Event* pEvent)
 void Game::Update(float deltaTime)
 {
     ImGui::ShowDemoWindow();
+
+    if (ImGui::Button("Physics Scene"))
+    {
+        delete m_Scenes["Physics"];
+        m_Scenes["Physics"] = new PhysicsScene(this);
+        m_pCurrentScene = m_Scenes["Physics"];
+    }
+    if (ImGui::Button("Cube Scene"))
+        m_pCurrentScene = m_Scenes["Cube"];
+    if (ImGui::Button("Water Scene"))
+        m_pCurrentScene = m_Scenes["Water"];
+
+
 
    m_pCurrentScene->Update(deltaTime);
 

@@ -10,7 +10,7 @@ class Scene;
 class Player : public fw::GameObject
 {
 public:
-    Player(fw::Scene* pScene, fw::Mesh* pMesh, fw::Material* pMaterial, vec3 pos, PlayerController* pController);
+    Player(fw::Scene* pScene, vec3 pos, PlayerController* pController);
     virtual ~Player();
 
     virtual void Update(float deltaTime) override;
