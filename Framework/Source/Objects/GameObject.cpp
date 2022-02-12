@@ -32,7 +32,6 @@ void GameObject::Update(float deltaTime)
     {
 
         b2Vec2 physicsPosition = m_pPhysicsBody->GetPosition();
-        ImGui::Text("%0.2f, %0.2f, %0.2f", physicsPosition.x, physicsPosition.y, m_Position.z);
         
         vec3 rotation = m_pPhysicsBody->GetRotation();
         m_Rotation = rotation;

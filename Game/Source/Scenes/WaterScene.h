@@ -6,6 +6,7 @@ class WaterScene: public fw::Scene
 {
 public:
     WaterScene(Game* pGame);
+    WaterScene(Game* pGame, fw::vec3 CamPos, fw::vec3 CamLook);
     virtual ~WaterScene();
 
     virtual void StartFrame(float deltaTime) override;

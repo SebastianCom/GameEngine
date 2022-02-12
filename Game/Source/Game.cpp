@@ -69,7 +69,7 @@ void Game::Init()
     m_Meshes["Sprite"] = new fw::Mesh( GL_TRIANGLES, g_SpriteVerts, g_SpriteIndices);
     m_Meshes["Cube"] = new fw::Mesh(GL_TRIANGLES, g_CubeVerts, g_CubeIndices);
     // TODO
-    m_GridSize = vec2(5, 5);
+    m_GridSize = vec2(100, 100);
     m_WorldSize = vec3(10, 10, 10);
     m_Meshes["Plane"] = CreatePlane(m_GridSize, m_WorldSize, GL_TRIANGLES);
     m_OldGridSize = m_GridSize;
@@ -92,6 +92,7 @@ void Game::Init()
     m_Scenes["Water"] = new WaterScene(this);
 
     WFrameToggle = true;
+    ZoomToggle = false;
     CurrentprimType = GL_TRIANGLES;
     m_pCurrentScene = m_Scenes["Water"];
 
@@ -142,6 +143,7 @@ void Game::Draw()
 
 void Game::ChangeWindowSize()
 {
+
     static int GridImguiX = { int(m_GridSize.x) };
     static int GridImguiY = { int(m_GridSize.y) };
     ImGui::InputInt("Grid X", &GridImguiX, 1);
@@ -160,6 +162,7 @@ void Game::ChangeWindowSize()
     if (WorldImguiY >= 0)
         m_WorldSize.z = WorldImguiY;
 
+
     if (m_GridSize != m_OldGridSize || m_WorldSize != m_OldWorldSize)
     {
         delete m_Meshes["Plane"];
@@ -172,6 +175,19 @@ void Game::ChangeWindowSize()
         m_OldGridSize = m_GridSize;
         m_OldWorldSize = m_WorldSize;
     }
+
+    //BROKEN
+    //if (ImGui::Button("Reset"))
+    //{
+    //    m_GridSize = vec2(100, 100);
+    //    m_WorldSize = vec3(10, 10, 10);
+    //    m_OldGridSize = m_GridSize;
+    //    m_OldWorldSize = m_WorldSize;
+    //    WFrameToggle = true;
+    //    delete m_Meshes["Plane"];
+    //    m_Meshes["Plane"] = CreatePlane(m_GridSize, m_WorldSize, GL_TRIANGLES);
+    //    ResetScene("Water");
+    //}
 }
 
 void Game::WaterToggles()
@@ -183,16 +199,35 @@ void Game::WaterToggles()
         {
             if (!WFrameToggle)
             {
+                delete m_Meshes["Plane"];
                 m_Meshes["Plane"] = CreatePlane(m_GridSize, m_WorldSize, GL_TRIANGLES);
                 CurrentprimType = GL_TRIANGLES;
             }
             else
             {
+                delete m_Meshes["Plane"];
                 m_Meshes["Plane"] = CreatePlane(m_GridSize, m_WorldSize, GL_POINTS);
                 CurrentprimType = GL_POINTS;
             }
             WFrameToggle = !WFrameToggle;
             ResetScene("Water");
+        }
+       
+        if (ImGui::Button("Zoom Out"))
+        {
+            if (!ZoomToggle)
+            {
+                delete m_Scenes["Water"];
+                m_Scenes["Water"] = new WaterScene(this, fw::vec3(450, 900, 350), fw::vec3(450, -300, 550));
+                m_pCurrentScene = m_Scenes["Water"];
+            }
+            else
+            {
+                delete m_Scenes["Water"];
+                m_Scenes["Water"] = new WaterScene(this);
+                m_pCurrentScene = m_Scenes["Water"];
+            }
+            ZoomToggle = !ZoomToggle;
         }
 
     }
@@ -223,7 +258,9 @@ void Game::ResetScene(const char* name)
     {
         delete m_Scenes[name];
         if (name == "Water")
+        {
             m_Scenes[name] = new WaterScene(this);
+        }
         else if (name == "Cube")
             m_Scenes[name] = new CubeScene(this);
         else if (name == "Physics")

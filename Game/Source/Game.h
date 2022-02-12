@@ -35,6 +35,7 @@ protected:
     fw::ImGuiManager* m_pImGuiManager = nullptr;
 
     bool WFrameToggle;
+    bool ZoomToggle;
 
     GLenum CurrentprimType;
 

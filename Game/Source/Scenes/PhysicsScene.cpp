@@ -56,4 +56,6 @@ void PhysicsScene::Reset()
 void PhysicsScene::Update(float deltaTime)
 {
     Scene::Update(deltaTime);
+    b2Vec2 Position = vec2(m_Objects[0]->GetPosition().x, m_Objects[0]->GetPosition().y);
+    ImGui::Text("%0.2f, %0.2f, %0.2f", Position.x, Position.y, 0);
 }

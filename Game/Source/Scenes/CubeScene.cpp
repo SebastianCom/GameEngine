@@ -33,6 +33,7 @@ void CubeScene::StartFrame(float deltaTime)
 void CubeScene::OnEvent(fw::Event* pEvent)
 {
     fw::Scene::OnEvent(pEvent);
+
 }
 
 void CubeScene::Update(float deltaTime)
@@ -40,4 +41,5 @@ void CubeScene::Update(float deltaTime)
     Scene::Update(deltaTime);
     float time = (float)fw::GetSystemTimeSinceGameStart() * 50;
     m_Objects[0]->SetRotation(vec3(time, time, 0));
+    //ImGui::Text("%0.2f, %0.2f, %0.2f", m_Objects[0]->GetRotation().x, m_Objects[0]->GetRotation().y, m_Objects[0]->GetRotation().z);
 }
