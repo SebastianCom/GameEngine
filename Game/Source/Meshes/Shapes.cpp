@@ -68,30 +68,37 @@ const std::vector<unsigned int> g_CubeIndices =
 
 };
 
+
 fw::Mesh* CreatePlane(vec2 gridSize, vec3 worldSize)
 {
-   std::vector<unsigned int> g_WaterIndices;
-   std::vector<fw::VertexFormat> g_WaterVerts;
-    for (int x = 0; x < gridSize.x; x++)
+   std::vector<unsigned int> g_PlaneIndices;
+   std::vector<fw::VertexFormat>g_PlaneVerts;
+    for (int y = 0; y < gridSize.y; y++)
     {
-        for (int y = 0; y < gridSize.y; y++) // x * stepsize.x, y * stepsize.y
+        for (int x = 0; x < gridSize.x; x++) // x * stepsize.x, y * stepsize.y
         {
-            vec3 GridSize = vec3(x*(1 / (gridSize.x /worldSize.x)),0, y*(1 / (gridSize.y / worldSize.z)));
+            vec3 GridSize = vec3(x* worldSize.x, 0, y*worldSize.z);
             
-            g_WaterVerts.push_back({ GridSize,  255,255,255,255,  vec2(GridSize.x/10.f,GridSize.z / 10.f) });
+            g_PlaneVerts.push_back({ GridSize,  255,255,255,255,  vec2(GridSize.x/10.f,GridSize.z / 10.f) });
             int bp = 1;
         }
     }
-
-    //g_WaterIndices.push_back(gridSize.x * gridSize.y);
-    //g_WaterIndices.push_back(gridSize.x);
-    //g_WaterIndices.push_back((gridSize.x * gridSize.y) - gridSize.x);
-    //
-    //g_WaterIndices.push_back((gridSize.x * gridSize.y) - gridSize.x);
-    //g_WaterIndices.push_back(gridSize.x);
-    //g_WaterIndices.push_back(0);
-
-    fw::Mesh* pMesh = new fw::Mesh(GL_POINTS, g_WaterVerts); //, indices );
+    int yIncrement = -gridSize.x;
+    for (int y = 0; y < gridSize.y; y++)
+    {
+        yIncrement += gridSize.x;
+        for (int x = 0; x < gridSize.x; x++) 
+        {
+            g_PlaneIndices.push_back(x + yIncrement);
+            g_PlaneIndices.push_back((x + gridSize.x) + yIncrement);
+            g_PlaneIndices.push_back((x + (gridSize.x +1)) + yIncrement);
+            g_PlaneIndices.push_back(x + yIncrement);
+            g_PlaneIndices.push_back((x + (gridSize.x + 1)) + yIncrement);
+            g_PlaneIndices.push_back((x + 1) + yIncrement);
+        }
+    }
+    int bp = 1;
+    fw::Mesh* pMesh = new fw::Mesh(GL_TRIANGLES, g_PlaneVerts, g_PlaneIndices);
     return pMesh;
 }
 

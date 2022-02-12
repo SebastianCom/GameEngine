@@ -69,8 +69,8 @@ void Game::Init()
     m_Meshes["Sprite"] = new fw::Mesh( GL_TRIANGLES, g_SpriteVerts, g_SpriteIndices);
     m_Meshes["Cube"] = new fw::Mesh(GL_TRIANGLES, g_CubeVerts, g_CubeIndices);
     // TODO
-    m_GridSize = vec2(500, 500);
-    m_WorldSize = vec3(50, 50, 50);
+    m_GridSize = vec2(5, 5);
+    m_WorldSize = vec3(10, 10, 10);
     m_Meshes["Plane"] = CreatePlane(m_GridSize, m_WorldSize);
     m_OldGridSize = m_GridSize;
     m_OldWorldSize = m_WorldSize;
@@ -144,20 +144,20 @@ void Game::ChangeWindowSize()
 {
     static int GridImguiX = { int(m_GridSize.x) };
     static int GridImguiY = { int(m_GridSize.y) };
-    ImGui::InputInt("Grid X", &GridImguiX, 100);
-    ImGui::InputInt("Grid Y", &GridImguiY, 100);
-    if (GridImguiX >= 10)
+    ImGui::InputInt("Grid X", &GridImguiX, 1);
+    ImGui::InputInt("Grid Y", &GridImguiY, 1);
+    if (GridImguiX >= 0)
         m_GridSize.x = GridImguiX;
-    if(GridImguiY >=10)
+    if(GridImguiY >=0)
         m_GridSize.y = GridImguiY;
 
     static int WorldImguiX = { int(m_WorldSize.x) };
     static int WorldImguiY = { int(m_WorldSize.z) };
-    ImGui::InputInt("World X", &WorldImguiX, 10);
-    ImGui::InputInt("World Z", &WorldImguiY, 10);
-    if (WorldImguiX >= 10)
+    ImGui::InputInt("World X", &WorldImguiX, 1);
+    ImGui::InputInt("World Z", &WorldImguiY, 1);
+    if (WorldImguiX >= 0)
         m_WorldSize.x = WorldImguiX;
-    if (WorldImguiY >= 10)
+    if (WorldImguiY >= 0)
         m_WorldSize.z = WorldImguiY;
 
     if (m_GridSize != m_OldGridSize || m_WorldSize != m_OldWorldSize)
