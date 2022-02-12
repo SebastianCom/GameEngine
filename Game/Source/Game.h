@@ -16,6 +16,8 @@ public:
     virtual void StartFrame(float deltaTime) override;
     virtual void OnEvent(fw::Event* pEvent) override;
     virtual void Update(float deltaTime) override;
+    void WaterToggles();
+    void ResetScene(const char* name);
     void SwitchScene();
     void ChangeWindowSize();
     virtual void Draw() override;
@@ -31,6 +33,10 @@ public:
 protected:
     fw::FWCore& m_FWCore;
     fw::ImGuiManager* m_pImGuiManager = nullptr;
+
+    bool WFrameToggle;
+
+    GLenum CurrentprimType;
 
     fw::vec2 m_GridSize;
     fw::vec2 m_OldGridSize;

@@ -71,7 +71,7 @@ void Game::Init()
     // TODO
     m_GridSize = vec2(5, 5);
     m_WorldSize = vec3(10, 10, 10);
-    m_Meshes["Plane"] = CreatePlane(m_GridSize, m_WorldSize);
+    m_Meshes["Plane"] = CreatePlane(m_GridSize, m_WorldSize, GL_TRIANGLES);
     m_OldGridSize = m_GridSize;
     m_OldWorldSize = m_WorldSize;
     //m_Meshes["Cube"] = new fw::Mesh(GL_TRIANGLES, g_SpriteVerts, g_SpriteIndices);
@@ -91,7 +91,8 @@ void Game::Init()
     m_Scenes["Cube"] = new CubeScene(this);
     m_Scenes["Water"] = new WaterScene(this);
 
-
+    WFrameToggle = true;
+    CurrentprimType = GL_TRIANGLES;
     m_pCurrentScene = m_Scenes["Water"];
 
 }
@@ -116,29 +117,28 @@ void Game::Update(float deltaTime)
     ImGui::ShowDemoWindow();
 
    SwitchScene();
-
-   if(m_pCurrentScene == m_Scenes["Water"])
-   ChangeWindowSize();
+   WaterToggles();
 
    m_pCurrentScene->Update(deltaTime);
 
 }
 
-void Game::SwitchScene()
+
+
+void Game::Draw()
 {
-    if (ImGui::Button("Physics Scene"))
-    {
-        delete m_Scenes["Physics"];
-        m_Scenes["Physics"] = new PhysicsScene(this);
-        m_pCurrentScene = m_Scenes["Physics"];
-    }
-    if (ImGui::Button("Cube Scene"))
-        m_pCurrentScene = m_Scenes["Cube"];
-    if (ImGui::Button("Water Scene"))
-    {
-        m_pCurrentScene = m_Scenes["Water"];
-    }
+    glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
+
+    m_pCurrentScene->Draw();
+
+    //m_pPlayerController->OnEvent(pEvent);
+    
+    m_pImGuiManager->EndFrame();
 }
+
+
+// ----------------- MY FUNCTIONS ---------------------------------------------------------------------------------------------------
+
 
 void Game::ChangeWindowSize()
 {
@@ -148,7 +148,7 @@ void Game::ChangeWindowSize()
     ImGui::InputInt("Grid Y", &GridImguiY, 1);
     if (GridImguiX >= 0)
         m_GridSize.x = GridImguiX;
-    if(GridImguiY >=0)
+    if (GridImguiY >= 0)
         m_GridSize.y = GridImguiY;
 
     static int WorldImguiX = { int(m_WorldSize.x) };
@@ -163,28 +163,72 @@ void Game::ChangeWindowSize()
     if (m_GridSize != m_OldGridSize || m_WorldSize != m_OldWorldSize)
     {
         delete m_Meshes["Plane"];
-        m_Meshes["Plane"] = CreatePlane(m_GridSize, m_WorldSize);
+        m_Meshes["Plane"] = CreatePlane(m_GridSize, m_WorldSize, CurrentprimType);
 
         //Alright So here is the deal, i know this is bad. I know i shouldnt have to do this. However with the current set up and 
         //components i really struggled here. My grid would only draw a third of the time when making changes unless i reset the scene
         //i tried many things to combat this and ultimatley wasted way too much time. This is function so it will last as a place holder for now.
-        delete m_Scenes["Water"];
-        m_Scenes["Water"] = new WaterScene(this);
-        m_pCurrentScene = m_Scenes["Water"];
+        ResetScene("Water");
         m_OldGridSize = m_GridSize;
         m_OldWorldSize = m_WorldSize;
     }
 }
 
-void Game::Draw()
+void Game::WaterToggles()
 {
-    glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
+    if (m_pCurrentScene == m_Scenes["Water"])
+    {
+        ChangeWindowSize();
+        if (ImGui::Button("Wire Frame"))
+        {
+            if (!WFrameToggle)
+            {
+                m_Meshes["Plane"] = CreatePlane(m_GridSize, m_WorldSize, GL_TRIANGLES);
+                CurrentprimType = GL_TRIANGLES;
+            }
+            else
+            {
+                m_Meshes["Plane"] = CreatePlane(m_GridSize, m_WorldSize, GL_POINTS);
+                CurrentprimType = GL_POINTS;
+            }
+            WFrameToggle = !WFrameToggle;
+            ResetScene("Water");
+        }
 
-    m_pCurrentScene->Draw();
-
-    //m_pPlayerController->OnEvent(pEvent);
-    
-    m_pImGuiManager->EndFrame();
+    }
 }
 
+void Game::SwitchScene()
+{
+    if (ImGui::Button("Physics Scene"))
+    {
+        ResetScene("Physics");
+    }
+    if (ImGui::Button("Cube Scene"))
+        m_pCurrentScene = m_Scenes["Cube"];
+    if (ImGui::Button("Water Scene"))
+    {
+        m_pCurrentScene = m_Scenes["Water"];
+    }
+}
 
+void Game::ResetScene(const char* name)
+{
+    if (name == 0)
+    {
+        assert(false); //You fucked up champ (look below)
+        //Reset Scene needs a const char point that is identical to the name of the scene you are trying to reset
+    }
+    else
+    {
+        delete m_Scenes[name];
+        if (name == "Water")
+            m_Scenes[name] = new WaterScene(this);
+        else if (name == "Cube")
+            m_Scenes[name] = new CubeScene(this);
+        else if (name == "Physics")
+            m_Scenes[name] = new PhysicsScene(this);
+
+        m_pCurrentScene = m_Scenes[name];
+    }
+}

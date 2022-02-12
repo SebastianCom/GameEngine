@@ -68,8 +68,7 @@ const std::vector<unsigned int> g_CubeIndices =
 
 };
 
-
-fw::Mesh* CreatePlane(vec2 gridSize, vec3 worldSize)
+fw::Mesh* CreatePlane(vec2 gridSize, vec3 worldSize, GLenum primitiveType)
 {
    std::vector<unsigned int> g_PlaneIndices;
    std::vector<fw::VertexFormat>g_PlaneVerts;
@@ -98,7 +97,7 @@ fw::Mesh* CreatePlane(vec2 gridSize, vec3 worldSize)
         }
     }
     int bp = 1;
-    fw::Mesh* pMesh = new fw::Mesh(GL_TRIANGLES, g_PlaneVerts, g_PlaneIndices);
+    fw::Mesh* pMesh = new fw::Mesh(primitiveType, g_PlaneVerts, g_PlaneIndices);
     return pMesh;
 }
 
