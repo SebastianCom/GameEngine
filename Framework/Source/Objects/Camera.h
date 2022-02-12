@@ -9,20 +9,24 @@ namespace fw {
 class Camera : public GameObject
 {
 public:
-    Camera(Scene* pScene, vec2 pos, vec2 projScale);
+    Camera(Scene* pScene, vec3 pos, vec3 lookAt, float FOVDeg);
     virtual ~Camera();
 
     virtual void Update(float deltaTime) override;
 
     // Getters.
-    vec2 GetProjectionScale() { return m_ProjectionScale; }
+    MyMatrix GetProjectionMatrix() { return m_ProjMat; }
+    MyMatrix GetViewMatrix() { return m_ViewMat; }
 
     // Setters.
     void SetObjectWeAreFollowing(GameObject* pObj) { m_pObjectWeAreFollowing = pObj; }
 
 protected:
-    vec2 m_ProjectionScale;
+    
     GameObject* m_pObjectWeAreFollowing = nullptr;
+
+    MyMatrix m_ViewMat;
+    MyMatrix m_ProjMat;
 };
 
 } // namespace fw

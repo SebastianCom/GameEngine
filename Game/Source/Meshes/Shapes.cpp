@@ -84,7 +84,7 @@ fw::Mesh* CreatePlane(vec2 gridSize, vec3 worldSize)
         }
     }
     int yIncrement = -gridSize.x;
-    for (int y = 0; y < gridSize.y; y++)
+    for (int y = 0; y < gridSize.y -1 ; y++)
     {
         yIncrement += gridSize.x;
         for (int x = 0; x < gridSize.x; x++) 

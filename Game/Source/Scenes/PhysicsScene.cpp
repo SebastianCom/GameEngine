@@ -16,7 +16,7 @@ PhysicsScene::PhysicsScene(Game* pGame)
     m_pPhysicsWorld->SetGravity(vec2(0, -10));
 
 
-    m_pCamera = new fw::Camera(this, vec2(0, 0), vec2(1 / 10.0f, 1 / 10.0f)); //BROKEN
+    m_pCamera = new fw::Camera(this, vec3(0, 0, -20), vec3(2,5,5), 45.0f); //BROKEN - WORKING ON IT
     m_pPlayerController = new PlayerController();
 
     Player* pPlayer = new Player(this,vec2(0, 5), m_pPlayerController);

@@ -102,21 +102,17 @@ void Mesh::Draw(Camera* pCamera, Material* pMaterial, MyMatrix worldMat, vec2 uv
     GLint location = glGetUniformLocation(pShader->GetProgram(), "u_WorldMatrix");
     glUniformMatrix4fv(location, 1, false, &worldMat.m11);
 
-    MyMatrix viewMat;
-   //   viewMat.CreateLookAtView(vec3(pCamera->GetPosition().x, pCamera->GetPosition().y, -20), vec3(0, 1, 0), vec3(pCamera->GetPosition().x, pCamera->GetPosition().y, 0));
-   viewMat.CreateLookAtView(pCamera->GetPosition() + vec3(0,0,-10), vec3(0, 1, 0), vec3(0, 0, 0));
-
+    MyMatrix viewMat = pCamera->GetViewMatrix();
     location = glGetUniformLocation(pShader->GetProgram(), "u_ViewMatrix");
     glUniformMatrix4fv(location, 1, false, &viewMat.m11);
 
-    MyMatrix projMat;
-    projMat.CreatePerspectiveVFoV(45.0f, 1.0f, 0.01f, 100.0f);
+    MyMatrix projMat = pCamera->GetProjectionMatrix();
     location = glGetUniformLocation(pShader->GetProgram(), "u_ProjMatrix");
     glUniformMatrix4fv(location, 1, false, &projMat.m11);
    
 
 
-    SetupUniform(pShader, "u_ProjectionScale", pCamera->GetProjectionScale());
+    //SetupUniform(pShader, "u_ProjectionScale", pCamera->GetProjectionScale());
     // Transform uniforms.
     SetupUniform( pShader, "u_ObjectTranslation", worldMat.GetTranslation() );
     SetupUniform( pShader, "u_ObjectScale", worldMat.GetScale() );

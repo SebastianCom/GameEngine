@@ -11,12 +11,12 @@
     :fw::Scene( pGame )
 {
     m_pPhysicsWorld = new fw::PhysicsWorldBox2D();
-    m_pCamera = new fw::Camera(this, vec2(0,5)/2, vec2(1 / 10.0f, 1 / 10.0f));
-    // fw::GameObject* pGameObject = new fw::GameObject(this, pGame->GetMesh("Plane"), pGame->GetMaterial("Water"), vec2(-5, -4));
+    m_pCamera = new fw::Camera(this, vec3(15, 15, -25), vec3(15,0,15), 15.0f); //REMEBER TO REBUILD IF YOU CHANGE FOV
     fw::GameObject* pWaterObject = new fw::GameObject(this, vec2(-4, -4));
     pWaterObject->AddComponent(new fw::MeshComponent(pGame->GetMesh("Plane"), pGame->GetMaterial("Water")));
     pWaterObject->CreateBody(m_pPhysicsWorld, true, vec2(1, 1), 0);
     m_Objects.push_back(pWaterObject);
+
 }
 
 WaterScene::~WaterScene()
