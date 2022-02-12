@@ -86,7 +86,7 @@ fw::Mesh* CreatePlane(vec2 gridSize, vec3 worldSize, GLenum primitiveType)
     for (int y = 0; y < gridSize.y -1 ; y++)
     {
         yIncrement += gridSize.x;
-        for (int x = 0; x < gridSize.x; x++) 
+        for (int x = 0; x < gridSize.x -1; x++) 
         {
             g_PlaneIndices.push_back(x + yIncrement);
             g_PlaneIndices.push_back((x + gridSize.x) + yIncrement);
