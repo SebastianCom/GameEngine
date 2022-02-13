@@ -58,7 +58,7 @@ void GameObject::CreateBody(PhysicsWorld* pWorld, bool isDynamic, vec2 size, flo
 
 }
 
-const MyMatrix& GameObject::GetWorldTransform()
+const MyMatrix& GameObject::GetWorldTransform() //Not technicallly get world matrix however, if i understand the content this is what was need for the object draw call task.
 {
     m_WorldTransform.CreateSRT(m_Scale, m_Rotation, m_Position);
     return m_WorldTransform;
