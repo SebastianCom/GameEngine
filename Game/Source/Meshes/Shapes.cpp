@@ -42,6 +42,8 @@ const std::vector<fw::VertexFormat> g_CubeVerts =
     { vec3(1.0f,0.0f, 0.5f),  255,255,255,255,  vec2(0.0f,0.0f) }, // bottom left
     { vec3(1.0f,1.0f, 0.5f),  255,255,255,255,  vec2(0.0f,1.0f) }, // top left
 
+
+
      // Left
     { vec3(0.0f,0.0f, 0.5f),  255,255,255,255,  vec2(1.0f,0.0f) }, // bottom right
     { vec3(0.0f,1.0f, 0.5f),  255,255,255,255,  vec2(1.0f,1.0f) }, // top right

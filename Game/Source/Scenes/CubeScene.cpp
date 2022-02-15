@@ -13,13 +13,24 @@
     CubeScene::CubeScene(Game* pGame)
     :fw::Scene( pGame )
 {
+    //m_pPhysicsWorld = new fw::PhysicsWorldBox2D();
+    //m_pPhysicsWorld->SetGravity(vec2(0, -10));
+    //m_pCamera = new fw::Camera(this, vec2(1.5f * 10, 1.5f * 10) / 2, vec3(1,1,1), 45.0f);
+    //fw::GameObject* pCubeObject = new fw::GameObject(this, vec2(-1, -1));
+    //pCubeObject->AddComponent(new fw::MeshComponent(pGame->GetMesh("Cube"), pGame->GetMaterial("BaseColor")));
+    //pCubeObject->CreateBody(m_pPhysicsWorld, true, vec2(1, 1), 0);
+    //m_Objects.push_back(pCubeObject);
+
+
+    //Obj test dot
     m_pPhysicsWorld = new fw::PhysicsWorldBox2D();
     m_pPhysicsWorld->SetGravity(vec2(0, -10));
-    m_pCamera = new fw::Camera(this, vec2(1.5f * 10, 1.5f * 10) / 2, vec3(1,1,1), 45.0f);
-    fw::GameObject* pCubeObject = new fw::GameObject(this, vec2(-1, -1));
-    pCubeObject->AddComponent(new fw::MeshComponent(pGame->GetMesh("Cube"), pGame->GetMaterial("BaseColor")));
+    m_pCamera = new fw::Camera(this, vec3(0,0, - 10) / 2, vec3(0, 0, 0), 45.0f);
+    fw::GameObject* pCubeObject = new fw::GameObject(this, vec3(0, 0, 0));
+    pCubeObject->AddComponent(new fw::MeshComponent(pGame->GetMesh("ObjTest"), pGame->GetMaterial("BaseColor")));
     pCubeObject->CreateBody(m_pPhysicsWorld, true, vec2(1, 1), 0);
     m_Objects.push_back(pCubeObject);
+
 }
 
 CubeScene::~CubeScene()

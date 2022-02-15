@@ -14,27 +14,22 @@ namespace fw {
 Mesh::Mesh(GLenum primitiveType, const std::vector<VertexFormat>& verts)
     : m_PrimitiveType( primitiveType )
 {
-    m_NumVerts = (int)verts.size();
 
-    // Generate a buffer for our vertex attributes.
-    glGenBuffers( 1, &m_VBO );
+    Create(primitiveType, verts, std::vector<unsigned int>());
 
-    // Set this VBO to be the currently active one.
-    glBindBuffer( GL_ARRAY_BUFFER, m_VBO );
-
-    // Copy our attribute data into the VBO.
-    glBufferData( GL_ARRAY_BUFFER, sizeof(VertexFormat)*m_NumVerts, &verts[0], GL_STATIC_DRAW );
 }
 
 Mesh::Mesh(GLenum primitiveType, const std::vector<VertexFormat>& verts, const std::vector<unsigned int>& indices)
-    :Mesh(primitiveType, verts)
 {
-    m_NumIndices = (int)indices.size();
 
-    // Generate a buffer for our indices.
-    glGenBuffers(1, &m_IBO);
-    glBindBuffer(GL_ARRAY_BUFFER, m_IBO);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(unsigned int) * m_NumIndices, &indices[0], GL_STATIC_DRAW);
+    Create(primitiveType, verts, indices);
+
+}
+
+Mesh::Mesh(const char* objfilename)
+{
+    LoadObj(objfilename);
+
 }
 
 Mesh::~Mesh()
@@ -138,6 +133,95 @@ void Mesh::Draw(Camera* pCamera, Material* pMaterial, MyMatrix worldMat, vec2 uv
     {
         glDrawArrays(m_PrimitiveType, 0, m_NumVerts);
     }
+}
+
+void Mesh::LoadObj(const char* objfilename)
+{
+    long length = 0;
+    char* buffer = LoadCompleteFile(objfilename, &length);
+    if (buffer == 0 || length == 0)
+    {
+        delete[] buffer;
+        return;
+    }
+    char* next_token = 0;
+    char* line = strtok_s(buffer, "\n", &next_token);
+
+    while (line)
+    {
+        if (line[0] == 'v' && line[1] == ' ')
+        {
+            vec3 Temp;
+            sscanf(line, "v %f %f %f",&Temp.x, &Temp.y, &Temp.z);
+            m_Vertices.push_back(Temp);
+        }
+        else if (line[0] == 'v' && line[1] == 't')
+        {
+            vec2 Temp;
+            sscanf(line, "vt %f %f", &Temp.x, &Temp.y);
+            m_UVCoords.push_back(Temp);
+        }
+        else if (line[0] == 'v' && line[1] == 'n')
+        {
+            vec3 Temp;
+            sscanf(line, "vn %f %f %f", &Temp.x, &Temp.y, &Temp.z);
+            m_Normals.push_back(Temp);
+        }
+        else if (line[0] == 'f')
+        {
+            vec3 Temp;
+            vec3 Temp2;
+            vec3 Temp3;
+            sscanf(line, "f %f/%f/%f %f/%f/%f %f/%f/%f", &Temp.x, &Temp.y, &Temp.z, &Temp2.x, &Temp2.y, &Temp2.z, &Temp3.x, &Temp3.y, &Temp3.z);
+            m_VertexFormat.push_back(Temp);
+            m_VertexFormat.push_back(Temp2);
+            m_VertexFormat.push_back(Temp3);
+        }
+
+        OutputMessage("%s\n", line);
+        line = strtok_s(0, "\n", &next_token);
+ 
+    }
+
+    int bp = 1;
+    std::vector<VertexFormat> verts;
+    for (int i = 0; i < m_VertexFormat.size(); i ++)
+    {
+        VertexFormat CurentVertexSet = {m_Vertices[(m_VertexFormat[i].x) -1], 255, 255, 255, 255, m_UVCoords[(m_VertexFormat[i].y) -1]};
+        verts.push_back(CurentVertexSet);
+    }
+    bp = 2;
+    //std::vector<VertexFormat> verts{
+    //{ 
+    //    vec3(0.0f,0.0f,0.0f),  255,255,255,255,  vec2(0.0f,0.0f) }
+
+    //};
+
+
+    Create(GL_TRIANGLES, verts, std::vector<unsigned int>());
+
+}
+
+void Mesh::Create(GLenum primitiveType, const std::vector<VertexFormat>& verts, const std::vector<unsigned int>& indices)
+{
+    assert(m_VBO == 0);
+    m_PrimitiveType = primitiveType;
+    m_NumVerts = (int)verts.size();
+
+    glGenBuffers(1, &m_VBO);
+    glBindBuffer(GL_ARRAY_BUFFER, m_VBO);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(VertexFormat) * m_NumVerts, &verts[0], GL_STATIC_DRAW);
+
+
+    m_NumIndices = (int)indices.size();
+
+    if (m_NumIndices > 0)
+    {
+        glGenBuffers(1, &m_IBO);
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_IBO);
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned int) * m_NumIndices, &indices[0], GL_STATIC_DRAW);
+    }
+
 }
 
 } // namespace fw

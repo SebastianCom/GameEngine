@@ -68,6 +68,7 @@ void Game::Init()
     //m_Meshes["Sprite"] = new fw::Mesh( GL_TRIANGLE_STRIP, g_SpriteVerts );
     m_Meshes["Sprite"] = new fw::Mesh( GL_TRIANGLES, g_SpriteVerts, g_SpriteIndices);
     m_Meshes["Cube"] = new fw::Mesh(GL_TRIANGLES, g_CubeVerts, g_CubeIndices);
+    m_Meshes["ObjTest"] = new fw::Mesh("Data/Meshes/cube.obj");
     // TODO
     m_GridSize = vec2(10, 10);
     m_WorldSize = vec3(5, 1, 5);
@@ -90,11 +91,13 @@ void Game::Init()
     m_Scenes["Physics"] = new PhysicsScene(this);
     m_Scenes["Cube"] = new CubeScene(this);
     m_Scenes["Water"] = new WaterScene(this);
+    m_Scenes["ObjTest"] = new CubeScene(this);
 
     WFrameToggle = true;
     //ZoomToggle = false;
     CurrentprimType = GL_TRIANGLES;
-    m_pCurrentScene = m_Scenes["Water"];
+   // m_pCurrentScene = m_Scenes["Water"];
+    m_pCurrentScene = m_Scenes["ObjTest"];
 
 }
 

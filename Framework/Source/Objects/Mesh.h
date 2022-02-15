@@ -22,6 +22,7 @@ class Mesh
 public:
     Mesh(GLenum primitiveType, const std::vector<VertexFormat>& verts);
     Mesh(GLenum primitiveType, const std::vector<VertexFormat>& verts, const std::vector<unsigned int>& indices);
+    Mesh(const char* objfilename);
     virtual ~Mesh();
 
     void SetupUniform(ShaderProgram* pShader, char* name, float value);
@@ -31,6 +32,9 @@ public:
     void SetupAttribute(ShaderProgram* pShader, char* name, int size, GLenum type, GLboolean normalize, int stride, int64_t startIndex);
     void Draw(Camera* pCamera, Material* pMaterial, MyMatrix worldMat, vec2 uvScale, vec2 uvOffset, float time);
 
+    void LoadObj(const char* objfilename);
+    void Create(GLenum primitiveType, const std::vector<VertexFormat>& verts, const std::vector<unsigned int>& indices);
+
 protected:
     GLuint m_VBO = 0;
     GLuint m_IBO = 0;
@@ -38,6 +42,10 @@ protected:
     int m_NumVerts = 0;
     int m_NumIndices = 0;
 
+    std::vector<vec3> m_Vertices;
+    std::vector<vec2> m_UVCoords;
+    std::vector<vec3> m_Normals;
+    std::vector<vec3> m_VertexFormat;
 };
 
 } // namespace fw
