@@ -23,7 +23,7 @@
 
 
     //Obj test dot
-    m_pPhysicsWorld = new fw::PhysicsWorldBox2D();
+    m_pPhysicsWorld = new fw::PhysicsWorldBox2D(pGame->GetFrameWork()->GetEventManager());
     m_pPhysicsWorld->SetGravity(vec2(0, -10));
     m_pCamera = new fw::Camera(this, vec3(0,0, - 10) / 2, vec3(0, 0, 0), 45.0f);
     fw::GameObject* pCubeObject = new fw::GameObject(this, vec3(0, 0, 0));

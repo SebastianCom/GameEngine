@@ -2,11 +2,12 @@
 #include "PhysicsBodyBox2D.h"
 #include "PhysicsWorldBox2D.h"
 #include "PhysicsWorld.h"
+#include "Objects/GameObject.h"
 
 
 namespace fw {
 
-	PhysicsBodyBox2D::PhysicsBodyBox2D(PhysicsWorld* pWorld, bool isDynamic, vec2 size, float density)
+	PhysicsBodyBox2D::PhysicsBodyBox2D(PhysicsWorld* pWorld, bool isDynamic, vec2 size, float density, GameObject* gameOb)
 	{
 
         b2World* pWorld2D = static_cast<PhysicsWorldBox2D*>(pWorld)->Getb2World();
@@ -18,7 +19,7 @@ namespace fw {
         bodyDef.angle = -m_Rotation.z / 180.0f * PI;
         if (isDynamic)
             bodyDef.type = b2_dynamicBody;
-        bodyDef.userData.pointer = reinterpret_cast<uintptr_t>(this);
+        bodyDef.userData.pointer = reinterpret_cast<uintptr_t>(gameOb);
 
         b2PolygonShape shape;
         shape.SetAsBox(size.x / 2, size.y / 2);

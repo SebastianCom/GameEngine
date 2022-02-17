@@ -97,7 +97,7 @@ void Game::Init()
     //ZoomToggle = false;
     CurrentprimType = GL_TRIANGLES;
    // m_pCurrentScene = m_Scenes["Water"];
-    m_pCurrentScene = m_Scenes["ObjTest"];
+    m_pCurrentScene = m_Scenes["Physics"];
 
 }
 

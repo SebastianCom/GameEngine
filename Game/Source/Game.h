@@ -22,6 +22,7 @@ public:
     void ChangeWindowSize();
     virtual void Draw() override;
 
+    fw::FWCore* GetFrameWork() { return &m_FWCore; }
 
     // Getters.
     fw::Mesh* GetMesh(std::string name) { return m_Meshes[name]; }

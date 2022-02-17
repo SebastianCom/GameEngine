@@ -66,7 +66,11 @@ void Player::Update(float deltaTime)
     if( m_pSpriteSheet )
     {
         fw::SpriteSheet::SpriteInfo info = m_pSpriteSheet->GetSpriteByName( "player_06" );
-        GetComponent()->SetUVScale(info.uvScale);
-        GetComponent()->SetUVOffset(info.uvOffset);
+        //GetComponent()->SetUVScale(info.uvScale);
+        //GetComponent()->SetUVOffset(info.uvOffset);
+
+        fw::MeshComponent* pMesh = GetComponent<fw::MeshComponent>();
+        pMesh->SetUVScale(info.uvScale);
+        pMesh->SetUVOffset(info.uvOffset);
     }
 }

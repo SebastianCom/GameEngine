@@ -4,6 +4,7 @@
 #include "Math/Vector.h"
 #include "Physics/PhysicsBody.h"
 #include "Math/MyMatrix.h"
+#include "Components/Component.h"
 
 
 namespace fw {
@@ -35,16 +36,30 @@ public:
     vec3 GetScale() { return m_Scale; }
 
 
-    void AddComponent(MeshComponent* pMeshComp);
-    MeshComponent* GetComponent() { return m_pMeshComponent; }
-    MeshComponent* GetComponent(static const char* CompName);
+    void AddComponent(Component* pComp);
+    //MeshComponent* GetComponent() { return m_pMeshComponent; }
+    //MeshComponent* GetComponent(static const char* CompName);
     
+    template <class Type>
+    Type* GetComponent()
+    {
+        for (Component* pComponent : m_Components)
+        {
+            if (pComponent->GetType() == Type::GetStaticType())
+            {
+                return static_cast<Type*>(pComponent);
+            }
+        }
+        return nullptr;
+    }
+
     // Setters.
     // void SetTexture(Texture* pTexture) { m_pTexture = pTexture; }
     void SetPosition(vec3 pos) { m_Position = pos; }
     void SetRotation(vec3 rot) { m_Rotation = rot; }
     void SetScale(vec3 scale) { m_Scale = scale; }
    
+
     PhysicsBody* m_pPhysicsBody = nullptr;
 
 protected:
@@ -57,7 +72,7 @@ protected:
     //std::vector<component*> m_Components;
 
     MeshComponent* m_pMeshComponent = nullptr;
-    Component* Component = nullptr;
+    std::vector<Component*> m_Components;
 
     MyMatrix m_WorldTransform;
 

@@ -10,7 +10,7 @@ GameObject::GameObject(Scene* pScene, vec3 pos)
     : m_pScene( pScene)
     , m_Position( pos )
 {
-
+ 
 
     //pScene->GetComponentManager()->AddComponent(m_pMeshComponent);
 
@@ -52,7 +52,7 @@ void GameObject::Update(float deltaTime)
 
 void GameObject::CreateBody(PhysicsWorld* pWorld, bool isDynamic, vec2 size, float density)
 {
-    m_pPhysicsBody = pWorld->CreateBody(isDynamic, size, density);
+    m_pPhysicsBody = pWorld->CreateBody(isDynamic, size, density, this);
     m_pPhysicsBody->SetPosition(m_Position);
     m_pPhysicsBody->SetRotation(m_Rotation);
 
@@ -64,11 +64,11 @@ const MyMatrix& GameObject::GetWorldTransform() //Not technicallly get world mat
     return m_WorldTransform;
 }
 
-void GameObject::AddComponent(MeshComponent* pMeshComp)
+void GameObject::AddComponent(Component* pComp)
 {
-    m_pMeshComponent = pMeshComp;
-    m_pMeshComponent->SetGameObject(this);
-    m_pScene->GetComponentManager()->AddComponent(m_pMeshComponent);
+    pComp->SetGameObject(this);
+    m_pScene->GetComponentManager()->AddComponent(pComp);
+    m_Components.push_back(pComp);
 }
 
 } // namespace fw

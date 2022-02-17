@@ -10,12 +10,13 @@
 namespace fw{
 
 	class PhysicsWorld;
+	class GameObject;
 	
 	class PhysicsBodyBox2D : public PhysicsBody
 	{
 	public:
 		
-		PhysicsBodyBox2D(PhysicsWorld* pWorld, bool isDynamic, vec2 size, float density);
+		PhysicsBodyBox2D(PhysicsWorld* pWorld, bool isDynamic, vec2 size, float density, GameObject* gameOb);
 		virtual ~PhysicsBodyBox2D() override;
 		virtual void SetPosition(vec3 pos) override;
 		virtual  b2Vec2 GetPosition() override;

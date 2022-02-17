@@ -12,7 +12,7 @@
 PhysicsScene::PhysicsScene(Game* pGame)
     :fw::Scene( pGame )
 {
-    m_pPhysicsWorld = new fw::PhysicsWorldBox2D();
+    m_pPhysicsWorld = new fw::PhysicsWorldBox2D(pGame->GetFrameWork()->GetEventManager());
     m_pPhysicsWorld->SetGravity(vec2(0, -10));
 
 

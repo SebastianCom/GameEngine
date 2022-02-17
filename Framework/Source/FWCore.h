@@ -27,6 +27,8 @@ public:
 
     void SetEscapeKeyWillQuit(bool value) { m_EscapeKeyWillQuit = value; }
 
+    EventManager* GetEventManager() { return m_pEventManager;  }
+
     void SwapBuffers();
 
 protected:

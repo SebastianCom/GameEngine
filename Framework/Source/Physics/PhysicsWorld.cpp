@@ -1,4 +1,5 @@
 #include "PhysicsWorld.h"
+#include"Objects/GameObject.h"
 
 namespace fw {
 	

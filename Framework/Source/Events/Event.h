@@ -75,4 +75,30 @@ protected:
 };
 
 
+//===============================================
+// CollsionEvent class
+//===============================================
+class CollisionEvent : public Event
+{
+public:
+    CollisionEvent(GameObject* pObjectA, GameObject* pObjectB)
+    {
+        m_pObjectA = pObjectA;
+        m_pObjectB = pObjectB;
+    }
+    virtual ~CollisionEvent() {}
+    // Event Type Getters.
+    static const char* GetStaticEventType() { return "CollisionEvent"; }
+    virtual const char* GetEventType() override { return GetStaticEventType(); }
+
+    // Getters.
+    GameObject* GetGameObjectA() { return m_pObjectA; }
+    GameObject* GetGameObjectB() { return m_pObjectB; }
+
+protected:
+    GameObject* m_pObjectA = nullptr;
+    GameObject* m_pObjectB = nullptr;
+};
+
+
 } // namespace fw
