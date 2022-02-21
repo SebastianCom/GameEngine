@@ -29,8 +29,11 @@ protected:
     GameCore* m_pGame = nullptr;
     Camera* m_pCamera = nullptr;
     PhysicsWorld* m_pPhysicsWorld;
-    std::vector<fw::GameObject*> m_Objects;
+    std::vector<fw::GameObject*> m_ActiveObjects;
     ComponentManager* m_pComponentManager = nullptr;
+
+    GameObject* CollObjectA = nullptr;
+    GameObject* CollObjectB = nullptr;
 
 };
 

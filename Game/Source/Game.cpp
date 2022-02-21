@@ -8,6 +8,7 @@
 #include "Scenes/PhysicsScene.h"
 #include "Scenes/WaterScene.h"
 #include "Scenes/CubeScene.h"
+#include "Scenes/Assignment1Scene.h"
 
 Game::Game(fw::FWCore& fwCore)
     : m_FWCore( fwCore )
@@ -56,7 +57,7 @@ void Game::Init()
     m_pImGuiManager = new fw::ImGuiManager( &m_FWCore );
 
     // OpenGL settings.
-    glClearColor(0.0f, 0.0f, 0.2f, 1.0f);
+    glClearColor(0.39f, 0.58f, 0.93f, 1.0f);
     glPointSize( 10 );
     glEnable( GL_BLEND );
     glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );
@@ -69,35 +70,57 @@ void Game::Init()
     m_Meshes["Sprite"] = new fw::Mesh( GL_TRIANGLES, g_SpriteVerts, g_SpriteIndices);
     m_Meshes["Cube"] = new fw::Mesh(GL_TRIANGLES, g_CubeVerts, g_CubeIndices);
     m_Meshes["ObjTest"] = new fw::Mesh("Data/Meshes/cube.obj");
-    // TODO
+
+
     m_GridSize = vec2(10, 10);
     m_WorldSize = vec3(5, 1, 5);
     m_Meshes["Plane"] = CreatePlane(m_GridSize, m_WorldSize, GL_TRIANGLES);
     m_OldGridSize = m_GridSize;
     m_OldWorldSize = m_WorldSize;
-    //m_Meshes["Cube"] = new fw::Mesh(GL_TRIANGLES, g_SpriteVerts, g_SpriteIndices);
+
+
     m_Shaders["Basic"] = new fw::ShaderProgram( "Data/Shaders/Basic.vert", "Data/Shaders/Basic.frag" );
     m_Shaders["Water"] = new fw::ShaderProgram( "Data/Shaders/Water.vert", "Data/Shaders/Water.frag" );
     m_Textures["Sprites"] = new fw::Texture( "Data/Textures/Sprites.png" );
     m_Textures["BaseColor"] = new fw::Texture(255, 165, 0, 255, 0, 150, 255,255);
     m_Textures["Water"] = new fw::Texture("Data/Textures/Water.png");
+    //A1
+    m_Textures["Ewe"] = new fw::Texture("Data/Textures/Sheep.png");
+    m_Textures["Ground"] = new fw::Texture("Data/Textures/Ground.png");
+    m_Textures["Meteor"] = new fw::Texture("Data/Textures/Meteor.png");
+    m_Textures["Bone"] = new fw::Texture("Data/Textures/Bone.png");
+    m_Textures["Meat"] = new fw::Texture("Data/Textures/ItemFood.png");
+    m_Textures["BackGround"] = new fw::Texture("Data/Textures/BG.png");
+    
+
     m_SpriteSheets["Sprites"] = new fw::SpriteSheet( "Data/Textures/Sprites.json", m_Textures["Sprites"] );
 
     m_Materials["Sokoban"] = new fw::Material(m_Shaders["Basic"], m_Textures["Sprites"], fw::Color4f::Blue);
     m_Materials["BaseColor"] = new fw::Material(m_Shaders["Basic"], m_Textures["BaseColor"], fw::Color4f::Black);
     m_Materials["Water"] = new fw::Material(m_Shaders["Water"], m_Textures["Water"], fw::Color4f::WaterBlue);
+   
+    //A1
+    m_Materials["Ewe"] = new fw::Material(m_Shaders["Basic"], m_Textures["Ewe"], fw::Color4f::Blue);
+    m_Materials["Ground"] = new fw::Material(m_Shaders["Basic"], m_Textures["Ground"], fw::Color4f::Blue);
+    m_Materials["Meteor"] = new fw::Material(m_Shaders["Basic"], m_Textures["Meteor"], fw::Color4f::Blue);
+    m_Materials["Bone"] = new fw::Material(m_Shaders["Basic"], m_Textures["Bone"], fw::Color4f::Blue);
+    m_Materials["Meat"] = new fw::Material(m_Shaders["Basic"], m_Textures["Meat"], fw::Color4f::Blue);
+    m_Materials["BackGround"] = new fw::Material(m_Shaders["Basic"], m_Textures["BackGround"], fw::Color4f::Blue);
     
     
     m_Scenes["Physics"] = new PhysicsScene(this);
     m_Scenes["Cube"] = new CubeScene(this);
     m_Scenes["Water"] = new WaterScene(this);
     m_Scenes["ObjTest"] = new CubeScene(this);
+    
+    //A1
+    m_Scenes["A1"] = new Assignment1Scene(this);
 
     WFrameToggle = true;
     //ZoomToggle = false;
     CurrentprimType = GL_TRIANGLES;
    // m_pCurrentScene = m_Scenes["Water"];
-    m_pCurrentScene = m_Scenes["Physics"];
+    m_pCurrentScene = m_Scenes["A1"];
 
 }
 

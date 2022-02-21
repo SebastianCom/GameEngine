@@ -19,7 +19,7 @@ Scene::Scene(GameCore* pGameCore)
 
 Scene::~Scene()
 {
-    for (fw::GameObject* pObject : m_Objects)
+    for (fw::GameObject* pObject : m_ActiveObjects)
     {
         delete pObject;
     }
@@ -37,7 +37,7 @@ void Scene::Update(float deltaTime)
 {
     m_pPhysicsWorld->Update(deltaTime); //maybbe this is what sets gavity
 
-    for (auto it = m_Objects.begin(); it != m_Objects.end(); it++)
+    for (auto it = m_ActiveObjects.begin(); it != m_ActiveObjects.end(); it++)
     {
         fw::GameObject* pObject = *it;
         pObject->Update(deltaTime);
@@ -52,10 +52,23 @@ void Scene::OnEvent(Event* pEvent)
         RemoveFromGameEvent* pRemoveFromGameEvent = static_cast<RemoveFromGameEvent*>(pEvent);
         fw::GameObject* pObject = pRemoveFromGameEvent->GetGameObject();
 
-        auto it = std::find(m_Objects.begin(), m_Objects.end(), pObject);
-        m_Objects.erase(it);
+        auto it = std::find(m_ActiveObjects.begin(), m_ActiveObjects.end(), pObject);
+        m_ActiveObjects.erase(it);
 
         delete pObject;
+    }
+
+    if (pEvent->GetEventType() == CollisionEvent::GetStaticEventType())
+    {
+        CollisionEvent* pCollisionEvent = static_cast<CollisionEvent*>(pEvent);
+        CollObjectA = pCollisionEvent->GetGameObjectA();
+        CollObjectB = pCollisionEvent->GetGameObjectB();
+
+    }
+    else
+    {
+        CollObjectA = nullptr;
+        CollObjectB = nullptr;
     }
 }
 
@@ -64,7 +77,7 @@ void Scene::Draw()
 
     m_pComponentManager->Draw(m_pCamera);
 
-    //for (auto it = m_Objects.begin(); it != m_Objects.end(); it++)
+    //for (auto it = m_ActiveObjects.begin(); it != m_ActiveObjects.end(); it++)
     //{
     //    fw::GameObject* pObject = *it;
     //    pObject->Draw(m_pCamera);

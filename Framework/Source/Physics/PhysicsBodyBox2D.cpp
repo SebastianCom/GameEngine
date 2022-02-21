@@ -9,7 +9,8 @@ namespace fw {
 
 	PhysicsBodyBox2D::PhysicsBodyBox2D(PhysicsWorld* pWorld, bool isDynamic, vec2 size, float density, GameObject* gameOb)
 	{
-
+     
+        m_Size = size;
         b2World* pWorld2D = static_cast<PhysicsWorldBox2D*>(pWorld)->Getb2World();
         //b2World* pWorld2D = pWorld->Getb2World();
 
@@ -22,7 +23,7 @@ namespace fw {
         bodyDef.userData.pointer = reinterpret_cast<uintptr_t>(gameOb);
 
         b2PolygonShape shape;
-        shape.SetAsBox(size.x / 2, size.y / 2);
+        shape.SetAsBox(size.x /2, size.y /2);
 
         b2FixtureDef fixtureDef;
         fixtureDef.shape = &shape;
@@ -59,6 +60,13 @@ namespace fw {
     {
         return m_Rotation;
     }
+
+    vec2 PhysicsBodyBox2D::GetSize()
+    {
+        return m_Size;
+    }
+
+
 
     b2Body* PhysicsBodyBox2D::GetBody()
     {

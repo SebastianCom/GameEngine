@@ -19,7 +19,7 @@
     //fw::GameObject* pCubeObject = new fw::GameObject(this, vec2(-1, -1));
     //pCubeObject->AddComponent(new fw::MeshComponent(pGame->GetMesh("Cube"), pGame->GetMaterial("BaseColor")));
     //pCubeObject->CreateBody(m_pPhysicsWorld, true, vec2(1, 1), 0);
-    //m_Objects.push_back(pCubeObject);
+    //m_ActiveObjects.push_back(pCubeObject);
 
 
     //Obj test dot
@@ -29,7 +29,7 @@
     fw::GameObject* pCubeObject = new fw::GameObject(this, vec3(0, 0, 0));
     pCubeObject->AddComponent(new fw::MeshComponent(pGame->GetMesh("ObjTest"), pGame->GetMaterial("BaseColor")));
     pCubeObject->CreateBody(m_pPhysicsWorld, true, vec2(1, 1), 0);
-    m_Objects.push_back(pCubeObject);
+    m_ActiveObjects.push_back(pCubeObject);
 
 }
 
@@ -51,6 +51,6 @@ void CubeScene::Update(float deltaTime)
 {
     Scene::Update(deltaTime);
     float time = (float)fw::GetSystemTimeSinceGameStart() * 50;
-    m_Objects[0]->SetRotation(vec3(time, time, 0));
-    //ImGui::Text("%0.2f, %0.2f, %0.2f", m_Objects[0]->GetRotation().x, m_Objects[0]->GetRotation().y, m_Objects[0]->GetRotation().z);
+    m_ActiveObjects[0]->SetRotation(vec3(time, time, 0));
+    //ImGui::Text("%0.2f, %0.2f, %0.2f", m_ActiveObjects[0]->GetRotation().x, m_ActiveObjects[0]->GetRotation().y, m_ActiveObjects[0]->GetRotation().z);
 }

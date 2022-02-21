@@ -23,12 +23,12 @@ PhysicsScene::PhysicsScene(Game* pGame)
     pPlayer->SetSpriteSheet(pGame->GetSpriteSheet("Sprites"));
     pPlayer->AddComponent(new fw::MeshComponent(pGame->GetMesh("Sprite"), pGame->GetMaterial("Sokoban")));
     pPlayer->CreateBody(m_pPhysicsWorld, true, vec2(1, 1), 1);
-    m_Objects.push_back(pPlayer);
+    m_ActiveObjects.push_back(pPlayer);
     
     fw::GameObject* pCubeObject = new fw::GameObject(this, vec2(0.6, 0));
     pCubeObject->AddComponent(new fw::MeshComponent(pGame->GetMesh("Cube"), pGame->GetMaterial("BaseColor")));
     pCubeObject->CreateBody(m_pPhysicsWorld, true, vec2(1, 1), 0);
-    m_Objects.push_back(pCubeObject);
+    m_ActiveObjects.push_back(pCubeObject);
 }
 
 PhysicsScene::~PhysicsScene()
@@ -49,14 +49,14 @@ void PhysicsScene::OnEvent(fw::Event* pEvent)
 
 void PhysicsScene::Reset()
 {
-    //m_Objects[0]->SetPosition(vec2(0, 5));
+    //m_ActiveObjects[0]->SetPosition(vec2(0, 5));
 
 }
 
 void PhysicsScene::Update(float deltaTime)
 {
     Scene::Update(deltaTime);
-    b2Vec2 Position = vec2(m_Objects[0]->GetPosition().x, m_Objects[0]->GetPosition().y);
+    b2Vec2 Position = vec2(m_ActiveObjects[0]->GetPosition().x, m_ActiveObjects[0]->GetPosition().y);
     ImGui::Text("%0.2f, %0.2f, %0.2f", Position.x, Position.y, 0);
 
 }

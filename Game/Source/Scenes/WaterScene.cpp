@@ -15,7 +15,7 @@
     fw::GameObject* pWaterObject = new fw::GameObject(this, vec2(-4, -4));
     pWaterObject->AddComponent(new fw::MeshComponent(pGame->GetMesh("Plane"), pGame->GetMaterial("Water")));
     pWaterObject->CreateBody(m_pPhysicsWorld, true, vec2(1, 1), 0);
-    m_Objects.push_back(pWaterObject);
+    m_ActiveObjects.push_back(pWaterObject);
 
 }
 
@@ -27,7 +27,7 @@
      fw::GameObject* pWaterObject = new fw::GameObject(this, vec2(-4, -4));
      pWaterObject->AddComponent(new fw::MeshComponent(pGame->GetMesh("Plane"), pGame->GetMaterial("Water")));
      pWaterObject->CreateBody(m_pPhysicsWorld, true, vec2(1, 1), 0);
-     m_Objects.push_back(pWaterObject);
+     m_ActiveObjects.push_back(pWaterObject);
 
  }
 

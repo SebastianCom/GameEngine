@@ -19,43 +19,24 @@ void Player::Update(float deltaTime)
 
     float speed = 5.0f;
 
-   // vec3 newPos = m_Position;
+    ////Example of is held
+    //if (m_pPlayerController->IsHeld(PlayerController::Action::Right))
+    //{
+    //    m_pPhysicsBody->GetBody()->ApplyForceToCenter(b2Vec2(10, 0), true); //Wrapper is def built wrong apparently you pass in vec3s and the wrapper converts it to b2 stuff
+    //}
 
-    // Try moving up/down.
+    if(bOnGround)
     {
-        if( m_pPlayerController->IsHeld( PlayerController::Action::Up ) )
-        {
-           // newPos.y += speed * deltaTime;
-        }
-        if( m_pPlayerController->IsHeld( PlayerController::Action::Down ) )
-        {
-           // newPos.y -= speed * deltaTime;
-        }
-
-        
-         // m_Position = newPos;
-
-    }
-
-    // Try moving left/right.
-    {
-       // newPos = m_Position;
         if( m_pPlayerController->IsHeld( PlayerController::Action::Left ) )
         {
-           // newPos.x -= speed * deltaTime;
-           // m_Rotation.z -= 90.0f * deltaTime;
-
-            m_pPhysicsBody->GetBody()->ApplyForceToCenter(b2Vec2(-10, 0), true);
+            m_pPhysicsBody->GetBody()->ApplyForceToCenter(b2Vec2(-100, 500), true);
+            bOnGround = false;
         }
         if( m_pPlayerController->IsHeld( PlayerController::Action::Right ) )
         {
-           // newPos.x += speed * deltaTime;
-            //m_Rotation.z += 90.0f * deltaTime;
-            m_pPhysicsBody->GetBody()->ApplyForceToCenter(b2Vec2(10, 0), true); //Wrapper is def built wrong apparently you pass in vec3s and the wrapper converts it to b2 stuff
+            m_pPhysicsBody->GetBody()->ApplyForceToCenter(b2Vec2(100, 500), true);//Wrapper is def built wrong apparently you pass in vec3s and the wrapper converts it to b2 stuff
+            bOnGround = false;
         }
-
-
-        //m_Position = newPos;
     }
 
     if( m_pPlayerController->WasPressed( PlayerController::Action::Teleport ) )
@@ -66,9 +47,6 @@ void Player::Update(float deltaTime)
     if( m_pSpriteSheet )
     {
         fw::SpriteSheet::SpriteInfo info = m_pSpriteSheet->GetSpriteByName( "player_06" );
-        //GetComponent()->SetUVScale(info.uvScale);
-        //GetComponent()->SetUVOffset(info.uvOffset);
-
         fw::MeshComponent* pMesh = GetComponent<fw::MeshComponent>();
         pMesh->SetUVScale(info.uvScale);
         pMesh->SetUVOffset(info.uvOffset);

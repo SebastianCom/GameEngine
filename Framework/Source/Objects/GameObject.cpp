@@ -32,29 +32,25 @@ void GameObject::Update(float deltaTime)
     {
 
         b2Vec2 physicsPosition = m_pPhysicsBody->GetPosition();
-        
+
         vec3 rotation = m_pPhysicsBody->GetRotation();
         m_Rotation = rotation;
 
         float zAngle = -m_pPhysicsBody->GetBody()->GetAngle() / PI * 90.0f; //Put this in wrapper and fix wrapper
         m_Rotation.Set(0, 0, zAngle);
 
-        m_Position.Set(physicsPosition.x, physicsPosition.y, 0);
+        //Modified to set the sprite to fit the Body
+        m_Position.Set(physicsPosition.x - (m_pPhysicsBody->GetSize().x / 2), physicsPosition.y - (m_pPhysicsBody->GetSize().y / 2), 0);
     }
 }
 
-//void GameObject::Draw(Camera* pCamera)
-//{
-//    GetWorldTransform();
-//
-//    m_pMeshComponent->Draw(pCamera, m_WorldTransform);
-//}
 
 void GameObject::CreateBody(PhysicsWorld* pWorld, bool isDynamic, vec2 size, float density)
 {
     m_pPhysicsBody = pWorld->CreateBody(isDynamic, size, density, this);
     m_pPhysicsBody->SetPosition(m_Position);
     m_pPhysicsBody->SetRotation(m_Rotation);
+    m_Scale = size;
 
 }
 

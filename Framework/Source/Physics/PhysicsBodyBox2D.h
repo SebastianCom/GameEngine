@@ -22,11 +22,13 @@ namespace fw{
 		virtual  b2Vec2 GetPosition() override;
 		virtual void SetRotation(vec3 rot) override;
 		virtual vec3 GetRotation() override;
+		virtual vec2 GetSize() override;
 		b2Body* m_pBody = nullptr;
 
 		virtual b2Body* GetBody() override;
 	protected:
 		
+		vec2 m_Size;
 	};
 
 }
