@@ -29,12 +29,14 @@ void Player::Update(float deltaTime)
     {
         if( m_pPlayerController->IsHeld( PlayerController::Action::Left ) )
         {
-            m_pPhysicsBody->GetBody()->ApplyForceToCenter(b2Vec2(-100, 500), true);
+           // m_pPhysicsBody->GetBody()->ApplyForceToCenter(b2Vec2(-100, 500), true);
+            m_pPhysicsBody->GetBody()->ApplyLinearImpulseToCenter(b2Vec2(-.65f, 3), true);
             bOnGround = false;
         }
         if( m_pPlayerController->IsHeld( PlayerController::Action::Right ) )
         {
-            m_pPhysicsBody->GetBody()->ApplyForceToCenter(b2Vec2(100, 500), true);//Wrapper is def built wrong apparently you pass in vec3s and the wrapper converts it to b2 stuff
+            //m_pPhysicsBody->GetBody()->ApplyForceToCenter(b2Vec2(100, 500), true);//Wrapper is def built wrong apparently you pass in vec3s and the wrapper converts it to b2 stuff
+            m_pPhysicsBody->GetBody()->ApplyLinearImpulseToCenter(b2Vec2(.65f, 3), true);
             bOnGround = false;
         }
     }

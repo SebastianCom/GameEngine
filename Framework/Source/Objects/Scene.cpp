@@ -35,13 +35,15 @@ Scene::~Scene()
 
 void Scene::Update(float deltaTime)
 {
-    m_pPhysicsWorld->Update(deltaTime); //maybbe this is what sets gavity
+    m_pPhysicsWorld->Update(deltaTime); 
 
     for (auto it = m_ActiveObjects.begin(); it != m_ActiveObjects.end(); it++)
     {
         fw::GameObject* pObject = *it;
         pObject->Update(deltaTime);
     }
+
+   // m_pCamera->Update(deltaTime);
 }
 
 void Scene::OnEvent(Event* pEvent)

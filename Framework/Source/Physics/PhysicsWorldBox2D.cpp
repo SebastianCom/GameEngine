@@ -1,6 +1,8 @@
 #include "PhysicsWorldBox2D.h"
 #include "Events/EventManager.h"
 #include "Events/Event.h"
+#include "Physics/Box2DDebugDraw.h"
+//#include "Objects/Camera.h"
 
 namespace fw {
 
@@ -30,6 +32,8 @@ namespace fw {
 		CollisionEvent* pCollision = new CollisionEvent(pObjectA, pObjectB);
 		m_pEventManager->AddEvent(pCollision);
 
+		
+		
 	}
 
 	void ContactListener::EndContact(b2Contact* contact)
@@ -45,17 +49,40 @@ namespace fw {
 
 		m_pContListener = new ContactListener(pEventManager);
 		m_pWorld->SetContactListener(m_pContListener);
+
+		m_pDebugDraw = new MyDebugDraw();
+		m_pDebugDraw->SetFlags(0x0001);
+		m_pWorld->SetDebugDraw(m_pDebugDraw);
+		m_pWorld->DebugDraw();
+
+		//m_pMesh = new Mesh(GL_POINTS, m_pDebugDraw->m_Verts);
+	
 	}
 	PhysicsWorldBox2D::~PhysicsWorldBox2D()
 	{
 		delete m_pWorld;
 		delete m_pBody;
 		delete m_pContListener;
+		delete m_pMesh;
 	}
 
 	void PhysicsWorldBox2D::Update(float deltaTime)
 	{
 		m_pWorld->Step(deltaTime, 8, 3);
+		
+	}
+
+	void PhysicsWorldBox2D::Draw(Camera* pCamera, Material* pMaterial)
+	{
+		m_pWorld->DebugDraw();
+		MyMatrix worldMat;
+		worldMat.SetIdentity();
+		
+		const std::vector<unsigned int> indices = {};
+		m_pMesh = new Mesh(GL_POINTS, m_pDebugDraw->m_Verts);
+		glPointSize(GLfloat(100.0f));
+		m_pMesh->Draw(pCamera, pMaterial, worldMat, vec2(0, 1), vec2(0, 0), 1.0f);
+
 	}
 
 	void PhysicsWorldBox2D::SetGravity(vec2 gravity)
@@ -68,6 +95,7 @@ namespace fw {
 		m_pBody = new PhysicsBodyBox2D(this, isDynamic, size, density, gameOb);
 		return m_pBody;
 	}
+
 
 
 }

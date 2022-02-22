@@ -4,9 +4,14 @@
 #include "Physics/PhysicsWorld.h"
 #include "Math/Vector.h"
 
+
 namespace fw {
 
     class EventManager;
+    class MyDebugDraw;
+    class Camera;
+    class Material;
+    class Mesh;
 
     class ContactListener : public b2ContactListener
     {
@@ -34,9 +39,15 @@ namespace fw {
 
         b2World* Getb2World() { return m_pWorld; };
 
+       void Draw(Camera* pCamera, Material* pMaterial) override;
+
     protected:
         b2World* m_pWorld;
         ContactListener* m_pContListener;
+
+        MyDebugDraw* m_pDebugDraw;
+
+        Mesh* m_pMesh;
     };
 
 

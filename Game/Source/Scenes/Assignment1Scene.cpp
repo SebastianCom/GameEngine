@@ -6,6 +6,7 @@
 #include "GameObjects/Player.h"
 #include "Game.h"
 #include "Components/MeshComponent.h"
+#include "Objects/Material.h"
 
 
 
@@ -39,6 +40,8 @@ Assignment1Scene::Assignment1Scene(Game* pGame)
     BackGround->SetScale(vec2(18, 18));
 
     bCollision = false;
+
+    //m_Material = pGame->GetMaterial("Ground");
 }
 
 Assignment1Scene::~Assignment1Scene()
@@ -89,4 +92,7 @@ void Assignment1Scene::Update(float deltaTime)
     ImGui::Text("%0.2f, %0.2f, %0.2f", Position.x, Position.y, 0);
     ImGui::Text("%0.2f, %0.2f, %0.2f", Position2.x, Position2.y, 0);
     ImGui::Checkbox("Collision", &bCollision);
+    //m_pPhysicsWorld->Draw(m_pCamera, m_Material);
+
+
 }

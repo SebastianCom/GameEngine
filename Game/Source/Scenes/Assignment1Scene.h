@@ -3,6 +3,7 @@
 class PlayerController;
 class Game;
 
+
 class Assignment1Scene: public fw::Scene
 {
 public:
@@ -25,6 +26,8 @@ protected:
     std::vector<fw::GameObject*> m_MeatBoneChunks;
 
     bool bCollision;
+
+    //fw::Material* m_Material;
 
 
 };
