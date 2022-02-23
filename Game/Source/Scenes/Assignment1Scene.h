@@ -17,17 +17,24 @@ public:
 
     virtual void Reset() override;
 
+    void SpawnRandomMeteor();
+
 
 protected:
 
     PlayerController* m_pPlayerController = nullptr;
-    std::vector<fw::GameObject*> m_InactiveObjects;
-    std::vector<fw::GameObject*> m_Meteors;
-    std::vector<fw::GameObject*> m_MeatBoneChunks;
+    std::vector<fw::GameObject*> m_pMeteors;
+    std::vector<fw::GameObject*> m_pMeatBoneChunks;
+
+    fw::Material* m_pMat = nullptr;
+    fw::Mesh* m_pMesh = nullptr;
 
     bool bCollision;
+    int NumMeteor = 20;
 
     //fw::Material* m_Material;
+
+    float SpawnTimer = 2.0f;
 
 
 };

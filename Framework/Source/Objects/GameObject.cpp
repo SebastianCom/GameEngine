@@ -67,4 +67,12 @@ void GameObject::AddComponent(Component* pComp)
     m_Components.push_back(pComp);
 }
 
+void GameObject::RemoveComponent(Component* pComp)
+{
+
+    pComp->SetGameObject(this);
+    m_pScene->GetComponentManager()->RemoveComponent(pComp);
+    m_Components.push_back(pComp);
+}
+
 } // namespace fw

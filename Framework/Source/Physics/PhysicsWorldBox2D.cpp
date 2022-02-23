@@ -74,12 +74,11 @@ namespace fw {
 
 	void PhysicsWorldBox2D::Draw(Camera* pCamera, Material* pMaterial)
 	{
-		m_pWorld->DebugDraw();
+	//	m_pWorld->DebugDraw();
 		MyMatrix worldMat;
 		worldMat.SetIdentity();
-		
-		const std::vector<unsigned int> indices = {};
-		m_pMesh = new Mesh(GL_POINTS, m_pDebugDraw->m_Verts);
+	
+		m_pMesh->Create(4, m_pDebugDraw->m_Verts, std::vector<unsigned int>());
 		glPointSize(GLfloat(100.0f));
 		m_pMesh->Draw(pCamera, pMaterial, worldMat, vec2(0, 1), vec2(0, 0), 1.0f);
 
