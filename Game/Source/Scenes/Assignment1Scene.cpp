@@ -21,7 +21,10 @@ Assignment1Scene::Assignment1Scene(Game* pGame)
     m_pCamera = new fw::Camera(this, vec3(0, 0, -20), vec3(0,0,0), 45.0f); 
     m_pPlayerController = new PlayerController();
 
-
+    fw::GameObject* BackGround = new fw::GameObject("Background", this, vec3(-9, -9, 1));
+    BackGround->AddComponent(new fw::MeshComponent(pGame->GetMesh("Sprite"), pGame->GetMaterial("BackGround")));
+    BackGround->SetScale(vec2(18, 18));
+    m_ActiveObjects.push_back(BackGround);
 
     Player* pPlayer = new Player(this,vec2(0, 0), m_pPlayerController);
     
@@ -32,14 +35,14 @@ Assignment1Scene::Assignment1Scene(Game* pGame)
     m_ActiveObjects.push_back(pPlayer);
     
     //Change to ground
-    fw::GameObject* pGround = new fw::GameObject(this, vec2(0, -6));
+    fw::GameObject* pGround = new fw::GameObject("Ground", this, vec2(0, -6));
     pGround->AddComponent(new fw::MeshComponent(pGame->GetMesh("Sprite"), pGame->GetMaterial("Ground")));
     pGround->CreateBody(m_pPhysicsWorld, true, vec2(8, 1), 0);
     m_ActiveObjects.push_back(pGround);
 
 
     //BoundsBox
-    fw::GameObject* pBoundsBox = new fw::GameObject(this, vec2(0, -7));
+    fw::GameObject* pBoundsBox = new fw::GameObject("BoundsBox", this, vec2(0, -7));
     pBoundsBox->CreateBody(m_pPhysicsWorld, false, vec2(20, 1), 0);
     pBoundsBox->m_pPhysicsBody->GetBody()->SetType(b2BodyType::b2_staticBody);
     m_ActiveObjects.push_back(pBoundsBox);
@@ -54,10 +57,7 @@ Assignment1Scene::Assignment1Scene(Game* pGame)
     }
     
 
-    ////FIGURE OUT HOW TO RENDER IN BACK
-    //fw::GameObject* BackGround = new fw::GameObject(this, vec2(-9, -9));
-    //BackGround->AddComponent(new fw::MeshComponent(pGame->GetMesh("Sprite"), pGame->GetMaterial("BackGround")));
-    //BackGround->SetScale(vec2(18, 18));
+
 
     bCollision = false;
 
@@ -186,7 +186,7 @@ void Assignment1Scene::SpawnRandomMeteor()
     m_ActiveObjects.back()->m_pPhysicsBody->SetPosition(m_ActiveObjects.back()->GetPosition());
     m_ActiveObjects.back()->AddComponent(new fw::MeshComponent(m_pMesh, m_pMat));
     m_ActiveObjects.back()->m_pPhysicsBody->GetBody()->SetEnabled(true);
-    m_ActiveObjects.back()->m_pPhysicsBody->GetBody()->ApplyForceToCenter(b2Vec2(fw::Random::GetInt(-800, 800),-3000), true); //target poistion - transform postion * multiplication faction
+    m_ActiveObjects.back()->m_pPhysicsBody->GetBody()->ApplyForceToCenter(b2Vec2(fw::Random::GetInt(-500, 500),-3000), true); //target poistion - transform postion * multiplication faction
 
 
 }

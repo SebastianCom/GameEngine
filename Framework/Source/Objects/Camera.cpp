@@ -7,7 +7,7 @@
 namespace fw {
 
 Camera::Camera(Scene* pScene, vec3 pos, vec3 lookAt, float FOVDeg)
-    : GameObject(pScene, pos )
+    : GameObject("Camera", pScene, pos)
 {
     m_Position = pos;
     m_ViewMat.CreateLookAtView(m_Position, vec3(0, 1, 0), lookAt);

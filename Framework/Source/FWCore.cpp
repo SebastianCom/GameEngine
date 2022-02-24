@@ -459,6 +459,8 @@ LRESULT CALLBACK FWCore::WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 
     case WM_LBUTTONDOWN:
         {
+        SetCapture(pFWCore->m_hWnd);
+            
             pFWCore->m_MouseButtonStates[0] = true;
 
             int x = GET_X_LPARAM( lParam );
@@ -468,6 +470,8 @@ LRESULT CALLBACK FWCore::WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 
     case WM_LBUTTONUP:
         {
+
+            ReleaseCapture();
             pFWCore->m_MouseButtonStates[0] = false;
 
             int x = GET_X_LPARAM( lParam );

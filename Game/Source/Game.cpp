@@ -57,13 +57,15 @@ void Game::Init()
     m_pImGuiManager = new fw::ImGuiManager( &m_FWCore );
 
     // OpenGL settings.
-    glClearColor(0.39f, 0.58f, 0.93f, 1.0f);
+    //glClearColor(0.39f, 0.58f, 0.93f, 1.0f);
+    glClearColor(0.10f, 0.10f, 0.02f, 1.0f);
     glPointSize( 10 );
     glEnable( GL_BLEND );
     glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_CULL_FACE);
     glFrontFace(GL_CW);
+    glViewport(300, 50, 600, 600);
 
     //Scene needs to access these VV
     //m_Meshes["Sprite"] = new fw::Mesh( GL_TRIANGLE_STRIP, g_SpriteVerts );

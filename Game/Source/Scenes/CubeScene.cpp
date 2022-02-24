@@ -26,7 +26,7 @@
     m_pPhysicsWorld = new fw::PhysicsWorldBox2D(pGame->GetFrameWork()->GetEventManager());
     m_pPhysicsWorld->SetGravity(vec2(0, -10));
     m_pCamera = new fw::Camera(this, vec3(0,0, - 10) / 2, vec3(0, 0, 0), 45.0f);
-    fw::GameObject* pCubeObject = new fw::GameObject(this, vec3(0, 0, 0));
+    fw::GameObject* pCubeObject = new fw::GameObject("Cube", this, vec3(0, 0, 0));
     pCubeObject->AddComponent(new fw::MeshComponent(pGame->GetMesh("ObjTest"), pGame->GetMaterial("BaseColor")));
     pCubeObject->CreateBody(m_pPhysicsWorld, true, vec2(1, 1), 0);
     m_ActiveObjects.push_back(pCubeObject);

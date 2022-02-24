@@ -6,9 +6,10 @@
 
 namespace fw {
 
-GameObject::GameObject(Scene* pScene, vec3 pos)
+GameObject::GameObject(std::string name, Scene* pScene, vec3 pos)
     : m_pScene( pScene)
     , m_Position( pos )
+    , m_Name(name)
 {
  
 
@@ -102,6 +103,22 @@ void GameObject::RemoveComponent(Component* pComp)
     pComp->SetGameObject(this);
     m_pScene->GetComponentManager()->RemoveComponent(pComp);
     m_Components.push_back(pComp);
+}
+
+void GameObject::Editor_FillInspectorWindow()
+{
+
+    ImGui::Text("Selected Object: %s", GetName().c_str());
+    //ImGui::DragFloat3("Position", &m_Position.x, 1.0f);
+    //ImGui::DragFloat3("Rotation", &m_Rotation.x, 1.0f);
+
+    if (m_pPhysicsBody)
+    {
+        m_pPhysicsBody->Editor_FillInspectorWindow();
+
+
+    }
+    ImGui::DragFloat3("Scale", &m_Scale.x, 0.1f);
 }
 
 } // namespace fw

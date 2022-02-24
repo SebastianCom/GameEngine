@@ -4,7 +4,7 @@
 #include "PlayerController.h"
 
 Player::Player(fw::Scene* pScene, vec3 pos, PlayerController* pController)
-    : GameObject(pScene,  pos )
+    : GameObject("Player", pScene, pos)
     , m_pPlayerController( pController )
 {
 }

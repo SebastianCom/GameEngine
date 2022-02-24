@@ -23,6 +23,10 @@ public:
 
     ComponentManager* GetComponentManager() { return m_pComponentManager; }
 
+    void Editor_CreateObjectList();
+    GameObject* m_pEditor_SelectedObject = nullptr;
+
+
 
 protected:
 

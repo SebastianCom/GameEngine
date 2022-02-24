@@ -25,7 +25,7 @@ PhysicsScene::PhysicsScene(Game* pGame)
     pPlayer->CreateBody(m_pPhysicsWorld, true, vec2(1, 1), 1);
     m_ActiveObjects.push_back(pPlayer);
     
-    fw::GameObject* pCubeObject = new fw::GameObject(this, vec2(0.6, 0));
+    fw::GameObject* pCubeObject = new fw::GameObject("Cube",this, vec2(0.6, 0));
     pCubeObject->AddComponent(new fw::MeshComponent(pGame->GetMesh("Cube"), pGame->GetMaterial("BaseColor")));
     pCubeObject->CreateBody(m_pPhysicsWorld, true, vec2(1, 1), 0);
     m_ActiveObjects.push_back(pCubeObject);

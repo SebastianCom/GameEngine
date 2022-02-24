@@ -4,7 +4,7 @@
 #include "PlayerController.h"
 
 Meteor::Meteor(fw::Scene* pScene, vec3 pos)
-    : GameObject(pScene,  pos )
+    : GameObject("Meteor", pScene, pos)
 {
 }
 

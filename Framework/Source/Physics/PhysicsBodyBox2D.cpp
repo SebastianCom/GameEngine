@@ -3,6 +3,7 @@
 #include "PhysicsWorldBox2D.h"
 #include "PhysicsWorld.h"
 #include "Objects/GameObject.h"
+#include "../Libraries/imgui/imgui.h"
 
 
 namespace fw {
@@ -112,6 +113,31 @@ namespace fw {
     }
 
 
+
+    void PhysicsBodyBox2D::Editor_FillInspectorWindow()
+    {
+        
+        bool fixed = m_pBody->IsFixedRotation();
+        if (ImGui::Checkbox("Fixed Rotation", &fixed))
+        {
+            m_pBody->SetFixedRotation(fixed);
+        }
+       
+        //My Mess 
+        b2Vec2 Loc = m_pBody->GetPosition();
+        ImGui::DragFloat("Position X", &Loc.x, 1.0f);
+        ImGui::DragFloat("Position Y", &Loc.y, 1.0f);
+        float Rot = m_pBody->GetAngle();
+        ImGui::DragFloat("Angle", &Rot, 0.1f);
+        m_pBody->SetTransform(Loc, Rot);
+
+
+        if (ImGui::Button("Toggle Physics"))
+        {
+            GetBody()->SetEnabled(!GetBody()->IsEnabled());
+
+        }
+    }
 
     b2Body* PhysicsBodyBox2D::GetBody()
     {

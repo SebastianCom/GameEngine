@@ -21,7 +21,7 @@ class Component;
 class GameObject
 {
 public:
-    GameObject(Scene* pScene, vec3 pos);
+    GameObject(std::string name, Scene* pScene, vec3 pos);
     virtual ~GameObject();
 
     virtual void Update(float deltaTime);
@@ -60,9 +60,12 @@ public:
     void SetPosition(vec3 pos) { m_Position = pos; }
     void SetRotation(vec3 rot) { m_Rotation = rot; }
     void SetScale(vec3 scale) { m_Scale = scale; }
-   
+
+    std::string GetName() { return m_Name; }
 
     PhysicsBody* m_pPhysicsBody = nullptr;
+
+    void Editor_FillInspectorWindow();
 
 protected:
 
@@ -77,6 +80,9 @@ protected:
     std::vector<Component*> m_Components;
 
     MyMatrix m_WorldTransform;
+
+    std::string m_Name;
+
 
 
     vec3 m_Position = vec3( 0, 0, 0 );

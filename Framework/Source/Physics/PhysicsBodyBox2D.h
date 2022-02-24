@@ -26,6 +26,8 @@ namespace fw{
 		virtual vec2 GetSize() override;
 		b2Body* m_pBody = nullptr;
 
+		virtual void Editor_FillInspectorWindow() override;
+
 		virtual b2Body* GetBody() override;
 	protected:
 		

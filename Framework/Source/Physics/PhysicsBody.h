@@ -16,6 +16,7 @@ namespace fw {
 		virtual vec3 GetRotation() = 0 {};
 		virtual b2Body* GetBody() = 0 {};
 		virtual vec2 GetSize() = 0 {};
+		virtual void Editor_FillInspectorWindow() = 0;
 
 
 	protected:

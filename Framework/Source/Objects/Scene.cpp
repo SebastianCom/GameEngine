@@ -6,6 +6,7 @@
 #include "Events/Event.h"
 #include "Objects/Camera.h"
 #include "Components/ComponentManager.h"
+#include "../Libraries/imgui/imgui.h"
 
 namespace fw {
 
@@ -42,7 +43,7 @@ void Scene::Update(float deltaTime)
         fw::GameObject* pObject = *it;
         pObject->Update(deltaTime);
     }
-
+    Editor_CreateObjectList();
    // m_pCamera->Update(deltaTime);
 }
 
@@ -78,12 +79,54 @@ void Scene::Draw()
 {
 
     m_pComponentManager->Draw(m_pCamera);
-
+   
     //for (auto it = m_ActiveObjects.begin(); it != m_ActiveObjects.end(); it++)
     //{
     //    fw::GameObject* pObject = *it;
     //    pObject->Draw(m_pCamera);
     //}
 }
+
+void Scene::Editor_CreateObjectList()
+{
+    ImGui::Begin("Object List");
+    
+    if( ImGui::TreeNodeEx(this, ImGuiTreeNodeFlags_DefaultOpen, "Objects"))
+    {
+        for (GameObject* pObject : m_ActiveObjects)
+        {
+            char name[30];
+            sprintf_s(name, 30, "%s", pObject->GetName().c_str());
+
+            ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_Leaf | ImGuiTreeNodeFlags_NoTreePushOnOpen;
+            ImGui::TreeNodeEx(pObject, flags, name);
+            if (ImGui::IsItemClicked())
+            {
+                // pObject->m_pPhysicsBody->GetBody()->SetEnabled(!pObject->m_pPhysicsBody->GetBody()->IsEnabled()); logic for a puase button i mmade up in class
+
+                m_pEditor_SelectedObject = pObject;
+            }
+        }
+        ImGui::TreePop();
+    }
+    ImGui::End(); // Object List
+
+    if (m_pEditor_SelectedObject)
+    {
+
+        char name[30];
+        sprintf_s(name, 30, "%s", m_pEditor_SelectedObject->GetName().c_str());
+
+        ImGui::Begin("Inspector");
+        m_pEditor_SelectedObject->Editor_FillInspectorWindow();
+    
+
+
+        ImGui::End(); // Selected Object
+    }
+    
+}
+
+
 
 } // namespace fw
