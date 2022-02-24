@@ -38,11 +38,11 @@ Assignment1Scene::Assignment1Scene(Game* pGame)
     m_ActiveObjects.push_back(pGround);
 
 
-    ////test
-    //fw::GameObject* pGround2 = new fw::GameObject(this, vec2(8, -5));
-    //pGround2->AddComponent(new fw::MeshComponent(pGame->GetMesh("Sprite"), pGame->GetMaterial("Ground")));
-    //pGround2->CreateBody(m_pPhysicsWorld, true, vec2(8, 1), 0);
-    //m_ActiveObjects.push_back(pGround2);
+    //BoundsBox
+    fw::GameObject* pBoundsBox = new fw::GameObject(this, vec2(0, -7));
+    pBoundsBox->CreateBody(m_pPhysicsWorld, false, vec2(20, 1), 0);
+    pBoundsBox->m_pPhysicsBody->GetBody()->SetType(b2BodyType::b2_staticBody);
+    m_ActiveObjects.push_back(pBoundsBox);
 
 
     for (int i = 0; i < NumMeteor; i++) //Sprite is not linked to body? - yeah because the object is not updated unless added to m_activeObjects.
@@ -63,14 +63,6 @@ Assignment1Scene::Assignment1Scene(Game* pGame)
 
     m_pMesh = pGame->GetMesh("Sprite");
     m_pMat = pGame->GetMaterial("Meteor");
-
-    //fw::GameObject* ObjectToSpawn = m_pMeteors.back();
-    //m_pMeteors.pop_back();
-    //m_ActiveObjects.push_back(ObjectToSpawn);
-    //m_ActiveObjects.back()->SetPosition(vec2(2, 2));
-    //m_ActiveObjects.back()->m_pPhysicsBody->SetPosition(m_ActiveObjects.back()->GetPosition());
-    //m_ActiveObjects.back()->AddComponent(new fw::MeshComponent(m_pMesh, m_pMat));
-    //m_ActiveObjects.back()->m_pPhysicsBody->GetBody()->SetEnabled(true);
 
    m_Material = pGame->GetMaterial("Ground");
 }
@@ -98,6 +90,10 @@ void Assignment1Scene::CheckForCollision()
 {
     Player* pPlayer = dynamic_cast<Player*>(CollObjectA);
     fw::GameObject* pGround = dynamic_cast<fw::GameObject*>(CollObjectA);
+ 
+    //Meteor Wil never be CollA, CollA is called first and Player and Enviroment come before the Metors. After player is destoryed meteors will only
+    //collide with enviroment which will always be ahead of the Metoers in the order. 
+
 
     if (pPlayer) //CollA is player
     {
@@ -123,15 +119,30 @@ void Assignment1Scene::CheckForCollision()
                 }
             }
         }
-
-        if (pGround)
+        if (pGround && pGround->m_pPhysicsBody->GetBody()->GetType() != b2BodyType::b2_staticBody)
         {
-           pPlayer->bOnGround = true;
-           bCollision = true;
+            if (pGround)
+            {
+                pPlayer->bOnGround = true;
+                bCollision = true;
+            }
+            else
+            {
+                bCollision = false;
+            }
         }
-        else
+        else if (pGround && pGround->m_pPhysicsBody->GetBody()->GetType() == b2BodyType::b2_staticBody)
         {
-            bCollision = false;
+            for (int i = 0; i < m_ActiveObjects.size(); i++)
+            {
+                Player* PlayerToRemove = dynamic_cast<Player*>(m_ActiveObjects[i]);
+                if (PlayerToRemove)
+                {
+                    //REMOVE PLAYER COMPONET
+                    m_ActiveObjects.erase(std::next(m_ActiveObjects.begin(), i));
+                    break;
+                }
+            }
         }
     }
     else if (pGround) //CollA is Meteor
@@ -145,12 +156,13 @@ void Assignment1Scene::CheckForCollision()
                 Meteor* MeteorToRemove = dynamic_cast<Meteor*>(m_ActiveObjects[i]);
                 if (MeteorToRemove == pMeteor)
                 {
+                    if (pGround->m_pPhysicsBody->GetBody()->GetType() != b2BodyType::b2_staticBody)
+                        ShakeCam = true;
                     m_ActiveObjects.erase(std::next(m_ActiveObjects.begin(), i));
                     m_pMeteors.push_back(MeteorToRemove);
                     m_pMeteors.back()->m_pPhysicsBody->GetBody()->SetEnabled(false);
                     m_pMeteors.back()->SetPosition(vec2(0, 11));
                     m_pMeteors.back()->m_pPhysicsBody->SetPosition(m_pMeteors.back()->GetPosition());
-                    ShakeCam = true;
                     break;
                 }
             }
@@ -174,7 +186,7 @@ void Assignment1Scene::SpawnRandomMeteor()
     m_ActiveObjects.back()->m_pPhysicsBody->SetPosition(m_ActiveObjects.back()->GetPosition());
     m_ActiveObjects.back()->AddComponent(new fw::MeshComponent(m_pMesh, m_pMat));
     m_ActiveObjects.back()->m_pPhysicsBody->GetBody()->SetEnabled(true);
-    m_ActiveObjects.back()->m_pPhysicsBody->GetBody()->ApplyForceToCenter(b2Vec2(fw::Random::GetInt(-1000, 1000),-3000), true); //target poistion - transform postion * multiplication faction
+    m_ActiveObjects.back()->m_pPhysicsBody->GetBody()->ApplyForceToCenter(b2Vec2(fw::Random::GetInt(-800, 800),-3000), true); //target poistion - transform postion * multiplication faction
 
 
 }
