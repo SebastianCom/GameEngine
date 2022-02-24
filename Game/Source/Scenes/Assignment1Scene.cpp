@@ -37,11 +37,19 @@ Assignment1Scene::Assignment1Scene(Game* pGame)
     pGround->CreateBody(m_pPhysicsWorld, true, vec2(8, 1), 0);
     m_ActiveObjects.push_back(pGround);
 
+
+    ////test
+    //fw::GameObject* pGround2 = new fw::GameObject(this, vec2(8, -5));
+    //pGround2->AddComponent(new fw::MeshComponent(pGame->GetMesh("Sprite"), pGame->GetMaterial("Ground")));
+    //pGround2->CreateBody(m_pPhysicsWorld, true, vec2(8, 1), 0);
+    //m_ActiveObjects.push_back(pGround2);
+
+
     for (int i = 0; i < NumMeteor; i++) //Sprite is not linked to body? - yeah because the object is not updated unless added to m_activeObjects.
     {
         m_pMeteors.push_back(new Meteor(this, vec2(0, 0)));
        // m_pMeteors[i]->AddComponent(new fw::MeshComponent(pGame->GetMesh("Sprite"), pGame->GetMaterial("Meteor")));
-        m_pMeteors[i]->CreateBody(m_pPhysicsWorld, true, vec2(1, 1), 1); //MAKE CIRCLE
+        m_pMeteors[i]->CreateBody(m_pPhysicsWorld, true, vec2(.5f, .5f), 1, "Circle"); //MAKE CIRCLE
         m_pMeteors[i]->m_pPhysicsBody->GetBody()->SetEnabled(false);
     }
     
@@ -56,9 +64,15 @@ Assignment1Scene::Assignment1Scene(Game* pGame)
     m_pMesh = pGame->GetMesh("Sprite");
     m_pMat = pGame->GetMaterial("Meteor");
 
+    //fw::GameObject* ObjectToSpawn = m_pMeteors.back();
+    //m_pMeteors.pop_back();
+    //m_ActiveObjects.push_back(ObjectToSpawn);
+    //m_ActiveObjects.back()->SetPosition(vec2(2, 2));
+    //m_ActiveObjects.back()->m_pPhysicsBody->SetPosition(m_ActiveObjects.back()->GetPosition());
+    //m_ActiveObjects.back()->AddComponent(new fw::MeshComponent(m_pMesh, m_pMat));
+    //m_ActiveObjects.back()->m_pPhysicsBody->GetBody()->SetEnabled(true);
 
-
-    //m_Material = pGame->GetMaterial("Ground");
+   m_Material = pGame->GetMaterial("Ground");
 }
 
 Assignment1Scene::~Assignment1Scene()
@@ -76,22 +90,71 @@ void Assignment1Scene::OnEvent(fw::Event* pEvent)
     m_pPlayerController->OnEvent(pEvent);
     fw::Scene::OnEvent(pEvent);
 
-    if (CollObjectA == m_ActiveObjects[0] || CollObjectA == m_ActiveObjects[1])
+    CheckForCollision();
+
+}
+
+void Assignment1Scene::CheckForCollision()
+{
+    Player* pPlayer = dynamic_cast<Player*>(CollObjectA);
+    fw::GameObject* pGround = dynamic_cast<fw::GameObject*>(CollObjectA);
+
+    if (pPlayer) //CollA is player
     {
-        if (CollObjectA == m_ActiveObjects[0] || CollObjectB == m_ActiveObjects[1])
+        Meteor* pMeteor = dynamic_cast<Meteor*>(CollObjectB);
+        fw::GameObject* pGround = dynamic_cast<fw::GameObject*>(CollObjectB);
+
+        if (pMeteor)
         {
-           Player* pPlayer = static_cast<Player*>(m_ActiveObjects[0]);
-           if (pPlayer)
-           {
-               pPlayer->bOnGround = true;
-               bCollision = true;
-           }
+            for (int i = 0; i < m_ActiveObjects.size(); i++)
+            {
+                Meteor* MeteorToRemove = dynamic_cast<Meteor*>(m_ActiveObjects[i]);
+                if (MeteorToRemove == pMeteor)
+                {
+                    //Player go boom
+                    //Spawn meat chunks
+                    m_ActiveObjects.erase(std::next(m_ActiveObjects.begin(), i));
+                    m_pMeteors.push_back(MeteorToRemove);
+                    m_pMeteors.back()->m_pPhysicsBody->GetBody()->SetEnabled(false);
+                    m_pMeteors.back()->SetPosition(vec2(0, 11));
+                    m_pMeteors.back()->m_pPhysicsBody->SetPosition(m_pMeteors.back()->GetPosition());
+                    // m_pMeteors.back()->RemoveComponent();
+                    break; 
+                }
+            }
         }
 
+        if (pGround)
+        {
+           pPlayer->bOnGround = true;
+           bCollision = true;
+        }
+        else
+        {
+            bCollision = false;
+        }
     }
-    else
+    else if (pGround) //CollA is Meteor
     {
-        bCollision = false;
+        Meteor* pMeteor = dynamic_cast<Meteor*>(CollObjectB);
+
+        if (pMeteor)
+        {
+            for (int i = 0; i < m_ActiveObjects.size(); i++)
+            {
+                Meteor* MeteorToRemove = dynamic_cast<Meteor*>(m_ActiveObjects[i]);
+                if (MeteorToRemove == pMeteor)
+                {
+                    m_ActiveObjects.erase(std::next(m_ActiveObjects.begin(), i));
+                    m_pMeteors.push_back(MeteorToRemove);
+                    m_pMeteors.back()->m_pPhysicsBody->GetBody()->SetEnabled(false);
+                    m_pMeteors.back()->SetPosition(vec2(0, 11));
+                    m_pMeteors.back()->m_pPhysicsBody->SetPosition(m_pMeteors.back()->GetPosition());
+                    ShakeCam = true;
+                    break;
+                }
+            }
+        }
     }
 }
 
@@ -107,10 +170,12 @@ void Assignment1Scene::SpawnRandomMeteor()
     m_pMeteors.pop_back();
     m_ActiveObjects.push_back(ObjectToSpawn);
     float RandomX = fw::Random::GetFloat(-5.0f, 5.0f);
-    m_ActiveObjects.back()->SetPosition(vec2(RandomX, 8));
+    m_ActiveObjects.back()->SetPosition(vec2(0, 11));
     m_ActiveObjects.back()->m_pPhysicsBody->SetPosition(m_ActiveObjects.back()->GetPosition());
     m_ActiveObjects.back()->AddComponent(new fw::MeshComponent(m_pMesh, m_pMat));
     m_ActiveObjects.back()->m_pPhysicsBody->GetBody()->SetEnabled(true);
+    m_ActiveObjects.back()->m_pPhysicsBody->GetBody()->ApplyForceToCenter(b2Vec2(fw::Random::GetInt(-1000, 1000),-3000), true); //target poistion - transform postion * multiplication faction
+
 
 }
 
@@ -122,6 +187,17 @@ void Assignment1Scene::Update(float deltaTime)
     ImGui::Text("%0.2f, %0.2f, %0.2f", Position.x, Position.y, 0);
     ImGui::Text("%0.2f, %0.2f, %0.2f", Position2.x, Position2.y, 0);
     ImGui::Checkbox("Collision", &bCollision);
+
+    if (ImGui::Button("ShakeCam"))
+    {
+       ShakeCam = true;
+    }
+
+    if (ShakeCam)
+       ShakeCam =  m_pCamera->CameraShake(deltaTime);
+
+    //m_pCamera->SetPosition(vec3(100,100,-20));
+    m_pPhysicsWorld->Draw(m_pCamera, m_Material);
     
     if (SpawnTimer > 0)
     {
@@ -132,6 +208,8 @@ void Assignment1Scene::Update(float deltaTime)
         SpawnRandomMeteor();
         SpawnTimer = 2.0f;
     }
+
+
 
 
 }

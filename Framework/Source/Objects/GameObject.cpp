@@ -31,16 +31,32 @@ void GameObject::Update(float deltaTime)
     if (m_pPhysicsBody)
     {
 
-        b2Vec2 physicsPosition = m_pPhysicsBody->GetPosition();
 
-        vec3 rotation = m_pPhysicsBody->GetRotation();
-        m_Rotation = rotation;
-
-        float zAngle = -m_pPhysicsBody->GetBody()->GetAngle() / PI * 90.0f; //Put this in wrapper and fix wrapper
-        m_Rotation.Set(0, 0, zAngle);
 
         //Modified to set the sprite to fit the Body
-        m_Position.Set(physicsPosition.x - (m_pPhysicsBody->GetSize().x / 2), physicsPosition.y - (m_pPhysicsBody->GetSize().y / 2), 0);
+        if (m_pShape == "Box" || m_pShape == nullptr)
+        {
+            b2Vec2 physicsPosition = m_pPhysicsBody->GetPosition();
+
+            vec3 rotation = m_pPhysicsBody->GetRotation();
+            m_Rotation = rotation;
+
+            float zAngle = -m_pPhysicsBody->GetBody()->GetAngle() / PI * 90.0f; //Put this in wrapper and fix wrapper
+            m_Rotation.Set(0, 0, zAngle);
+            m_Position.Set(physicsPosition.x - (m_pPhysicsBody->GetSize().x / 2), physicsPosition.y - (m_pPhysicsBody->GetSize().y / 2), 0);
+
+        }
+        else if (m_pShape == "Circle") //TODO: Fix this for rotation of meteors 
+        {
+            b2Vec2 physicsPosition = m_pPhysicsBody->GetPosition();
+
+            vec3 rotation = m_pPhysicsBody->GetRotation();
+            m_Rotation = rotation;
+
+            //float zAngle = -m_pPhysicsBody->GetBody()->GetAngle() / PI * 180.0f; //Put this in wrapper and fix wrapper
+            //m_Rotation.Set(0, 0, zAngle);
+            m_Position.Set(physicsPosition.x - (m_pPhysicsBody->GetSize().x), physicsPosition.y - (m_pPhysicsBody->GetSize().y), 0);
+        } 
     }
 }
 
@@ -51,6 +67,19 @@ void GameObject::CreateBody(PhysicsWorld* pWorld, bool isDynamic, vec2 size, flo
     m_pPhysicsBody->SetPosition(m_Position);
     m_pPhysicsBody->SetRotation(m_Rotation);
     m_Scale = size;
+
+}
+
+void GameObject::CreateBody(PhysicsWorld* pWorld, bool isDynamic, vec2 size, float density, const char* shape)
+{
+    m_pPhysicsBody = pWorld->CreateBody(isDynamic, size, density, this, shape);
+    m_pShape = shape;
+    m_pPhysicsBody->SetPosition(m_Position);
+    m_pPhysicsBody->SetRotation(m_Rotation);
+    if (shape != "Circle")
+        m_Scale = size;
+    else
+        m_Scale = size*2;
 
 }
 

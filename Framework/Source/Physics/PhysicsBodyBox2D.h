@@ -17,6 +17,7 @@ namespace fw{
 	public:
 		
 		PhysicsBodyBox2D(PhysicsWorld* pWorld, bool isDynamic, vec2 size, float density, GameObject* gameOb);
+		PhysicsBodyBox2D(PhysicsWorld* pWorld, bool isDynamic, vec2 size, float density, GameObject* gameOb, const char* shape);
 		virtual ~PhysicsBodyBox2D() override;
 		virtual void SetPosition(vec3 pos) override;
 		virtual  b2Vec2 GetPosition() override;

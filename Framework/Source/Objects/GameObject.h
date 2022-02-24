@@ -28,6 +28,7 @@ public:
     //virtual void Draw(Camera* pCamera);
 
     void CreateBody(PhysicsWorld* pWorld, bool isDynamic, vec2 size, float density);
+    void CreateBody(PhysicsWorld* pWorld, bool isDynamic, vec2 size, float density, const char* shape);
 
     // Getters.
     const MyMatrix& GetWorldTransform();
@@ -81,6 +82,8 @@ protected:
     vec3 m_Position = vec3( 0, 0, 0 );
     vec3 m_Rotation = vec3( 0, 0, 0 );
     vec3 m_Scale = vec3( 0, 0, 0 );
+
+    const char* m_pShape = nullptr;
 };
 
 } // namespace fw

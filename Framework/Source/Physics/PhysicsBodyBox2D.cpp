@@ -34,6 +34,51 @@ namespace fw {
 
 	}
 
+    PhysicsBodyBox2D::PhysicsBodyBox2D(PhysicsWorld* pWorld, bool isDynamic, vec2 size, float density, GameObject* gameOb, const char* shape)
+    {
+
+        m_Size = size;
+        b2World* pWorld2D = static_cast<PhysicsWorldBox2D*>(pWorld)->Getb2World();
+        //b2World* pWorld2D = pWorld->Getb2World();
+
+        b2BodyDef bodyDef;
+
+        bodyDef.position.Set(m_Position.x, m_Position.y);
+        bodyDef.angle = -m_Rotation.z / 180.0f * PI;
+        if (isDynamic)
+            bodyDef.type = b2_dynamicBody;
+        bodyDef.userData.pointer = reinterpret_cast<uintptr_t>(gameOb);
+
+        
+        if (shape == "Circle")
+        {
+            b2CircleShape Shape;
+            Shape.m_radius = size.x;
+            b2FixtureDef fixtureDef;
+            fixtureDef.shape = &Shape;
+            fixtureDef.density = density;
+           
+
+            m_pBody = pWorld2D->CreateBody(&bodyDef);
+            m_pBody->CreateFixture(&fixtureDef);
+
+            
+        }
+        else if (shape == "Box")
+        {
+            b2PolygonShape Shape;
+            Shape.SetAsBox(size.x / 2, size.y / 2);
+            b2FixtureDef fixtureDef;
+            fixtureDef.shape = &Shape;
+            fixtureDef.density = density;
+
+            m_pBody = pWorld2D->CreateBody(&bodyDef);
+            m_pBody->CreateFixture(&fixtureDef);
+        }
+
+
+    }
+
 	PhysicsBodyBox2D::~PhysicsBodyBox2D()
 	{
 

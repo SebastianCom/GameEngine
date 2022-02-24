@@ -21,12 +21,19 @@ public:
     // Setters.
     void SetObjectWeAreFollowing(GameObject* pObj) { m_pObjectWeAreFollowing = pObj; }
 
+    bool CameraShake(float DeltaTime);
+
 protected:
     
     GameObject* m_pObjectWeAreFollowing = nullptr;
 
     MyMatrix m_ViewMat;
     MyMatrix m_ProjMat;
+
+    float ShakeTime;
+    vec3 StartLocation;
+
+    vec3 m_LookAtPoint;
 };
 
 } // namespace fw

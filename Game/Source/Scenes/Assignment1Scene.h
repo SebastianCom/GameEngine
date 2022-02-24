@@ -13,6 +13,7 @@ public:
     virtual void StartFrame(float deltaTime) override;
     virtual void Update(float deltaTime);
     virtual void OnEvent(fw::Event* pEvent) override;
+    void CheckForCollision();
     //virtual void Draw();
 
     virtual void Reset() override;
@@ -32,7 +33,9 @@ protected:
     bool bCollision;
     int NumMeteor = 20;
 
-    //fw::Material* m_Material;
+    fw::Material* m_Material;
+
+    bool ShakeCam = false;
 
     float SpawnTimer = 2.0f;
 

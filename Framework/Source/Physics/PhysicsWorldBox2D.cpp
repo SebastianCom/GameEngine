@@ -51,8 +51,8 @@ namespace fw {
 		m_pWorld->SetContactListener(m_pContListener);
 
 		m_pDebugDraw = new MyDebugDraw();
-		m_pDebugDraw->SetFlags(0x0001);
 		m_pWorld->SetDebugDraw(m_pDebugDraw);
+		m_pDebugDraw->SetFlags(MyDebugDraw::e_shapeBit);
 		m_pWorld->DebugDraw();
 
 		//m_pMesh = new Mesh(GL_POINTS, m_pDebugDraw->m_Verts);
@@ -63,7 +63,7 @@ namespace fw {
 		delete m_pWorld;
 		delete m_pBody;
 		delete m_pContListener;
-		delete m_pMesh;
+		//delete m_pMesh;
 	}
 
 	void PhysicsWorldBox2D::Update(float deltaTime)
@@ -74,13 +74,13 @@ namespace fw {
 
 	void PhysicsWorldBox2D::Draw(Camera* pCamera, Material* pMaterial)
 	{
-	//	m_pWorld->DebugDraw();
+		m_pWorld->DebugDraw();
 		MyMatrix worldMat;
 		worldMat.SetIdentity();
 	
-		m_pMesh->Create(4, m_pDebugDraw->m_Verts, std::vector<unsigned int>());
-		glPointSize(GLfloat(100.0f));
-		m_pMesh->Draw(pCamera, pMaterial, worldMat, vec2(0, 1), vec2(0, 0), 1.0f);
+		//m_pMesh->Create(4, m_pDebugDraw->m_Verts, std::vector<unsigned int>());
+		//glPointSize(GLfloat(100.0f));
+		//m_pMesh->Draw(pCamera, pMaterial, worldMat, vec2(0, 1), vec2(0, 0), 1.0f);
 
 	}
 
@@ -92,6 +92,12 @@ namespace fw {
 	PhysicsBody* PhysicsWorldBox2D::CreateBody(bool isDynamic, vec2 size, float density, GameObject* gameOb)
 	{
 		m_pBody = new PhysicsBodyBox2D(this, isDynamic, size, density, gameOb);
+		return m_pBody;
+	}
+
+	PhysicsBody* PhysicsWorldBox2D::CreateBody(bool isDynamic, vec2 size, float density, GameObject* gameOb, const char* shape)
+	{
+		m_pBody = new PhysicsBodyBox2D(this, isDynamic, size, density, gameOb, shape);
 		return m_pBody;
 	}
 
