@@ -55,7 +55,7 @@ void GameObject::Update(float deltaTime)
             m_Rotation = rotation;
 
             float zAngle = -m_pPhysicsBody->GetBody()->GetAngle() / PI * 180.0f; //Put this in wrapper and fix wrapper
-            m_Rotation.Set(0, 0, zAngle);
+           // m_Rotation.Set(0, 0, zAngle);
             m_Position.Set(physicsPosition.x - (m_pPhysicsBody->GetSize().x), physicsPosition.y - (m_pPhysicsBody->GetSize().y), 0);
             
             //m_Position.Set(physicsPosition.x , physicsPosition.y, 0);

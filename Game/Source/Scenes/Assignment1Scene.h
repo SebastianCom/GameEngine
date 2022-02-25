@@ -32,6 +32,8 @@ protected:
     fw::MeshComponent* m_pMeteorMeshComp = nullptr;
     fw::MeshComponent* m_pEweMeshComp = nullptr;
     fw::MeshComponent* m_pChunksMeshComp = nullptr;
+    fw::MeshComponent* m_pTitleMeshComp = nullptr;
+    fw::MeshComponent* m_pEndMeshComp = nullptr;
 
     fw::Material* m_pMeteorMat = nullptr;
     fw::Mesh* m_pMeteorMesh = nullptr;
@@ -50,6 +52,7 @@ protected:
     bool ShakeCam = false;
     bool PlayerCompRemoved = false;
     bool MeatCompRemoved = false;
+    bool GameStarted = false;
 
     float SpawnTimer = 2.0f;
 

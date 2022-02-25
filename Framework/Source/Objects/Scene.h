@@ -39,6 +39,8 @@ protected:
     GameObject* CollObjectA = nullptr;
     GameObject* CollObjectB = nullptr;
 
+
+
 };
 
 } // namespace fw
