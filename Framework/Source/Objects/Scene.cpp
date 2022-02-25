@@ -7,6 +7,8 @@
 #include "Objects/Camera.h"
 #include "Components/ComponentManager.h"
 #include "../Libraries/imgui/imgui.h"
+#include "GameObjects/Player.h"
+#include "GameObjects/Meteor.h"
 
 namespace fw {
 
@@ -73,6 +75,42 @@ void Scene::OnEvent(Event* pEvent)
         CollObjectA = nullptr;
         CollObjectB = nullptr;
     }
+
+    //if (pEvent->GetEventType() == RemoveObjectEvent::GetStaticEventType())
+    //{
+    //    RemoveObjectEvent* pRemoveObEvent = static_cast<RemoveObjectEvent*>(pEvent);
+    //    std::vector<GameObject*> pObject  = pRemoveObEvent->GetGameObjects();
+    //    GameObject* pObjectToRemove = pRemoveObEvent->GetObjectToRemove();
+    //    MeshComponent* pMeshToRemove = pRemoveObEvent->GetMeshToRemove();
+
+    //    Player* pPlayer = dynamic_cast<Player*>(pObjectToRemove);
+    //    Meteor* pMeteor = dynamic_cast<Meteor*>(pObjectToRemove);
+    //    //Player
+    //    if(pPlayer)
+    //    {
+    //        for (int i = 0; i < pObject.size(); i++)
+    //        {
+    //            Player* pPlayerToRemove = dynamic_cast<Player*>(pObject[i]);
+    //            if (pPlayerToRemove)
+    //            {
+    //                pObject[i]->RemoveComponent(pMeshToRemove);
+    //                pObject[i]->m_pPhysicsBody->GetBody()->SetEnabled(false);
+    //                pObject.erase(std::next(pObject.begin(), i));
+    //                break;
+    //            }
+    //        }
+    //    }
+    //    else if (pMeteor)
+    //    {
+    //        pObject.erase(std::next(m_ActiveObjects.begin(), i));
+    //        m_pMeteors.push_back(MeteorToRemove);
+    //        m_pMeteors.back()->m_pPhysicsBody->GetBody()->SetEnabled(false);
+    //        m_pMeteors.back()->SetPosition(vec2(0, 7));
+    //        m_pMeteors.back()->m_pPhysicsBody->SetPosition(m_pMeteors.back()->GetPosition());
+    //        m_pMeteors.back()->RemoveComponent(m_pMeteorMeshComp);
+    //    }
+
+    //}
 }
 
 void Scene::Draw()

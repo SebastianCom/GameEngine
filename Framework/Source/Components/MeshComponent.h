@@ -30,7 +30,7 @@ public:
 
 protected:
     
-    Mesh* m_pMesh = nullptr;
+    Mesh* m_pMeteorMesh = nullptr;
     Material* m_pMaterial = nullptr;
     vec2 m_UVScale = vec2(1, 1);
     vec2 m_UVOffset = vec2(0, 0);

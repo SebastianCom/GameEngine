@@ -55,7 +55,7 @@ namespace fw {
 		m_pDebugDraw->SetFlags(MyDebugDraw::e_shapeBit);
 		m_pWorld->DebugDraw();
 
-		//m_pMesh = new Mesh(GL_POINTS, m_pDebugDraw->m_Verts);
+		//m_pMeteorMesh = new Mesh(GL_POINTS, m_pDebugDraw->m_Verts);
 	
 	}
 	PhysicsWorldBox2D::~PhysicsWorldBox2D()
@@ -63,7 +63,7 @@ namespace fw {
 		delete m_pWorld;
 		delete m_pBody;
 		delete m_pContListener;
-		//delete m_pMesh;
+		//delete m_pMeteorMesh;
 	}
 
 	void PhysicsWorldBox2D::Update(float deltaTime)
@@ -78,9 +78,9 @@ namespace fw {
 		MyMatrix worldMat;
 		worldMat.SetIdentity();
 	
-		//m_pMesh->Create(4, m_pDebugDraw->m_Verts, std::vector<unsigned int>());
+		//m_pMeteorMesh->Create(4, m_pDebugDraw->m_Verts, std::vector<unsigned int>());
 		//glPointSize(GLfloat(100.0f));
-		//m_pMesh->Draw(pCamera, pMaterial, worldMat, vec2(0, 1), vec2(0, 0), 1.0f);
+		//m_pMeteorMesh->Draw(pCamera, pMaterial, worldMat, vec2(0, 1), vec2(0, 0), 1.0f);
 
 	}
 

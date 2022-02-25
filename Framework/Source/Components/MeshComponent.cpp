@@ -7,7 +7,7 @@ namespace fw {
 
 MeshComponent::MeshComponent(Mesh* pMesh, Material* pMaterial)
     : Component()
-    , m_pMesh(pMesh)
+    , m_pMeteorMesh(pMesh)
     , m_pMaterial(pMaterial)
 {
 
@@ -19,8 +19,8 @@ MeshComponent::~MeshComponent()
 
 void MeshComponent::Draw(Camera* pCamera, const MyMatrix& worldMat)
 {
-    if(m_pMesh != nullptr)
-    m_pMesh->Draw( pCamera, m_pMaterial, worldMat, m_UVScale, m_UVOffset, 0.0f );
+    if(m_pMeteorMesh != nullptr)
+    m_pMeteorMesh->Draw( pCamera, m_pMaterial, worldMat, m_UVScale, m_UVOffset, 0.0f );
 }
 
 void MeshComponent::SetUVScale(vec2 uvScale)

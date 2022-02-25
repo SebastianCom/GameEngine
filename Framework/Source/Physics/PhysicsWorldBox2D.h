@@ -47,7 +47,7 @@ namespace fw {
 
         MyDebugDraw* m_pDebugDraw;
 
-        Mesh* m_pMesh;
+        Mesh* m_pMeteorMesh;
     };
 
 

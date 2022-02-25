@@ -20,18 +20,30 @@ public:
 
     void SpawnRandomMeteor();
 
+    void SpawnMeatChuncks(fw::vec3 Pos);
+
 
 protected:
 
     PlayerController* m_pPlayerController = nullptr;
     std::vector<fw::GameObject*> m_pMeteors;
-    std::vector<fw::GameObject*> m_pMeatBoneChunks;
+    std::vector<fw::GameObject*> m_pMeatChunks;
+    
+    fw::MeshComponent* m_pMeteorMeshComp = nullptr;
+    fw::MeshComponent* m_pEweMeshComp = nullptr;
+    fw::MeshComponent* m_pChunksMeshComp = nullptr;
 
-    fw::Material* m_pMat = nullptr;
-    fw::Mesh* m_pMesh = nullptr;
+    fw::Material* m_pMeteorMat = nullptr;
+    fw::Mesh* m_pMeteorMesh = nullptr;
+
+    fw::Material* m_pMeatMat = nullptr;
+    fw::Material* m_pBoneMat = nullptr;
+    fw::Mesh* m_pChunkMesh = nullptr;
+
 
     bool bCollision;
     int NumMeteor = 20;
+    int NumChunks = 5;
 
     fw::Material* m_Material;
 
