@@ -54,9 +54,17 @@ void GameObject::Update(float deltaTime)
             vec3 rotation = m_pPhysicsBody->GetRotation();
             m_Rotation = rotation;
 
-            //float zAngle = -m_pPhysicsBody->GetBody()->GetAngle() / PI * 180.0f; //Put this in wrapper and fix wrapper
-            //m_Rotation.Set(0, 0, zAngle);
+            float zAngle = -m_pPhysicsBody->GetBody()->GetAngle() / PI * 180.0f; //Put this in wrapper and fix wrapper
+            m_Rotation.Set(0, 0, zAngle);
             m_Position.Set(physicsPosition.x - (m_pPhysicsBody->GetSize().x), physicsPosition.y - (m_pPhysicsBody->GetSize().y), 0);
+            
+            //m_Position.Set(physicsPosition.x , physicsPosition.y, 0);
+            // vec2 newpos = vec2((m_Position.x * cos(zAngle)) - m_Position.y * sin(zAngle), (m_Position.y * cos(zAngle)) + m_Position.x * sin(zAngle));
+           //vec2 newpos = vec2((m_Position.x + (0.35 * cos(zAngle))), (m_Position.y + (0.35 * sin(zAngle))));
+            // m_Position.Set(newpos.x, newpos.y, 0);
+           // m_Position.Set((m_Position.x * cos(zAngle)) - m_Position.y*sin(zAngle), (m_Position.y *cos(zAngle)) + m_Position.x * sin(zAngle), 0);
+            //m_Position.Set(m_Position.x * (0.35 * cos(zAngle)), m_Position.y * (0.35 * sin(zAngle)), 0);
+
         } 
     }
 }
@@ -77,7 +85,7 @@ void GameObject::CreateBody(PhysicsWorld* pWorld, bool isDynamic, vec2 size, flo
     m_pShape = shape;
     m_pPhysicsBody->SetPosition(m_Position);
     m_pPhysicsBody->SetRotation(m_Rotation);
-    if (shape != "Circle")
+    if (shape != "Circle" )
         m_Scale = size;
     else
         m_Scale = size*2;
@@ -104,6 +112,7 @@ void GameObject::RemoveComponent(Component* pComp)
     m_pScene->GetComponentManager()->RemoveComponent(pComp);
     m_Components.push_back(pComp);
 }
+
 
 void GameObject::Editor_FillInspectorWindow()
 {

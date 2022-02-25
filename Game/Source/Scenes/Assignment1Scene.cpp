@@ -27,7 +27,7 @@ Assignment1Scene::Assignment1Scene(Game* pGame)
     BackGround->SetScale(vec2(18, 18));
     m_ActiveObjects.push_back(BackGround);
 
-    Player* pPlayer = new Player(this,vec2(0, 0), m_pPlayerController);
+    Player* pPlayer = new Player(this,vec2(0, -5), m_pPlayerController);
     
     //Change to ewe
     m_pEweMeshComp = new fw::MeshComponent(pGame->GetMesh("Sprite"), pGame->GetMaterial("Ewe"));
@@ -80,6 +80,18 @@ Assignment1Scene::Assignment1Scene(Game* pGame)
     m_pChunkMesh = pGame->GetMesh("Sprite");
     m_pMeatMat = pGame->GetMaterial("Meat");
     m_pBoneMat = pGame->GetMaterial("Bone");
+
+
+
+    ////Test
+    //fw::GameObject* ChunkToSpawn = m_pMeatChunks.back();
+    //m_pMeatChunks.pop_back();
+    //m_ActiveObjects.push_back(ChunkToSpawn);
+    //m_ActiveObjects.back()->SetPosition(vec3(1,-3,0));
+    //m_ActiveObjects.back()->m_pPhysicsBody->SetPosition(m_ActiveObjects.back()->GetPosition());
+    //m_pChunksMeshComp = new fw::MeshComponent(m_pChunkMesh, m_pBoneMat);
+    //m_ActiveObjects.back()->AddComponent(m_pChunksMeshComp);
+    //m_ActiveObjects.back()->m_pPhysicsBody->GetBody()->SetEnabled(true);
    
 }
 
@@ -128,7 +140,7 @@ void Assignment1Scene::CheckForCollision()
                     m_ActiveObjects.erase(std::next(m_ActiveObjects.begin(), i));
                     m_pMeteors.push_back(MeteorToRemove);
                     m_pMeteors.back()->m_pPhysicsBody->GetBody()->SetEnabled(false);
-                    m_pMeteors.back()->SetPosition(vec2(0, 7));
+                    m_pMeteors.back()->SetPosition(vec2(0, 11));
                     m_pMeteors.back()->m_pPhysicsBody->SetPosition(m_pMeteors.back()->GetPosition());
                     m_pMeteors.back()->RemoveComponent(m_pMeteorMeshComp);
                     for (int j = 0; j < m_ActiveObjects.size(); j++)
@@ -137,8 +149,8 @@ void Assignment1Scene::CheckForCollision()
                         if (pPlayerToRemove)
                         {
                             m_ActiveObjects[j]->RemoveComponent(m_pEweMeshComp);
+                            PlayerCompRemoved = true;
                             m_ActiveObjects[j]->m_pPhysicsBody->GetBody()->SetEnabled(false);
-                            m_ActiveObjects.erase(std::next(m_ActiveObjects.begin(), j));
                             SpawnMeatChuncks(pPlayerToRemove->GetPosition());
                             break;
                         }
@@ -168,7 +180,9 @@ void Assignment1Scene::CheckForCollision()
                 {
                     //REMOVE PLAYER COMPONET
                     m_ActiveObjects[i]->RemoveComponent(m_pEweMeshComp);
-                    m_ActiveObjects.erase(std::next(m_ActiveObjects.begin(), i));
+                    PlayerCompRemoved = true;
+                    m_ActiveObjects[i]->m_pPhysicsBody->GetBody()->SetEnabled(false);
+                    //m_ActiveObjects.erase(std::next(m_ActiveObjects.begin(), i));
                     break;
                 }
             }
@@ -190,7 +204,7 @@ void Assignment1Scene::CheckForCollision()
                     m_ActiveObjects.erase(std::next(m_ActiveObjects.begin(), i));
                     m_pMeteors.push_back(MeteorToRemove);
                     m_pMeteors.back()->m_pPhysicsBody->GetBody()->SetEnabled(false);
-                    m_pMeteors.back()->SetPosition(vec2(0, 7));
+                    m_pMeteors.back()->SetPosition(vec2(0, 11));
                     m_pMeteors.back()->m_pPhysicsBody->SetPosition(m_pMeteors.back()->GetPosition());
                     m_pMeteors.back()->RemoveComponent(m_pMeteorMeshComp);
                     break;
@@ -246,6 +260,63 @@ void Assignment1Scene::SpawnMeatChuncks(fw::vec3 Pos)
         m_ActiveObjects.back()->AddComponent(m_pChunksMeshComp);
         m_ActiveObjects.back()->m_pPhysicsBody->GetBody()->SetEnabled(true);
         m_ActiveObjects.back()->m_pPhysicsBody->GetBody()->ApplyForceToCenter(b2Vec2(fw::Random::GetInt(-250, 250), fw::Random::GetInt(100, 500)), true);
+        m_ActiveObjects.back()->m_pPhysicsBody->GetBody()->ApplyTorque(fw::Random::GetFloat(-10.0f, 10.0f), true);
+    }
+}
+
+void Assignment1Scene::ResetButton()
+{
+    if (ImGui::Button("Reset A1"))
+    {
+        for (int i = m_ActiveObjects.size() - 1; i > -1; i--)
+        {
+            Player* pPlayer = dynamic_cast<Player*>(m_ActiveObjects[i]);
+            Meteor* pMeteor = dynamic_cast<Meteor*>(m_ActiveObjects[i]);
+            MeatChunk* pChunk = dynamic_cast<MeatChunk*>(m_ActiveObjects[i]);
+
+            //Reset Meteors
+            if (pMeteor)
+            {
+                m_ActiveObjects.erase(std::next(m_ActiveObjects.begin(), i));
+                m_pMeteors.push_back(pMeteor);
+                m_pMeteors.back()->m_pPhysicsBody->GetBody()->SetEnabled(false);
+                m_pMeteors.back()->SetPosition(vec2(0, 11));
+                m_pMeteors.back()->m_pPhysicsBody->SetPosition(m_pMeteors.back()->GetPosition());
+                m_pMeteors.back()->RemoveComponent(m_pMeteorMeshComp);
+            }
+            //Reset CHUNKSSSSS
+            else if (pChunk)
+            {
+                m_ActiveObjects.erase(std::next(m_ActiveObjects.begin(), i));
+                m_pMeatChunks.push_back(pChunk);
+                m_pMeatChunks.back()->m_pPhysicsBody->GetBody()->SetEnabled(false);
+                m_pMeatChunks.back()->SetPosition(vec2(10, 11));
+                m_pMeatChunks.back()->m_pPhysicsBody->SetPosition(m_pMeatChunks.back()->GetPosition());
+                if(!MeatCompRemoved)
+                m_pMeatChunks.back()->RemoveComponent(m_pChunksMeshComp);
+                MeatCompRemoved = true;
+            }
+            //Reset Timers and Bools
+            //Reset Player
+            else if (pPlayer)
+            {
+                if(PlayerCompRemoved == true)
+                {
+                    m_ActiveObjects[i]->AddComponent(m_pEweMeshComp);   
+                    PlayerCompRemoved = false;
+                }
+                m_ActiveObjects[i]->SetPosition(vec3(0,-5,0));
+                m_ActiveObjects[i]->SetRotation(vec3(0,0,0));
+                m_ActiveObjects[i]->m_pPhysicsBody->GetBody()->SetTransform(b2Vec2(0,-5), 0);
+                m_ActiveObjects[i]->m_pPhysicsBody->GetBody()->SetEnabled(true);
+            }
+
+            bCollision = false;
+            SpawnTimer = 2.0f;
+           
+        }
+
+        MeatCompRemoved = false;
     }
 }
 
@@ -262,6 +333,8 @@ void Assignment1Scene::Update(float deltaTime)
     {
        ShakeCam = true;
     }
+    
+    ResetButton();
 
     if (ShakeCam)
        ShakeCam =  m_pCamera->CameraShake(deltaTime);

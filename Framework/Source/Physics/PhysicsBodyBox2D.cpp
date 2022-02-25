@@ -58,6 +58,7 @@ namespace fw {
             b2FixtureDef fixtureDef;
             fixtureDef.shape = &Shape;
             fixtureDef.density = density;
+          
            
 
             m_pBody = pWorld2D->CreateBody(&bodyDef);

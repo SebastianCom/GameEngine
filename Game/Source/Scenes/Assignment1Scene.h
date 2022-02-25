@@ -48,8 +48,12 @@ protected:
     fw::Material* m_Material;
 
     bool ShakeCam = false;
+    bool PlayerCompRemoved = false;
+    bool MeatCompRemoved = false;
 
     float SpawnTimer = 2.0f;
+
+    void ResetButton();
 
 
 };

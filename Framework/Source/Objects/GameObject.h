@@ -41,6 +41,7 @@ public:
     void RemoveComponent(Component* pComp);
     //MeshComponent* GetComponent() { return m_pMeshComponent; }
     //MeshComponent* GetComponent(static const char* CompName);
+
     
     template <class Type>
     Type* GetComponent()
