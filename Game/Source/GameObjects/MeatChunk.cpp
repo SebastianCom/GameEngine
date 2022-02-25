@@ -3,8 +3,9 @@
 #include "MeatChunk.h"
 
 MeatChunk::MeatChunk(fw::Scene* pScene, vec3 pos)
-    : GameObject("Meteor", pScene, pos)
+    : GameObject("Meat Chunk", pScene, pos)
 {
+
 }
 
 MeatChunk::~MeatChunk()

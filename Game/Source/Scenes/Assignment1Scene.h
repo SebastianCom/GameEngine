@@ -43,7 +43,7 @@ protected:
 
     bool bCollision;
     int NumMeteor = 20;
-    int NumChunks = 5;
+    int NumChunks = 10;
 
     fw::Material* m_Material;
 

@@ -40,8 +40,7 @@ Assignment1Scene::Assignment1Scene(Game* pGame)
     for (int i = 0; i < NumChunks; i++) //Sprite is not linked to body? - yeah because the object is not updated unless added to m_activeObjects.
     {
         m_pMeatChunks.push_back(new MeatChunk(this, vec2(0, 0)));
-        // m_pMeteors[i]->AddComponent(new fw::MeshComponent(pGame->GetMesh("Sprite"), pGame->GetMaterial("Meteor")));
-        m_pMeatChunks[i]->CreateBody(m_pPhysicsWorld, true, vec2(.5f, .5f), 1, "Circle"); //MAKE CIRCLE
+        m_pMeatChunks[i]->CreateBody(m_pPhysicsWorld, true, vec2(.35f, .35f), 1, "Circle"); //MAKE CIRCLE
         m_pMeatChunks[i]->m_pPhysicsBody->GetBody()->SetEnabled(false);
     }
 
@@ -246,7 +245,7 @@ void Assignment1Scene::SpawnMeatChuncks(fw::vec3 Pos)
         }    
         m_ActiveObjects.back()->AddComponent(m_pChunksMeshComp);
         m_ActiveObjects.back()->m_pPhysicsBody->GetBody()->SetEnabled(true);
-        m_ActiveObjects.back()->m_pPhysicsBody->GetBody()->ApplyForceToCenter(b2Vec2(fw::Random::GetInt(-500, 500), fw::Random::GetInt(100, 500)), true);
+        m_ActiveObjects.back()->m_pPhysicsBody->GetBody()->ApplyForceToCenter(b2Vec2(fw::Random::GetInt(-250, 250), fw::Random::GetInt(100, 500)), true);
     }
 }
 
