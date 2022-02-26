@@ -34,6 +34,8 @@ protected:
     fw::MeshComponent* m_pChunksMeshComp = nullptr;
     fw::MeshComponent* m_pTitleMeshComp = nullptr;
     fw::MeshComponent* m_pEndMeshComp = nullptr;
+    fw::MeshComponent* m_pWinMeshComp = nullptr;
+    fw::MeshComponent* m_pCurrentTitleMesh = nullptr;
 
     fw::Material* m_pMeteorMat = nullptr;
     fw::Mesh* m_pMeteorMesh = nullptr;

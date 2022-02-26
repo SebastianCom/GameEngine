@@ -95,6 +95,7 @@ void Game::Init()
     m_Textures["BackGround"] = new fw::Texture("Data/Textures/BG.png");
     m_Textures["Start"] = new fw::Texture("Data/Textures/Title.png");
     m_Textures["End"] = new fw::Texture("Data/Textures/Lose.png");
+    m_Textures["Win"] = new fw::Texture("Data/Textures/Win.png");
     
 
     m_SpriteSheets["Sprites"] = new fw::SpriteSheet( "Data/Textures/Sprites.json", m_Textures["Sprites"] );
@@ -112,6 +113,7 @@ void Game::Init()
     m_Materials["BackGround"] = new fw::Material(m_Shaders["Basic"], m_Textures["BackGround"], fw::Color4f::Blue);
     m_Materials["Start"] = new fw::Material(m_Shaders["Basic"], m_Textures["Start"], fw::Color4f::Blue);
     m_Materials["End"] = new fw::Material(m_Shaders["Basic"], m_Textures["End"], fw::Color4f::Blue);
+    m_Materials["Win"] = new fw::Material(m_Shaders["Basic"], m_Textures["Win"], fw::Color4f::Blue);
     
     
     m_Scenes["Physics"] = new PhysicsScene(this);

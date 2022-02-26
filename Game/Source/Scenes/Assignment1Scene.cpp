@@ -93,7 +93,8 @@ Assignment1Scene::Assignment1Scene(Game* pGame)
     m_pMeatMat = pGame->GetMaterial("Meat");
     m_pBoneMat = pGame->GetMaterial("Bone");
 
-
+    m_pEndMeshComp = new fw::MeshComponent(pGame->GetMesh("Sprite"), pGame->GetMaterial("End"));
+    m_pWinMeshComp = new fw::MeshComponent(pGame->GetMesh("Sprite"), pGame->GetMaterial("Win"));
 
     ////Test
     //fw::GameObject* ChunkToSpawn = m_pMeatChunks.back();
@@ -171,6 +172,15 @@ void Assignment1Scene::CheckForCollision()
                             PlayerCompRemoved = true;
                             m_ActiveObjects[j]->m_pPhysicsBody->GetBody()->SetEnabled(false);
                             SpawnMeatChuncks(pPlayerToRemove->GetPosition());
+                            for (int i = 0; i < m_ActiveObjects.size(); i++)
+                            {
+
+                                if (m_ActiveObjects[i]->GetName() == "Title")
+                                {
+                                    m_ActiveObjects[i]->AddComponent(m_pEndMeshComp);
+                                    m_pCurrentTitleMesh = m_pEndMeshComp;
+                                }
+                            }
                             break;
                         }
                     }
@@ -201,6 +211,15 @@ void Assignment1Scene::CheckForCollision()
                     m_ActiveObjects[i]->RemoveComponent(m_pEweMeshComp);
                     PlayerCompRemoved = true;
                     m_ActiveObjects[i]->m_pPhysicsBody->GetBody()->SetEnabled(false);
+                    for (int i = 0; i < m_ActiveObjects.size(); i++)
+                    {
+
+                        if (m_ActiveObjects[i]->GetName() == "Title")
+                        {
+                            m_ActiveObjects[i]->AddComponent(m_pWinMeshComp);
+                            m_pCurrentTitleMesh = m_pWinMeshComp;
+                        }
+                    }
                     //m_ActiveObjects.erase(std::next(m_ActiveObjects.begin(), i));
                     break;
                 }
@@ -318,6 +337,26 @@ void Assignment1Scene::ResetButton()
        //Reset Player
        else if (pPlayer)
        {
+           for (int i = 0; i < m_ActiveObjects.size(); i++)
+           {
+
+               if (m_ActiveObjects[i]->GetName() == "Title")
+               {
+                   if (m_pCurrentTitleMesh == m_pEndMeshComp)
+                   {
+                    m_ActiveObjects[i]->RemoveComponent(m_pEndMeshComp);
+                    m_pCurrentTitleMesh = nullptr;
+                    break;
+                   }
+                   else if (m_pCurrentTitleMesh == m_pWinMeshComp)
+                   {
+                     m_ActiveObjects[i]->RemoveComponent(m_pWinMeshComp);
+                     m_pCurrentTitleMesh = nullptr;
+                     break;
+                   }
+               }
+           }
+
            if(PlayerCompRemoved == true)
            {
                m_ActiveObjects[i]->AddComponent(m_pEweMeshComp);   
@@ -327,9 +366,12 @@ void Assignment1Scene::ResetButton()
            m_ActiveObjects[i]->SetRotation(vec3(0,0,0));
            m_ActiveObjects[i]->m_pPhysicsBody->GetBody()->SetTransform(b2Vec2(0,-5), 0);
            m_ActiveObjects[i]->m_pPhysicsBody->GetBody()->SetEnabled(true);
+           m_ActiveObjects[i]->m_pPhysicsBody->GetBody()->SetLinearVelocity(b2Vec2(0,0));
+           m_ActiveObjects[i]->m_pPhysicsBody->GetBody()->SetAngularVelocity(0);
        }
 
-       bCollision = false;
+       //bCollision = !bCollision;
+
        SpawnTimer = 2.0f;
 
 
