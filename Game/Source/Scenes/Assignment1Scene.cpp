@@ -408,9 +408,11 @@ void Assignment1Scene::Update(float deltaTime)
 
     if (ImGui::Button("Game Start"))
     {
+       if(GameStarted)
+           ResetButton();
         GameStarted = true;
-        SpawnTimer = 0.01f;
-
+        SpawnTimer = 0.1f;
+        bCollision = false;
         for (int i = 0; i < m_ActiveObjects.size(); i++)
         {
            

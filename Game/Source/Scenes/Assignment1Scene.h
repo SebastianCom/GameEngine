@@ -50,7 +50,6 @@ protected:
     int NumChunks = 10;
 
     fw::Material* m_Material;
-
     bool ShakeCam = false;
     bool PlayerCompRemoved = false;
     bool MeatCompRemoved = false;
