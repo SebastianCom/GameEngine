@@ -128,7 +128,8 @@ void Game::Init()
     //ZoomToggle = false;
     CurrentprimType = GL_TRIANGLES;
    // m_pCurrentScene = m_Scenes["Water"];
-    m_pCurrentScene = m_Scenes["A1"];
+    //m_pCurrentScene = m_Scenes["A1"];
+    m_pCurrentScene = m_Scenes["Physics"];
 
 }
 
@@ -155,6 +156,42 @@ void Game::Update(float deltaTime)
    WaterToggles();
 
    m_pCurrentScene->Update(deltaTime);
+
+   //figure out world space coord of mouse
+   {
+       int Wmousex = 0;
+       int Wmousey = 0;
+       m_FWCore.GetMouseCoordinates(&Wmousex,&Wmousey);
+
+       ivec2 WindowSize(m_FWCore.GetWindowWidth(), m_FWCore.GetWindowHeight());
+       ivec2 m_ViewportPos(300,50);
+       ivec2 m_viewportSize(600,600);
+       
+       
+       ivec2 viewpointCoord;
+
+       //window to view
+       viewpointCoord.x = Wmousex - m_ViewportPos.x;
+       viewpointCoord.y = (WindowSize.y - Wmousey) - m_ViewportPos.y;
+
+       vec2 ClipCoord = vec2(0,0);
+
+       //view to clip
+       ClipCoord.x = (viewpointCoord.x / (m_viewportSize.x/2.0f)) - 1.0f;
+       ClipCoord.y = (viewpointCoord.y / (m_viewportSize.y/2.0f)) - 1.0f;
+
+       fw::MyMatrix proj;
+       proj.CreateOrtho(-5, 5, -5, 5, -25, 25);
+       fw::MyMatrix invProj = proj;
+       invProj.Inverse();
+
+       vec2 viewSpaceCoord = invProj * ClipCoord;
+
+       ImGui::Text("Window Coords: %d, %d", Wmousex, Wmousey);
+       ImGui::Text("Viewport Coords: %d, %d", viewpointCoord.x, viewpointCoord.y);
+       ImGui::Text("Clip Coords: %0.2f, %0.2f", ClipCoord.x, ClipCoord.y);
+       ImGui::Text("View Coords: %0.2f, %0.2f", viewSpaceCoord.x, viewSpaceCoord.y);
+   }
 
 }
 

@@ -11,7 +11,8 @@ Camera::Camera(Scene* pScene, vec3 pos, vec3 lookAt, float FOVDeg)
 {
     m_Position = pos;
     m_ViewMat.CreateLookAtView(m_Position, vec3(0, 1, 0), lookAt);
-    m_ProjMat.CreatePerspectiveVFoV(FOVDeg, 1.0f, 0.01f, 1000.0f);
+    //m_ProjMat.CreatePerspectiveVFoV(FOVDeg, 1.0f, 0.01f, 1000.0f);
+    m_ProjMat.CreateOrtho(-5,5, -5,5, -25,25);
     ShakeTime = .05f;
     m_LookAtPoint = lookAt;
 }

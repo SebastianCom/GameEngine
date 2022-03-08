@@ -16,7 +16,7 @@ PhysicsScene::PhysicsScene(Game* pGame)
     m_pPhysicsWorld->SetGravity(vec2(0, -10));
 
 
-    m_pCamera = new fw::Camera(this, vec3(0, 0, -20), vec3(2,5,5), 45.0f); //BROKEN - WORKING ON IT
+    m_pCamera = new fw::Camera(this, vec3(0, 0, -20), vec3(2,5,5), 45.0f); 
     m_pPlayerController = new PlayerController();
 
     Player* pPlayer = new Player(this,vec2(0, 5), m_pPlayerController);
@@ -25,7 +25,8 @@ PhysicsScene::PhysicsScene(Game* pGame)
     pPlayer->CreateBody(m_pPhysicsWorld, true, vec2(1, 1), 1);
     m_ActiveObjects.push_back(pPlayer);
     
-    fw::GameObject* pCubeObject = new fw::GameObject("Cube",this, vec2(0.6, 0));
+    //fw::GameObject* pCubeObject = new fw::GameObject("Cube",this, vec2(0.6, 0));
+    fw::GameObject* pCubeObject = new fw::GameObject("Cube",this, vec2(0, 0));
     pCubeObject->AddComponent(new fw::MeshComponent(pGame->GetMesh("Cube"), pGame->GetMaterial("BaseColor")));
     pCubeObject->CreateBody(m_pPhysicsWorld, true, vec2(1, 1), 0);
     m_ActiveObjects.push_back(pCubeObject);
