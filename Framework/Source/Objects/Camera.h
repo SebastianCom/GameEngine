@@ -4,36 +4,31 @@
 
 namespace fw {
 
- class Scene;
+class FWCore;
 
 class Camera : public GameObject
 {
 public:
-    Camera(Scene* pScene, vec3 pos, vec3 lookAt, float FOVDeg);
+    Camera(Scene* pScene, vec3 pos);
     virtual ~Camera();
 
     virtual void Update(float deltaTime) override;
+    void Hack_ThirdPersonCamUpdate(FWCore* pFramework, float deltaTime);
 
     // Getters.
-    MyMatrix GetProjectionMatrix() { return m_ProjMat; }
-    MyMatrix GetViewMatrix() { return m_ViewMat; }
+    mat4& GetViewMatrix() { return m_ViewMatrix; }
+    mat4& GetProjectionMatrix() { return m_ProjectionMatrix; }
 
     // Setters.
-    void SetObjectWeAreFollowing(GameObject* pObj) { m_pObjectWeAreFollowing = pObj; }
-
-    bool CameraShake(float DeltaTime);
+    void SetLookAtPosition(vec3 pos) { m_LookAtPosition = pos; }
+    void SetObjectWeAreLookingAt(GameObject* pObj) { m_pObjectWeAreLookingAt = pObj; }
 
 protected:
-    
-    GameObject* m_pObjectWeAreFollowing = nullptr;
+    mat4 m_ViewMatrix;
+    mat4 m_ProjectionMatrix;
 
-    MyMatrix m_ViewMat;
-    MyMatrix m_ProjMat;
-
-    float ShakeTime;
-    vec3 StartLocation;
-
-    vec3 m_LookAtPoint;
+    vec3 m_LookAtPosition = vec3(0,0,0);
+    GameObject* m_pObjectWeAreLookingAt = nullptr;
 };
 
 } // namespace fw

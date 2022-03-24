@@ -5,31 +5,40 @@
 #include "GameObjects/PlayerController.h"
 #include "GameObjects/Player.h"
 #include "Game.h"
-#include "Components/MeshComponent.h"
-
-
 
 PhysicsScene::PhysicsScene(Game* pGame)
-    :fw::Scene( pGame )
+    : fw::Scene( pGame )
 {
-    m_pPhysicsWorld = new fw::PhysicsWorldBox2D(pGame->GetFrameWork()->GetEventManager());
-    m_pPhysicsWorld->SetGravity(vec2(0, -10));
+    m_pPhysicsWorld = new fw::PhysicsWorldBox2D( pGame->GetFramework()->GetEventManager() );
+    m_pPhysicsWorld->SetGravity( vec3( 0, -10, 0 ) );
 
+    m_pCamera = new fw::Camera( this, vec3(2, 0, -15) );
+    m_pCamera->SetLookAtPosition( vec3(2, 0, 0) );
 
-    m_pCamera = new fw::Camera(this, vec3(0, 0, -20), vec3(2,5,5), 45.0f); 
-    m_pPlayerController = new PlayerController();
+    m_pPlayerController = new PlayerController( pGame->GetFramework()->GetEventManager() );
 
-    Player* pPlayer = new Player(this,vec2(0, 5), m_pPlayerController);
-    pPlayer->SetSpriteSheet(pGame->GetSpriteSheet("Sprites"));
-    pPlayer->AddComponent(new fw::MeshComponent(pGame->GetMesh("Sprite"), pGame->GetMaterial("Sokoban")));
-    pPlayer->CreateBody(m_pPhysicsWorld, true, vec2(1, 1), 1);
-    m_ActiveObjects.push_back(pPlayer);
-    
-    //fw::GameObject* pCubeObject = new fw::GameObject("Cube",this, vec2(0.6, 0));
-    fw::GameObject* pCubeObject = new fw::GameObject("Cube",this, vec2(0, 0));
-    pCubeObject->AddComponent(new fw::MeshComponent(pGame->GetMesh("Cube"), pGame->GetMaterial("BaseColor")));
-    pCubeObject->CreateBody(m_pPhysicsWorld, true, vec2(1, 1), 0);
-    m_ActiveObjects.push_back(pCubeObject);
+    // BG
+    fw::GameObject* pBG = new fw::GameObject( "Ground", this, vec3(0,0,10) );
+    pBG->AddComponent( new fw::MeshComponent( pGame->GetMesh("Sprite"), pGame->GetMaterial("BG") ) );
+    pBG->GetTransform()->SetScale( vec3( 5, 5, 1 ) );
+    m_Objects.push_back( pBG );
+
+    // Player.
+    Player* pPlayer = new Player( this, vec3(2,5,0), m_pPlayerController );
+    pPlayer->AddComponent( new fw::MeshComponent( pGame->GetMesh("Sprite"), pGame->GetMaterial("Sprites") ) );
+    pPlayer->SetSpriteSheet( pGame->GetSpriteSheet("Sprites") );
+    pPlayer->CreateBody( m_pPhysicsWorld, true, 1 );
+    //m_pPhysicsWorld->CreateJoint( pPlayer->GetPhysicsBody(), vec3(0,5,0) );
+    m_Objects.push_back( pPlayer );
+
+    // Ground Object.
+    fw::GameObject* pGameObject = new fw::GameObject( "Ground", this, vec3(0,-5,0) );
+    pGameObject->AddComponent( new fw::MeshComponent( pGame->GetMesh("Sprite"), pGame->GetMaterial("Sprites") ) );
+    pGameObject->GetTransform()->SetScale( vec3( 5, 2, 1 ) );
+    pGameObject->CreateBody( m_pPhysicsWorld, false, 1 );
+    m_Objects.push_back( pGameObject );
+
+    //m_pCamera->SetObjectWeAreLookingAt( pPlayer );
 }
 
 PhysicsScene::~PhysicsScene()
@@ -44,20 +53,16 @@ void PhysicsScene::StartFrame(float deltaTime)
 
 void PhysicsScene::OnEvent(fw::Event* pEvent)
 {
-    m_pPlayerController->OnEvent(pEvent);
-    fw::Scene::OnEvent(pEvent);
-}
-
-void PhysicsScene::Reset()
-{
-    //m_ActiveObjects[0]->SetPosition(vec2(0, 5));
-
+    fw::Scene::OnEvent( pEvent );
 }
 
 void PhysicsScene::Update(float deltaTime)
 {
-    Scene::Update(deltaTime);
-    b2Vec2 Position = vec2(m_ActiveObjects[0]->GetPosition().x, m_ActiveObjects[0]->GetPosition().y);
-    ImGui::Text("%0.2f, %0.2f, %0.2f", Position.x, Position.y, 0);
+    Scene::Update( deltaTime );
 
+    float time = (float)fw::GetSystemTimeSinceGameStart() * 20;
+    //m_Objects[0]->SetRotation( vec3( 0, time, 0 ) );
+
+    // Ask componentmanager for all player components.
+    // loop over them and update them.
 }

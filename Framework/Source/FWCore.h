@@ -16,6 +16,8 @@ public:
     int Run(GameCore& game);
     void Shutdown();
 
+    EventManager* GetEventManager() { return m_pEventManager; }
+
     void SetWindowSize(int width, int height);
 
     bool IsKeyDown(int value);
@@ -26,8 +28,6 @@ public:
     unsigned int GetWindowHeight() { return m_WindowHeight; }
 
     void SetEscapeKeyWillQuit(bool value) { m_EscapeKeyWillQuit = value; }
-
-    EventManager* GetEventManager() { return m_pEventManager;  }
 
     void SwapBuffers();
 

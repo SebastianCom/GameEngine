@@ -8,14 +8,12 @@ class Component
 {
 public:
     Component();
-    Component(GameObject* pGameObject);
     virtual ~Component();
 
     virtual const char* GetType() = 0;
 
     GameObject* GetGameObject() { return m_pGameObject; }
     virtual void SetGameObject(GameObject* pGameObject) { m_pGameObject = pGameObject; }
-
 
 protected:
     GameObject* m_pGameObject = nullptr;

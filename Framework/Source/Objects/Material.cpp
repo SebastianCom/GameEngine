@@ -1,39 +1,24 @@
 #include "CoreHeaders.h"
 
+#include "Camera.h"
+#include "Mesh.h"
+#include "ShaderProgram.h"
+#include "Texture.h"
+#include "Utility/Utility.h"
+#include "Math/Matrix.h"
 #include "Material.h"
 
 namespace fw {
 
-    Material::Material(ShaderProgram* m_pShader, Texture* m_pTexture, const Color4f m_Color())
-    {
-        m_Shader = m_pShader;
-        m_Texture = m_pTexture;
-        Color = m_Color();
-    }
+Material::Material(ShaderProgram* pShaderProgram, Texture* pTexture, Color4f color)
+    : m_pShaderProgram( pShaderProgram )
+    , m_pTexture( pTexture )
+    , m_Color( color )
+{
+}
 
-    Material::~Material()
-    {
-        //delete m_Shader;
-       // delete m_Texture;
-    }
-
-    ShaderProgram* Material::GetShader()
-    {
-        return m_Shader;
-    }
-
-    Texture* Material::GetTexture()
-    {
-        return m_Texture;
-    }
-
-    Color4f Material::GetColor()
-    {
-        return Color;
-    }
-
+Material::~Material()
+{
+}
 
 } // namespace fw
-
-
-

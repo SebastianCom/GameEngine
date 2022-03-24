@@ -32,8 +32,6 @@ FWCore::FWCore(int width, int height)
 {
     m_pEventManager = new EventManager();
 
-    //vec2::Test();
-
     Init( width, height );
 }
 
@@ -92,7 +90,7 @@ int FWCore::Run(GameCore& game)
             lastTime = currentTime;
 
             game.StartFrame( deltaTime );
-            m_pEventManager->ProcessEvents( game );
+            m_pEventManager->ProcessEvents();
             game.Update( deltaTime );
             game.Draw();
 
@@ -459,8 +457,8 @@ LRESULT CALLBACK FWCore::WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 
     case WM_LBUTTONDOWN:
         {
-        SetCapture(pFWCore->m_hWnd);
-            
+            SetCapture( pFWCore->m_hWnd );
+
             pFWCore->m_MouseButtonStates[0] = true;
 
             int x = GET_X_LPARAM( lParam );
@@ -470,8 +468,8 @@ LRESULT CALLBACK FWCore::WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 
     case WM_LBUTTONUP:
         {
-
             ReleaseCapture();
+        
             pFWCore->m_MouseButtonStates[0] = false;
 
             int x = GET_X_LPARAM( lParam );

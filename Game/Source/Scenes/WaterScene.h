@@ -2,23 +2,16 @@
 
 class Game;
 
-class WaterScene: public fw::Scene
+class WaterScene : public fw::Scene
 {
 public:
     WaterScene(Game* pGame);
-    WaterScene(Game* pGame, fw::vec3 CamPos, fw::vec3 CamLook);
     virtual ~WaterScene();
 
     virtual void StartFrame(float deltaTime) override;
-    virtual void Update(float deltaTime);
     virtual void OnEvent(fw::Event* pEvent) override;
-    virtual void Reset() override {};
-    //virtual void Draw();
-
+    virtual void Update(float deltaTime) override;
+    //virtual void Draw() override;
 
 protected:
-
-
-
 };
-

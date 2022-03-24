@@ -2,16 +2,16 @@
 
 #include "Component.h"
 #include "Math/Vector.h"
-#include "Math/MyMatrix.h"
-
-
+#include "Math/Matrix.h"
 
 namespace fw {
 
-class GameObject;
-class Mesh;
-class Material;
 class Camera;
+class GameObject;
+class Material;
+class Mesh;
+class ShaderProgram;
+class Texture;
 
 class MeshComponent : public Component
 {
@@ -22,18 +22,16 @@ public:
     static const char* GetStaticType() { return "MeshComponent"; }
     virtual const char* GetType() override { return GetStaticType(); }
 
-    virtual void Draw(Camera* pCamera, const MyMatrix& worldMat);
+    void Draw(Camera* pCamera, const mat4& worldMat);
 
-
-    void SetUVScale( vec2 uvScale);
-    void SetUVOffset(vec2 uvOffset);
+    void SetUVScale(vec2 uvScale) { m_UVScale = uvScale; }
+    void SetUVOffset(vec2 uvOffset) { m_UVOffset = uvOffset; }
 
 protected:
-    
-    Mesh* m_pMeteorMesh = nullptr;
-    Material* m_pMaterial = nullptr;
-    vec2 m_UVScale = vec2(1, 1);
-    vec2 m_UVOffset = vec2(0, 0);
+    Mesh* m_pMesh = nullptr;
+    Material* m_pMaterial = nullptr;    
+    vec2 m_UVScale = vec2( 1, 1 );
+    vec2 m_UVOffset = vec2( 0, 0 );
 };
 
 } // namespace fw

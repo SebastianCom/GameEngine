@@ -1,14 +1,13 @@
 #pragma once
 
 #include "Math/Vector.h"
-#include "Math/MyMatrix.h"
+#include "Math/Matrix.h"
 
 namespace fw {
 
 class Camera;
 class ShaderProgram;
 class Texture;
-class Material;
 
 struct VertexFormat
 {
@@ -22,18 +21,16 @@ class Mesh
 public:
     Mesh(GLenum primitiveType, const std::vector<VertexFormat>& verts);
     Mesh(GLenum primitiveType, const std::vector<VertexFormat>& verts, const std::vector<unsigned int>& indices);
-    Mesh(const char* objfilename);
     virtual ~Mesh();
 
-    void SetupUniform(ShaderProgram* pShader, char* name, float value);
-    void SetupUniform(ShaderProgram* pShader, char* name, vec3 value);
-    void SetupUniform(ShaderProgram* pShader, char* name, Color4f value);
-    //void SetupUniform(ShaderProgram* pShader, char* name, Color4f value);
-    void SetupAttribute(ShaderProgram* pShader, char* name, int size, GLenum type, GLboolean normalize, int stride, int64_t startIndex);
-    void Draw(Camera* pCamera, Material* pMaterial, MyMatrix worldMat, vec2 uvScale, vec2 uvOffset, float time);
-
-    void LoadObj(const char* objfilename);
+    void Create(GLenum primitiveType, const std::vector<VertexFormat>& verts);
     void Create(GLenum primitiveType, const std::vector<VertexFormat>& verts, const std::vector<unsigned int>& indices);
+    void LoadFromOBJ();
+
+    void SetupUniform(ShaderProgram* pShader, char* name, float value);
+    void SetupUniform(ShaderProgram* pShader, char* name, vec2 value);
+    void SetupAttribute(ShaderProgram* pShader, char* name, int size, GLenum type, GLboolean normalize, int stride, int64_t startIndex);
+    void Draw(Camera* pCamera, ShaderProgram* pShader, Texture* pTexture, const mat4& worldMat, vec2 uvScale, vec2 uvOffset, float time);
 
 protected:
     GLuint m_VBO = 0;
@@ -41,11 +38,6 @@ protected:
     GLenum m_PrimitiveType = GL_POINTS;
     int m_NumVerts = 0;
     int m_NumIndices = 0;
-
-    std::vector<vec3> m_Vertices;
-    std::vector<vec2> m_UVCoords;
-    std::vector<vec3> m_Normals;
-    std::vector<vec3> m_VertexFormat;
 };
 
 } // namespace fw

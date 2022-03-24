@@ -6,45 +6,45 @@
 
 namespace fw {
 
-    SpriteSheet::SpriteSheet(const char* filename, Texture* pTexture)
-        : m_pTexture(pTexture)
+SpriteSheet::SpriteSheet(const char* filename, Texture* pTexture)
+	: m_pTexture( pTexture )
+{
+    const char* jsonString = fw::LoadCompleteFile( filename, nullptr );
+    rapidjson::Document document;
+    document.Parse( jsonString );
+    delete[] jsonString;
+
+    int sheetWidth = document["Width"].GetInt();
+    int sheetHeight = document["Height"].GetInt();
+
+    rapidjson::Value& spriteArray = document["Sprites"];
+    for( rapidjson::SizeType i=0; i<spriteArray.Size(); i++ )
     {
-        const char* jsonString = fw::LoadCompleteFile(filename, nullptr);
-        rapidjson::Document document;
-        document.Parse(jsonString);
-        delete[] jsonString;
+        rapidjson::Value& sprite = spriteArray[i];
 
-        int sheetWidth = document["Width"].GetInt();
-        int sheetHeight = document["Height"].GetInt();
+        float x = sprite["X"].GetFloat() + 0.5f;
+        float y = sprite["Y"].GetFloat() + 0.5f;
+        float w = sprite["W"].GetFloat() - 1.0f;
+        float h = sprite["H"].GetFloat() - 1.0f;
+        
+        const char* name = sprite["Name"].GetString();
 
-        rapidjson::Value& spriteArray = document["Sprites"];
-        for (rapidjson::SizeType i = 0; i < spriteArray.Size(); i++)
-        {
-            rapidjson::Value& sprite = spriteArray[i];
-
-            float x = sprite["X"].GetFloat() + 0.5f;
-            float y = sprite["Y"].GetFloat() + 0.5f;
-            float w = sprite["W"].GetFloat() - 1.0f;
-            float h = sprite["H"].GetFloat() - 1.0f;
-
-            const char* name = sprite["Name"].GetString();
-
-            m_Sprites[name] = { vec2(w / sheetWidth, h / sheetHeight), vec2(x / sheetWidth, y / sheetHeight) };
-        }
+        m_Sprites[name] = { vec2(w/sheetWidth, h/sheetHeight), vec2(x/sheetWidth, y/sheetHeight) };
     }
+}
 
-    SpriteSheet::~SpriteSheet()
-    {
-    }
+SpriteSheet::~SpriteSheet()
+{
+}
 
-    SpriteSheet::SpriteInfo SpriteSheet::GetSpriteByName(std::string name)
-    {
-        if (m_Sprites.find(name) != m_Sprites.end())
-        {
-            return m_Sprites.at(name);
-        }
+SpriteSheet::SpriteInfo SpriteSheet::GetSpriteByName(std::string name)
+{
+	if( m_Sprites.find( name ) != m_Sprites.end() )
+	{
+		return m_Sprites.at( name );
+	}
 
-        return { vec2(1,1), vec2(0,0) };
-    }
+	return { vec2(1,1), vec2(0,0) };
+}
 
 } // namespace fw

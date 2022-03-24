@@ -85,8 +85,6 @@ void ImGuiManager::OnFocusLost()
 
 void ImGuiManager::StartFrame(float deltaTime)
 {
-    ImGui::NewFrame();
-
     ImGuiIO& io = ImGui::GetIO();
     io.DeltaTime = deltaTime;
     io.DisplaySize.x = (float)m_pFramework->GetWindowWidth();
@@ -102,6 +100,13 @@ void ImGuiManager::StartFrame(float deltaTime)
     io.MousePos.x = (float)mx;
     io.MousePos.y = (float)my;
     io.MouseDown[0] = m_pFramework->IsMouseButtonDown( 0 );
+
+    for( int i=0; i<256; i++ )
+    {
+        io.KeysDown[i] = m_pFramework->IsKeyDown( i );
+    }
+
+    ImGui::NewFrame();
 }
 
 void ImGuiManager::EndFrame()

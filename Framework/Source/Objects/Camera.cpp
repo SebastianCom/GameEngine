@@ -1,20 +1,15 @@
 #include "CoreHeaders.h"
 
 #include "Camera.h"
-#include "Scene.h"
-#include "Math/Random.h"
+#include "Objects/Scene.h"
+#include "Components/TransformComponent.h"
+#include "FWCore.h"
 
 namespace fw {
 
-Camera::Camera(Scene* pScene, vec3 pos, vec3 lookAt, float FOVDeg)
-    : GameObject("Camera", pScene, pos)
+Camera::Camera(Scene* pScene, vec3 pos)
+    : GameObject( "Camera", pScene, pos )
 {
-    m_Position = pos;
-    m_ViewMat.CreateLookAtView(m_Position, vec3(0, 1, 0), lookAt);
-    //m_ProjMat.CreatePerspectiveVFoV(FOVDeg, 1.0f, 0.01f, 1000.0f);
-    m_ProjMat.CreateOrtho(-5,5, -5,5, -25,25);
-    ShakeTime = .05f;
-    m_LookAtPoint = lookAt;
 }
 
 Camera::~Camera()
@@ -23,33 +18,41 @@ Camera::~Camera()
 
 void Camera::Update(float deltaTime)
 {
-    m_Position = m_pObjectWeAreFollowing->GetPosition() -  vec3(0,0,-20);
+    if( m_pObjectWeAreLookingAt )
+    {
+        m_LookAtPosition = m_pObjectWeAreLookingAt->GetTransform()->GetPosition();
+    }
+
+    m_ViewMatrix.CreateLookAtView( GetTransform()->GetPosition(), vec3(0,1,0), m_LookAtPosition );
+    m_ProjectionMatrix.CreatePerspectiveVFoV( 45.0f, 1.0f, 0.01f, 400.0f );
+    //m_ProjectionMatrix.CreateOrtho( -5, 5,   -5, 5,   -25, 25 );
 }
 
-bool Camera::CameraShake(float DeltaTime)
+void Camera::Hack_ThirdPersonCamUpdate(FWCore* pFramework, float deltaTime)
 {
-    if (ShakeTime == .05f)
-    {
-        StartLocation = m_LookAtPoint;
-    }
+    float speed = 90.0f;
+    float distance = 10.0f;
 
-    if (ShakeTime > 0)
-    {
-        vec3 RandPos = vec3(m_LookAtPoint.x = fw::Random::GetFloat(-.5f, .5f), m_LookAtPoint.y = fw::Random::GetFloat(-.5f, .5f), 0);
-        m_ViewMat.CreateLookAtView(m_Position, vec3(0, 1, 0), RandPos);
-        ShakeTime -= DeltaTime;
-        return true;
-    }
-    else
-    {
-        ShakeTime = .05f;
-        m_ViewMat.CreateLookAtView(m_Position, vec3(0, 1, 0), StartLocation);
-        m_LookAtPoint = StartLocation;
-        return false;
-    }
+    vec3 rot = GetTransform()->GetRotation();
 
+    if( pFramework->IsKeyDown('J') )
+        rot.y += deltaTime * speed;
+    if( pFramework->IsKeyDown('L') )
+        rot.y -= deltaTime * speed;
 
+    if( pFramework->IsKeyDown('I') )
+        rot.x -= deltaTime * speed;
+    if( pFramework->IsKeyDown('K') )
+        rot.x += deltaTime * speed;
 
+    m_ViewMatrix.SetIdentity();
+    m_ViewMatrix.Translate( vec3(0,0,-distance) );
+    m_ViewMatrix.Rotate( rot.x, 1, 0, 0 );
+    m_ViewMatrix.Rotate( rot.y, 0, 1, 0 );
+    m_ViewMatrix.Translate( m_LookAtPosition );
+    m_ViewMatrix.Inverse();
+
+    GetTransform()->SetRotation( rot );
 }
 
 } // namespace fw

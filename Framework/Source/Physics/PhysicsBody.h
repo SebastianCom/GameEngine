@@ -4,25 +4,23 @@
 
 namespace fw {
 
-	class PhysicsBody
-	{
-	public:
+class PhysicsBody
+{
+public:
+    virtual ~PhysicsBody() = 0 {}
 
-		virtual ~PhysicsBody() = 0 {};
-		
-		virtual void SetPosition(vec3 pos) = 0 {};
-		virtual b2Vec2 GetPosition() = 0 {};
-		virtual void SetRotation(vec3 rot) = 0 {};
-		virtual vec3 GetRotation() = 0 {};
-		virtual b2Body* GetBody() = 0 {};
-		virtual vec2 GetSize() = 0 {};
-		virtual void Editor_FillInspectorWindow() = 0;
+    // Getters.
+    virtual vec3 GetPosition() = 0;
+    virtual vec3 GetRotation() = 0;
 
+    // Setters.
+    virtual void SetTransform(vec3 pos, vec3 rot) = 0;
 
-	protected:
-		vec3 m_Position{ vec3(0,0) };
-		vec3 m_Rotation{ vec3(0,0) };
-		vec3 m_Scale{ vec3(0,0) };
-	};
+    // Forces.
+    virtual void ApplyForceToCenter(vec3 force) = 0;
 
-}
+public:
+    virtual void Editor_FillInspectorWindow() = 0;
+};
+
+} // namespace fw

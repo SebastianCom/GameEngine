@@ -5,10 +5,11 @@
 #include "GameObjects/PlayerController.h"
 #include "Meshes/Shapes.h"
 #include "GameEvents/GameEvents.h"
-#include "Scenes/PhysicsScene.h"
-#include "Scenes/WaterScene.h"
 #include "Scenes/CubeScene.h"
-#include "Scenes/Assignment1Scene.h"
+#include "Scenes/PhysicsScene.h"
+#include "Scenes/PhysicsScene3D.h"
+#include "Scenes/ThirdPersonScene.h"
+#include "Scenes/WaterScene.h"
 
 Game::Game(fw::FWCore& fwCore)
     : m_FWCore( fwCore )
@@ -18,8 +19,14 @@ Game::Game(fw::FWCore& fwCore)
 
 Game::~Game()
 {
+    m_FWCore.GetEventManager()->UnregisterForEvents( fw::InputEvent::GetStaticEventType(), this );
 
-    for (auto& it : m_Scenes)
+    for( auto& it : m_Scenes )
+    {
+        delete it.second;
+    }
+
+    for( auto& it : m_Materials )
     {
         delete it.second;
     }
@@ -44,158 +51,148 @@ Game::~Game()
         delete it.second;
     }
 
-    for (auto& it : m_Materials)
-    {
-        delete it.second;
-    }
-
     delete m_pImGuiManager;
 }
 
 void Game::Init()
 {
+    m_FWCore.GetEventManager()->RegisterForEvents( fw::InputEvent::GetStaticEventType(), this );
+
     m_pImGuiManager = new fw::ImGuiManager( &m_FWCore );
 
     // OpenGL settings.
-    //glClearColor(0.39f, 0.58f, 0.93f, 1.0f);
-    glClearColor(0.10f, 0.10f, 0.02f, 1.0f);
+    glClearColor( 0.0f, 0.0f, 0.2f, 1.0f );
     glPointSize( 10 );
     glEnable( GL_BLEND );
     glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );
-    glEnable(GL_DEPTH_TEST);
-    glEnable(GL_CULL_FACE);
-    glFrontFace(GL_CW);
-    glViewport(300, 50, 600, 600);
+    glEnable( GL_DEPTH_TEST );
+    glViewport( 300, 50, 600, 600 );
 
-    //Scene needs to access these VV
-    //m_Meshes["Sprite"] = new fw::Mesh( GL_TRIANGLE_STRIP, g_SpriteVerts );
-    m_Meshes["Sprite"] = new fw::Mesh( GL_TRIANGLES, g_SpriteVerts, g_SpriteIndices);
-    m_Meshes["Cube"] = new fw::Mesh(GL_TRIANGLES, g_CubeVerts, g_CubeIndices);
-    m_Meshes["ObjTest"] = new fw::Mesh("Data/Meshes/cube.obj");
+    // Back-face culling settings.
+    glEnable( GL_CULL_FACE );
+    //glCullFace( GL_BACK );
+    glFrontFace( GL_CW );
 
+    // Load our Meshes.
+    m_Meshes["Sprite"] = new fw::Mesh( GL_TRIANGLES, g_SpriteVerts, g_SpriteIndices );
+    m_Meshes["Cube"] = new fw::Mesh( GL_TRIANGLES, g_CubeVerts );
+    m_Meshes["Plane"] = CreatePlane();
 
-    m_GridSize = vec2(10, 10);
-    m_WorldSize = vec3(5, 1, 5);
-    m_Meshes["Plane"] = CreatePlane(m_GridSize, m_WorldSize, GL_TRIANGLES);
-    m_OldGridSize = m_GridSize;
-    m_OldWorldSize = m_WorldSize;
-
-
+    // Load our Shaders.
     m_Shaders["Basic"] = new fw::ShaderProgram( "Data/Shaders/Basic.vert", "Data/Shaders/Basic.frag" );
     m_Shaders["Water"] = new fw::ShaderProgram( "Data/Shaders/Water.vert", "Data/Shaders/Water.frag" );
-    m_Textures["Sprites"] = new fw::Texture( "Data/Textures/Sprites.png" );
-    m_Textures["BaseColor"] = new fw::Texture(255, 165, 0, 255, 0, 150, 255,255);
-    m_Textures["Water"] = new fw::Texture("Data/Textures/Water.png");
-    //A1
-    m_Textures["Ewe"] = new fw::Texture("Data/Textures/Sheep.png");
-    m_Textures["Ground"] = new fw::Texture("Data/Textures/Ground.png");
-    m_Textures["Meteor"] = new fw::Texture("Data/Textures/Meteor.png");
-    m_Textures["Bone"] = new fw::Texture("Data/Textures/Bone.png");
-    m_Textures["Meat"] = new fw::Texture("Data/Textures/ItemFood.png");
-    m_Textures["BackGround"] = new fw::Texture("Data/Textures/BG.png");
-    m_Textures["Start"] = new fw::Texture("Data/Textures/Title.png");
-    m_Textures["End"] = new fw::Texture("Data/Textures/Lose.png");
-    m_Textures["Win"] = new fw::Texture("Data/Textures/Win.png");
-    
 
+    // Load our Textures.
+    m_Textures["Sprites"] = new fw::Texture( "Data/Textures/Sprites.png" );
+    m_Textures["Water"] = new fw::Texture( "Data/Textures/Water.png" );
+    m_Textures["BG"] = new fw::Texture( "Data/Textures/BG.png" );
+
+    // Create our Materials.
+    m_Materials["Sprites"] = new fw::Material( m_Shaders["Basic"], m_Textures["Sprites"], fw::Color4f::Blue() );
+    m_Materials["Water"] = new fw::Material( m_Shaders["Water"], m_Textures["Water"], fw::Color4f::Blue() );
+    m_Materials["BG"] = new fw::Material( m_Shaders["Basic"], m_Textures["BG"], fw::Color4f::Blue() );
+
+    // Load our Spritesheets.
     m_SpriteSheets["Sprites"] = new fw::SpriteSheet( "Data/Textures/Sprites.json", m_Textures["Sprites"] );
 
-    m_Materials["Sokoban"] = new fw::Material(m_Shaders["Basic"], m_Textures["Sprites"], fw::Color4f::Blue);
-    m_Materials["BaseColor"] = new fw::Material(m_Shaders["Basic"], m_Textures["BaseColor"], fw::Color4f::Black);
-    m_Materials["Water"] = new fw::Material(m_Shaders["Water"], m_Textures["Water"], fw::Color4f::WaterBlue);
-   
-    //A1
-    m_Materials["Ewe"] = new fw::Material(m_Shaders["Basic"], m_Textures["Ewe"], fw::Color4f::Blue);
-    m_Materials["Ground"] = new fw::Material(m_Shaders["Basic"], m_Textures["Ground"], fw::Color4f::Blue);
-    m_Materials["Meteor"] = new fw::Material(m_Shaders["Basic"], m_Textures["Meteor"], fw::Color4f::Blue);
-    m_Materials["Bone"] = new fw::Material(m_Shaders["Basic"], m_Textures["Bone"], fw::Color4f::Blue);
-    m_Materials["Meat"] = new fw::Material(m_Shaders["Basic"], m_Textures["Meat"], fw::Color4f::Blue);
-    m_Materials["BackGround"] = new fw::Material(m_Shaders["Basic"], m_Textures["BackGround"], fw::Color4f::Blue);
-    m_Materials["Start"] = new fw::Material(m_Shaders["Basic"], m_Textures["Start"], fw::Color4f::Blue);
-    m_Materials["End"] = new fw::Material(m_Shaders["Basic"], m_Textures["End"], fw::Color4f::Blue);
-    m_Materials["Win"] = new fw::Material(m_Shaders["Basic"], m_Textures["Win"], fw::Color4f::Blue);
-    
-    
-    m_Scenes["Physics"] = new PhysicsScene(this);
-    m_Scenes["Cube"] = new CubeScene(this);
-    m_Scenes["Water"] = new WaterScene(this);
-    m_Scenes["ObjTest"] = new CubeScene(this);
-    
-    //A1
-    m_Scenes["A1"] = new Assignment1Scene(this);
+    // Load our Materials (which I didn't implement!!!).
+    //m_Materials["Sokoban"] = new fw::Material( m_Shaders["Basic"], m_Textures["Sprites"], fw::Color4f::Blue() );
 
-    WFrameToggle = true;
-    //ZoomToggle = false;
-    CurrentprimType = GL_TRIANGLES;
-   // m_pCurrentScene = m_Scenes["Water"];
-    //m_pCurrentScene = m_Scenes["A1"];
-    m_pCurrentScene = m_Scenes["Physics"];
-
+    // Create our Scenes.
+    m_Scenes["Cube"] = new CubeScene( this );
+    m_Scenes["Physics"] = new PhysicsScene( this );
+    m_Scenes["Physics3D"] = new PhysicsScene3D( this );
+    m_Scenes["ThirdPerson"] = new ThirdPersonScene( this );
+    m_Scenes["Water"] = new WaterScene( this );
+    m_pCurrentScene = m_Scenes["Physics3D"];
 }
 
 void Game::StartFrame(float deltaTime)
 {
     m_pImGuiManager->StartFrame( deltaTime );
-    
-    m_pCurrentScene->StartFrame(deltaTime);
 
+    m_pCurrentScene->StartFrame( deltaTime );
 }
 
 void Game::OnEvent(fw::Event* pEvent)
 {
-
-    m_pCurrentScene->OnEvent(pEvent);
-
+    m_pCurrentScene->OnEvent( pEvent );
 }
 
 void Game::Update(float deltaTime)
 {
     ImGui::ShowDemoWindow();
 
-   SwitchScene();
-   WaterToggles();
+    ImGui::Begin( "Scene Selector" );
+    if( ImGui::Button( "Cube" ) )
+    {
+        m_pCurrentScene = m_Scenes["Cube"];
+    }
+    if( ImGui::Button( "Physics" ) )
+    {
+        m_pCurrentScene = m_Scenes["Physics"];
+    }
+    if( ImGui::Button( "ThirdPerson" ) )
+    {
+        m_pCurrentScene = m_Scenes["ThirdPerson"];
+    }
+    if( ImGui::Button( "Water" ) )
+    {
+        m_pCurrentScene = m_Scenes["Water"];
+    }
+    ImGui::End(); //"Scene Selector"
 
-   m_pCurrentScene->Update(deltaTime);
+    m_pCurrentScene->Update( deltaTime );
 
-   //figure out world space coord of mouse
-   {
-       int Wmousex = 0;
-       int Wmousey = 0;
-       m_FWCore.GetMouseCoordinates(&Wmousex,&Wmousey);
+    // Figure out world space coordinate of mouse.
+    {
+        // Get window mouse coordinates.
+        ivec2 windowCoord;
+        m_FWCore.GetMouseCoordinates( &windowCoord.x, &windowCoord.y );
 
-       ivec2 WindowSize(m_FWCore.GetWindowWidth(), m_FWCore.GetWindowHeight());
-       ivec2 m_ViewportPos(300,50);
-       ivec2 m_viewportSize(600,600);
-       
-       
-       ivec2 viewpointCoord;
+        // Convert into opengl "viewport" coordinates.
+        //glViewport( 300, 50, 600, 600 );
+        // TODO: Make these actual member variables:
+        ivec2 windowSize( m_FWCore.GetWindowWidth(), m_FWCore.GetWindowHeight() );
+        ivec2 m_ViewportPos( 300, 50 );
+        ivec2 m_ViewportSize( 600, 600 );
 
-       //window to view
-       viewpointCoord.x = Wmousex - m_ViewportPos.x;
-       viewpointCoord.y = (WindowSize.y - Wmousey) - m_ViewportPos.y;
+        ivec2 viewportCoord;
+        viewportCoord.x = windowCoord.x - m_ViewportPos.x;
+        viewportCoord.y = windowSize.y - windowCoord.y - m_ViewportPos.y;
 
-       vec2 ClipCoord = vec2(0,0);
+        // Convert into clip space coordinates.
+        vec2 clipSpaceCoord = viewportCoord / (m_ViewportSize/2.0f) - 1.0f;
 
-       //view to clip
-       ClipCoord.x = (viewpointCoord.x / (m_viewportSize.x/2.0f)) - 1.0f;
-       ClipCoord.y = (viewpointCoord.y / (m_viewportSize.y/2.0f)) - 1.0f;
+        vec4 clipSpaceCoord4 = vec4( clipSpaceCoord, 1, 1 );
+        // Convert into view space coordinates.
+        fw::mat4 invProj = m_pCurrentScene->GetCamera()->GetProjectionMatrix().GetInverse();        
+        vec4 viewSpaceCoord = invProj * clipSpaceCoord4;
 
-       fw::MyMatrix proj;
-       proj.CreateOrtho(-5, 5, -5, 5, -25, 25);
-       fw::MyMatrix invProj = proj;
-       invProj.Inverse();
+        // Convert into world space coordinates.
+        fw::mat4 invView = m_pCurrentScene->GetCamera()->GetViewMatrix().GetInverse();        
+        vec4 worldSpaceCoord = invView * viewSpaceCoord;
 
-       vec2 viewSpaceCoord = invProj * ClipCoord;
+        vec3 nearPosition = m_pCurrentScene->GetCamera()->GetTransform()->GetPosition();
+        vec3 farPosition = worldSpaceCoord.XYZ() / worldSpaceCoord.w;
 
-       ImGui::Text("Window Coords: %d, %d", Wmousex, Wmousey);
-       ImGui::Text("Viewport Coords: %d, %d", viewpointCoord.x, viewpointCoord.y);
-       ImGui::Text("Clip Coords: %0.2f, %0.2f", ClipCoord.x, ClipCoord.y);
-       ImGui::Text("View Coords: %0.2f, %0.2f", viewSpaceCoord.x, viewSpaceCoord.y);
-   }
+        float zZero = 0.0f;
+        vec3 rayDir = farPosition - nearPosition;
+        float rayPerc = (zZero - nearPosition.z) / rayDir.z;
+        vec3 posAtZZero = nearPosition + rayDir*rayPerc;
 
+        float zDesired = 10.0f;
+        rayPerc = (zDesired - nearPosition.z) / rayDir.z;
+        vec3 posAtZDesired = nearPosition + rayDir*rayPerc;
+
+        ImGui::Text( "Window Coords: %d, %d", windowCoord.x, windowCoord.y );
+        ImGui::Text( "Viewport Coords: %d, %d", viewportCoord.x, viewportCoord.y );
+        ImGui::Text( "Clip Space Coords: %0.2f, %0.2f", clipSpaceCoord.x, clipSpaceCoord.y );
+        ImGui::Text( "View Space Coords: %0.2f, %0.2f", viewSpaceCoord.x, viewSpaceCoord.y );
+        ImGui::Text( "World Space at Z zero:  %0.2f, %0.2f, %0.2f", posAtZZero.x, posAtZZero.y, posAtZZero.z );
+        ImGui::Text( "World Space at desized: %0.2f, %0.2f, %0.2f", posAtZDesired.x, posAtZDesired.y, posAtZDesired.z );
+    }
 }
-
-
 
 void Game::Draw()
 {
@@ -203,140 +200,5 @@ void Game::Draw()
 
     m_pCurrentScene->Draw();
 
-    //m_pPlayerController->OnEvent(pEvent);
-    
     m_pImGuiManager->EndFrame();
-}
-
-
-// ----------------- MY FUNCTIONS ---------------------------------------------------------------------------------------------------
-
-
-void Game::ChangeWindowSize()
-{
-
-    static int GridImguiX = { int(m_GridSize.x) };
-    static int GridImguiY = { int(m_GridSize.y) };
-    ImGui::InputInt("Grid X", &GridImguiX, 1);
-    ImGui::InputInt("Grid Y", &GridImguiY, 1);
-    if (GridImguiX >= 0)
-        m_GridSize.x = GridImguiX;
-    if (GridImguiY >= 0)
-        m_GridSize.y = GridImguiY;
-
-    static int WorldImguiX = { int(m_WorldSize.x) };
-    static int WorldImguiY = { int(m_WorldSize.z) };
-    ImGui::InputInt("World X", &WorldImguiX, 1);
-    ImGui::InputInt("World Z", &WorldImguiY, 1);
-    if (WorldImguiX >= 0)
-        m_WorldSize.x = WorldImguiX;
-    if (WorldImguiY >= 0)
-        m_WorldSize.z = WorldImguiY;
-
-
-    if (m_GridSize != m_OldGridSize || m_WorldSize != m_OldWorldSize)
-    {
-        delete m_Meshes["Plane"];
-        m_Meshes["Plane"] = CreatePlane(m_GridSize, m_WorldSize, CurrentprimType);
-
-        //Alright So here is the deal, i know this is bad. I know i shouldnt have to do this. However with the current set up and 
-        //components i really struggled here. My grid would only draw a third of the time when making changes unless i reset the scene
-        //i tried many things to combat this and ultimatley wasted way too much time. This is function so it will last as a place holder for now.
-        ResetScene("Water");
-        m_OldGridSize = m_GridSize;
-        m_OldWorldSize = m_WorldSize;
-    }
-
-    //BROKEN
-    //if (ImGui::Button("Reset"))
-    //{
-    //    m_GridSize = vec2(100, 100);
-    //    m_WorldSize = vec3(10, 10, 10);
-    //    m_OldGridSize = m_GridSize;
-    //    m_OldWorldSize = m_WorldSize;
-    //    WFrameToggle = true;
-    //    delete m_Meshes["Plane"];
-    //    m_Meshes["Plane"] = CreatePlane(m_GridSize, m_WorldSize, GL_TRIANGLES);
-    //    ResetScene("Water");
-    //}
-}
-
-void Game::WaterToggles()
-{
-    if (m_pCurrentScene == m_Scenes["Water"])
-    {
-        ChangeWindowSize();
-        if (ImGui::Button("Wire Frame"))
-        {
-            if (!WFrameToggle)
-            {
-                delete m_Meshes["Plane"];
-                m_Meshes["Plane"] = CreatePlane(m_GridSize, m_WorldSize, GL_TRIANGLES);
-                CurrentprimType = GL_TRIANGLES;
-            }
-            else
-            {
-                delete m_Meshes["Plane"];
-                m_Meshes["Plane"] = CreatePlane(m_GridSize, m_WorldSize, GL_POINTS);
-                CurrentprimType = GL_POINTS;
-            }
-            WFrameToggle = !WFrameToggle;
-            ResetScene("Water");
-        }
-       
-        //if (ImGui::Button("Zoom Out"))
-        //{
-        //    if (!ZoomToggle)
-        //    {
-        //        delete m_Scenes["Water"];
-        //        m_Scenes["Water"] = new WaterScene(this, fw::vec3(450, 900, 350), fw::vec3(450, -300, 550));
-        //        m_pCurrentScene = m_Scenes["Water"];
-        //    }
-        //    else
-        //    {
-        //        delete m_Scenes["Water"];
-        //        m_Scenes["Water"] = new WaterScene(this);
-        //        m_pCurrentScene = m_Scenes["Water"];
-        //    }
-        //    ZoomToggle = !ZoomToggle;
-        //}
-
-    }
-}
-
-void Game::SwitchScene()
-{
-    if (ImGui::Button("Physics Scene"))
-    {
-        ResetScene("Physics");
-    }
-    if (ImGui::Button("Cube Scene"))
-        m_pCurrentScene = m_Scenes["Cube"];
-    if (ImGui::Button("Water Scene"))
-    {
-        m_pCurrentScene = m_Scenes["Water"];
-    }
-}
-
-void Game::ResetScene(const char* name)
-{
-    if (name == 0)
-    {
-        assert(false); //You fucked up champ (look below)
-        //Reset Scene needs a const char point that is identical to the name of the scene you are trying to reset
-    }
-    else
-    {
-        delete m_Scenes[name];
-        if (name == "Water")
-        {
-            m_Scenes[name] = new WaterScene(this);
-        }
-        else if (name == "Cube")
-            m_Scenes[name] = new CubeScene(this);
-        else if (name == "Physics")
-            m_Scenes[name] = new PhysicsScene(this);
-
-        m_pCurrentScene = m_Scenes[name];
-    }
 }

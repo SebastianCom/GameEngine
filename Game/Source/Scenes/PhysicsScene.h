@@ -1,26 +1,19 @@
 #pragma once
 
-class PlayerController;
 class Game;
+class PlayerController;
 
-class PhysicsScene: public fw::Scene
+class PhysicsScene : public fw::Scene
 {
 public:
     PhysicsScene(Game* pGame);
     virtual ~PhysicsScene();
 
     virtual void StartFrame(float deltaTime) override;
-    virtual void Update(float deltaTime);
     virtual void OnEvent(fw::Event* pEvent) override;
-    //virtual void Draw();
-
-    virtual void Reset() override;
-
+    virtual void Update(float deltaTime) override;
+    //virtual void Draw() override;
 
 protected:
-
     PlayerController* m_pPlayerController = nullptr;
-
-
 };
-

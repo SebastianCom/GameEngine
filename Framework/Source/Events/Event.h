@@ -1,10 +1,10 @@
 #pragma once
 
 #include "Math/Vector.h"
-#include "Objects/GameObject.h"
-
 
 namespace fw {
+
+class GameObject;
 
 enum class DeviceType { Keyboard, Mouse };
 enum class InputState { Pressed, Released };
@@ -75,9 +75,8 @@ protected:
     GameObject* m_pObject = nullptr;
 };
 
-
 //===============================================
-// CollsionEvent class
+// CollisionEvent class
 //===============================================
 class CollisionEvent : public Event
 {
@@ -88,6 +87,7 @@ public:
         m_pObjectB = pObjectB;
     }
     virtual ~CollisionEvent() {}
+
     // Event Type Getters.
     static const char* GetStaticEventType() { return "CollisionEvent"; }
     virtual const char* GetEventType() override { return GetStaticEventType(); }
@@ -100,33 +100,5 @@ protected:
     GameObject* m_pObjectA = nullptr;
     GameObject* m_pObjectB = nullptr;
 };
-
-//===============================================
-// RemoveObjectEvent class
-//===============================================
-class RemoveObjectEvent : public Event
-{
-public:
-    RemoveObjectEvent(std::vector<GameObject*> pObjects, GameObject* pObjectToRemove, MeshComponent* pMeshComp, std::vector<GameObject*> pReturnPool)
-    {
-        m_Objects = pObjects;
-        m_pObjectToRemove = pObjectToRemove;
-        m_pMeshToRemove = pMeshComp;
-    }
-    virtual ~RemoveObjectEvent() {}
-    // Event Type Getters.
-    static const char* GetStaticEventType() { return "RemoveObjectEvent"; }
-    virtual const char* GetEventType() override { return GetStaticEventType(); }
-
-    std::vector<GameObject*> GetGameObjects() { return m_Objects; }
-    GameObject* GetObjectToRemove() { return m_pObjectToRemove; }
-    MeshComponent* GetMeshToRemove() { return m_pMeshToRemove; }
-
-protected:
-    std::vector<GameObject*> m_Objects;
-    GameObject* m_pObjectToRemove = nullptr;
-    MeshComponent* m_pMeshToRemove = nullptr;
-};
-
 
 } // namespace fw

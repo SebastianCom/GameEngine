@@ -5,7 +5,6 @@
 #include "Objects/GameObject.h"
 
 class PlayerController;
-class Scene;
 
 class Player : public fw::GameObject
 {
@@ -19,12 +18,8 @@ public:
     // Setters.
     void SetSpriteSheet(fw::SpriteSheet* pSpriteSheet) { m_pSpriteSheet = pSpriteSheet; }
 
-
-    bool bOnGround;
-
 protected:
     PlayerController* m_pPlayerController = nullptr;
 
     fw::SpriteSheet* m_pSpriteSheet = nullptr;
-
 };

@@ -7,7 +7,7 @@
 class Enemy : public fw::GameObject
 {
 public:
-    Enemy(fw::Scene* pScene, fw::Mesh* pMesh, fw::Material* pMaterial, vec2 pos);
+    Enemy(fw::Scene* pScene, fw::Mesh* pMesh, fw::ShaderProgram* pShader, fw::Texture* pTexture, vec3 pos);
     virtual ~Enemy();
 
     virtual void Update(float deltaTime) override;

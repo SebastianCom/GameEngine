@@ -5,101 +5,88 @@
 
 const std::vector<fw::VertexFormat> g_SpriteVerts =
 {
-    //{ vec3(0.0f,1.0f,0.0f),  255,255,255,255,  vec2(0.0f,1.0f) }, // top left
-    //{ vec3(1.0f,1.0f,0.0f),  255,255,255,255,  vec2(1.0f,1.0f) }, // top right
-    //{ vec3(0.0f,0.0f,0.0f),  255,255,255,255,  vec2(0.0f,0.0f) }, // bottom left
-    //{ vec3(1.0f,0.0f,0.0f),  255,255,255,255,  vec2(1.0f,0.0f) }, // bottom right
-
-    { vec3(0.0f,1.0f,0.0f),  255,255,255,255,  vec2(0.0f,1.0f) }, // top left
-    { vec3(1.0f,1.0f,0.0f),  255,255,255,255,  vec2(1.0f,1.0f) }, // top right
-    { vec3(0.0f,0.0f,0.0f),  255,255,255,255,  vec2(0.0f,0.0f) }, // bottom left
-    { vec3(1.0f,0.0f,0.0f),  255,255,255,255,  vec2(1.0f,0.0f) }, // bottom right
+    { vec3(-0.5f, 0.5f,0.0f),  255,255,255,255,  vec2(0.0f,1.0f) }, // top left
+    { vec3( 0.5f, 0.5f,0.0f),  255,255,255,255,  vec2(1.0f,1.0f) }, // top right
+    { vec3(-0.5f,-0.5f,0.0f),  255,255,255,255,  vec2(0.0f,0.0f) }, // bottom left
+    { vec3( 0.5f,-0.5f,0.0f),  255,255,255,255,  vec2(1.0f,0.0f) }, // bottom right
 };
-
 const std::vector<unsigned int> g_SpriteIndices =
 {
-    0,1,2,2,1,3,
+    0, 1, 2, 2, 1, 3,
 };
 
 const std::vector<fw::VertexFormat> g_CubeVerts =
 {
     // Front
-    { vec3(1.0f,0.0f,0.5f),  255,255,255,255,  vec2(1.0f,0.0f) }, // bottom right
-    { vec3(1.0f,1.0f,0.5f),  255,255,255,255,  vec2(1.0f,1.0f) }, // top right
-    { vec3(0.0f,0.0f,0.5f),  255,255,255,255,  vec2(0.0f,0.0f) }, // bottom left
-    { vec3(0.0f,1.0f,0.5f),  255,255,255,255,  vec2(0.0f,1.0f) }, // top left
-    
+    { vec3(-0.5f, 0.5f,-0.5f),  255,255,255,255,  vec2(0.0f,1.0f) }, // top left
+    { vec3( 0.5f, 0.5f,-0.5f),  255,255,255,255,  vec2(1.0f,1.0f) }, // top right
+    { vec3(-0.5f,-0.5f,-0.5f),  255,255,255,255,  vec2(0.0f,0.0f) }, // bottom left
+
+    { vec3( 0.5f, 0.5f,-0.5f),  255,255,255,255,  vec2(1.0f,1.0f) }, // top right
+    { vec3( 0.5f,-0.5f,-0.5f),  255,255,255,255,  vec2(1.0f,0.0f) }, // bottom right
+    { vec3(-0.5f,-0.5f,-0.5f),  255,255,255,255,  vec2(0.0f,0.0f) }, // bottom left
 
     // Back
-    { vec3(0.0f,1.0f,-0.5f),  255,255,255,255,  vec2(0.0f,1.0f) }, // top left
-    { vec3(1.0f,1.0f,-0.5f),  255,255,255,255,  vec2(1.0f,1.0f) }, // top right
-    { vec3(0.0f,0.0f,-0.5f),  255,255,255,255,  vec2(0.0f,0.0f) }, // bottom left
-    { vec3(1.0f,0.0f,-0.5f),  255,255,255,255,  vec2(1.0f,0.0f) }, // bottom right
+    { vec3(-0.5f, 0.5f, 0.5f),  255,255,255,255,  vec2(0.0f,1.0f) }, // top left
+    { vec3(-0.5f,-0.5f, 0.5f),  255,255,255,255,  vec2(0.0f,0.0f) }, // bottom left
+    { vec3( 0.5f, 0.5f, 0.5f),  255,255,255,255,  vec2(1.0f,1.0f) }, // top right
 
-     // Right
-    { vec3(1.0f,0.0f,-0.5f),  255,255,255,255,  vec2(1.0f,0.0f) }, // bottom right
-    { vec3(1.0f,1.0f,-0.5f),  255,255,255,255,  vec2(1.0f,1.0f) }, // top right
-    { vec3(1.0f,0.0f, 0.5f),  255,255,255,255,  vec2(0.0f,0.0f) }, // bottom left
-    { vec3(1.0f,1.0f, 0.5f),  255,255,255,255,  vec2(0.0f,1.0f) }, // top left
+    { vec3( 0.5f,-0.5f, 0.5f),  255,255,255,255,  vec2(1.0f,0.0f) }, // bottom right
+    { vec3( 0.5f, 0.5f, 0.5f),  255,255,255,255,  vec2(1.0f,1.0f) }, // top right
+    { vec3(-0.5f,-0.5f, 0.5f),  255,255,255,255,  vec2(0.0f,0.0f) }, // bottom left
 
+    // Left
+    { vec3(-0.5f, -0.5f, 0.5f),  255,255,255,255,  vec2(0.0f,1.0f) }, // top left
+    { vec3(-0.5f,  0.5f, 0.5f),  255,255,255,255,  vec2(1.0f,1.0f) }, // top right
+    { vec3(-0.5f, -0.5f,-0.5f),  255,255,255,255,  vec2(0.0f,0.0f) }, // bottom left
+    { vec3(-0.5f,  0.5f,-0.5f),  255,255,255,255,  vec2(1.0f,0.0f) }, // bottom right
+    { vec3(-0.5f, -0.5f,-0.5f),  255,255,255,255,  vec2(0.0f,0.0f) }, // bottom left
+    { vec3(-0.5f,  0.5f, 0.5f),  255,255,255,255,  vec2(1.0f,1.0f) }, // top right
 
+    // Right
+    { vec3(0.5f, -0.5f, 0.5f),  255,255,255,255,  vec2(0.0f,1.0f) }, // top left
+    { vec3(0.5f, -0.5f,-0.5f),  255,255,255,255,  vec2(0.0f,0.0f) }, // bottom left
+    { vec3(0.5f,  0.5f, 0.5f),  255,255,255,255,  vec2(1.0f,1.0f) }, // top right
+    { vec3(0.5f,  0.5f,-0.5f),  255,255,255,255,  vec2(1.0f,0.0f) }, // bottom right
+    { vec3(0.5f,  0.5f, 0.5f),  255,255,255,255,  vec2(1.0f,1.0f) }, // top right
+    { vec3(0.5f, -0.5f,-0.5f),  255,255,255,255,  vec2(0.0f,0.0f) }, // bottom left
 
-     // Left
-    { vec3(0.0f,0.0f, 0.5f),  255,255,255,255,  vec2(1.0f,0.0f) }, // bottom right
-    { vec3(0.0f,1.0f, 0.5f),  255,255,255,255,  vec2(1.0f,1.0f) }, // top right
-    { vec3(0.0f,0.0f,-0.5f),  255,255,255,255,  vec2(0.0f,0.0f) }, // bottom left
-    { vec3(0.0f,1.0f,-0.5f),  255,255,255,255,  vec2(0.0f,1.0f) }, // top left
+    // Top
+    { vec3(-0.5f, 0.5f, 0.5f),  255,255,255,255,  vec2(0.0f,1.0f) }, // top left
+    { vec3( 0.5f, 0.5f, 0.5f),  255,255,255,255,  vec2(1.0f,1.0f) }, // top right
+    { vec3(-0.5f, 0.5f,-0.5f),  255,255,255,255,  vec2(0.0f,0.0f) }, // bottom left
+    { vec3( 0.5f, 0.5f,-0.5f),  255,255,255,255,  vec2(1.0f,0.0f) }, // bottom right
+    { vec3(-0.5f, 0.5f,-0.5f),  255,255,255,255,  vec2(0.0f,0.0f) }, // bottom left
+    { vec3( 0.5f, 0.5f, 0.5f),  255,255,255,255,  vec2(1.0f,1.0f) }, // top right
 
-     // Top
-    { vec3(1.0f,1.0f, 0.5f),  255,255,255,255,  vec2(1.0f,0.0f) }, // bottom right
-    { vec3(1.0f,1.0f,-0.5f),  255,255,255,255,  vec2(1.0f,1.0f) }, // top right
-    { vec3(0.0f,1.0f, 0.5f),  255,255,255,255,  vec2(0.0f,0.0f) }, // bottom left
-    { vec3(0.0f,1.0f,-0.5f),  255,255,255,255,  vec2(0.0f,1.0f) }, // top left
-                      
-     // Bottom
-    { vec3(1.0f,0.0f,-0.5f),  255,255,255,255,  vec2(1.0f,0.0f) }, // bottom right
-    { vec3(1.0f,0.0f, 0.5f),  255,255,255,255,  vec2(1.0f,1.0f) }, // top right
-    { vec3(0.0f,0.0f,-0.5f),  255,255,255,255,  vec2(0.0f,0.0f) }, // bottom left
-    { vec3(0.0f,0.0f, 0.5f),  255,255,255,255,  vec2(0.0f,1.0f) }, // top left
-
+    // Bottom
+    { vec3(-0.5f,-0.5f, 0.5f),  255,255,255,255,  vec2(0.0f,1.0f) }, // top left
+    { vec3(-0.5f,-0.5f,-0.5f),  255,255,255,255,  vec2(0.0f,0.0f) }, // bottom left
+    { vec3( 0.5f,-0.5f, 0.5f),  255,255,255,255,  vec2(1.0f,1.0f) }, // top right
+    { vec3( 0.5f,-0.5f,-0.5f),  255,255,255,255,  vec2(1.0f,0.0f) }, // bottom right
+    { vec3( 0.5f,-0.5f, 0.5f),  255,255,255,255,  vec2(1.0f,1.0f) }, // top right
+    { vec3(-0.5f,-0.5f,-0.5f),  255,255,255,255,  vec2(0.0f,0.0f) }, // bottom left
 };
 
-const std::vector<unsigned int> g_CubeIndices =
+fw::Mesh* CreatePlane() //vec2 worldSize, ivec2 gridSize)
 {
-    0,1,2,2,1,3, 4,5,6,6,5,7, 8,9,10,10,9,11, 12,13,14,14,13,15, 16,17,18,18,17,19, 20,21,22,22,21,23 
+    std::vector<fw::VertexFormat> verts;
 
-};
+    vec2 stepSize = vec2( 1/100.0f, 1/100.0f );
 
-fw::Mesh* CreatePlane(vec2 gridSize, vec3 worldSize, GLenum primitiveType)
-{
-   std::vector<unsigned int> g_PlaneIndices;
-   std::vector<fw::VertexFormat>g_PlaneVerts;
-    for (int y = 0; y < gridSize.y; y++)
+    for( int y=0; y<1000; y++ )
     {
-        for (int x = 0; x < gridSize.x; x++) // x * stepsize.x, y * stepsize.y
+        for( int x=0; x<1000; x++ )
         {
-            vec3 GridSize = vec3(x* worldSize.x, 0, y*worldSize.z);
-            
-            g_PlaneVerts.push_back({ GridSize,  255,255,255,255,  vec2(GridSize.x/10.f,GridSize.z / 10.f) });
-            int bp = 1;
+            vec3 pos = vec3( x*stepSize.x, 0, y*stepSize.y );
+
+            verts.push_back( { pos,  255,255,255,255,  vec2(pos.x/5.0f, pos.z/5.0f) } );
         }
-    }
-    int yIncrement = -gridSize.x;
-    for (int y = 0; y < gridSize.y -1 ; y++)
-    {
-        yIncrement += gridSize.x;
-        for (int x = 0; x < gridSize.x -1; x++) 
-        {
-            g_PlaneIndices.push_back(x + yIncrement);
-            g_PlaneIndices.push_back((x + gridSize.x) + yIncrement);
-            g_PlaneIndices.push_back((x + (gridSize.x +1)) + yIncrement);
-            g_PlaneIndices.push_back(x + yIncrement);
-            g_PlaneIndices.push_back((x + (gridSize.x + 1)) + yIncrement);
-            g_PlaneIndices.push_back((x + 1) + yIncrement);
-        }
-    }
-    int bp = 1;
-    fw::Mesh* pMesh = new fw::Mesh(primitiveType, g_PlaneVerts, g_PlaneIndices);
+    }   
+
+    //glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
+    //std::vector<unsigned int> indices;
+
+    fw::Mesh* pMesh = new fw::Mesh( GL_POINTS, verts ); //, indices );
     return pMesh;
-}
-
+};

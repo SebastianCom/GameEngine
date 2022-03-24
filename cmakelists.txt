@@ -16,14 +16,30 @@ if( CMAKE_CXX_COMPILER_ID MATCHES "MSVC" )
 #	set( CMAKE_EXE_LINKER_FLAGS "/SAFESEH:NO" )
 endif()
 
+###################
+# Box2D Library
+###################
+
+include( GNUInstallDirs )
+add_subdirectory( Framework/Libraries/box2d/src )
 
 ###################
-# Box2D Framework Library
+# Bullet Libraries
 ###################
- 
- include(GNUInstallDirs)
- add_subdirectory(Framework/Libraries/box2d/src)
 
+add_compile_options(/wd4244) # 'argument': conversion from 'double' to 'btScalar', possible loss of data
+add_compile_options(/wd4267) # '=': conversion from 'size_t' to 'long', possible loss of data
+add_compile_options(/wd4305) # 'initializing': truncation from 'double' to 'btScalar'
+
+set( BULLET_VERSION 3.20 )
+set( BULLET_PHYSICS_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/Framework/Libraries/bullet )
+add_subdirectory( Framework/Libraries/bullet/src/BulletCollision )
+add_subdirectory( Framework/Libraries/bullet/src/BulletDynamics )
+add_subdirectory( Framework/Libraries/bullet/src/LinearMath )
+
+add_compile_options(/w44244)
+add_compile_options(/w44267)
+add_compile_options(/w44305)
 
 ###################
 # Framework Library
@@ -36,8 +52,8 @@ file( GLOB_RECURSE FrameworkSourceFiles
 	Framework/Libraries/imgui/*.cpp
 	Framework/Libraries/imgui/*.h
 	Framework/Libraries/stb/*.h
-	Framework/Libraries/rapidjson/**.h
-	Framework/Libraries/pcg-cpp/include/**.hpp
+	Framework/Libraries/rapidjson/*.h
+	Framework/Libraries/pcg-cpp/include/*.hpp
 )
 source_group( TREE ${CMAKE_CURRENT_SOURCE_DIR}/Framework FILES ${FrameworkSourceFiles} )
 
@@ -61,8 +77,8 @@ source_group( "CMake PCH Files" FILES ${FrameworkPCHFiles} )
 file( GLOB_RECURSE GameSourceFiles
 	Game/Source/*.cpp
 	Game/Source/*.h
-	Game/Data/Shaders/**.vert
-	Game/Data/Shaders/**.frag
+	Game/Data/Shaders/*.vert
+	Game/Data/Shaders/*.frag
 	GenerateProjectFiles.bat
 )
 source_group( TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${GameSourceFiles} )
@@ -70,6 +86,7 @@ source_group( TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${GameSourceFiles} )
 include_directories(
 	Game/Source
 	Framework/Source
+	Framework/Libraries/bullet/src
 )
 
 # Project Creation
@@ -85,6 +102,9 @@ target_link_libraries( GameProject
 	Framework
 	box2d
 	opengl32.lib
+	BulletCollision
+    	BulletDynamics
+    	LinearMath
 )
 
 # Visual Studio Settings
