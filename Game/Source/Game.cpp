@@ -104,7 +104,7 @@ void Game::Init()
     m_Scenes["Physics3D"] = new PhysicsScene3D( this );
     m_Scenes["ThirdPerson"] = new ThirdPersonScene( this );
     m_Scenes["Water"] = new WaterScene( this );
-    m_pCurrentScene = m_Scenes["Physics3D"];
+    m_pCurrentScene = m_Scenes["Physics"];
 }
 
 void Game::StartFrame(float deltaTime)

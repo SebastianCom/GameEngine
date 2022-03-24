@@ -35,6 +35,7 @@ public:
     std::string GetName() { return m_Name; }
     TransformComponent* GetTransform() { return m_pTransform; }
     PhysicsBody* GetPhysicsBody() { return m_pPhysicsBody; }
+    Scene* GetScene() { return m_pScene; }
 
     template <class Type>
     Type* GetComponent()

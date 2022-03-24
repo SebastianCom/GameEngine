@@ -3,6 +3,7 @@
 #include "ComponentManager.h"
 #include "Component.h"
 #include "Components/TransformComponent.h"
+#include "Components/PlayerMovementComponent.h"
 #include "MeshComponent.h"
 #include "Objects/GameObject.h"
 
@@ -50,6 +51,16 @@ void ComponentManager::RemoveComponent(Component* pComponent)
     assert( std::find(list.begin(), list.end(), pComponent) != list.end() );
 
     list.erase( std::remove(list.begin(), list.end(), pComponent), list.end() );
+}
+
+Component* ComponentManager::GetComponentOftype(const char* pComponentName) //MIDTERM
+{
+
+    for (Component* pComponent : m_Components[pComponentName])
+    {
+        PlayerMovementComponent* pPlayerMovemntComponent = static_cast<PlayerMovementComponent*>(pComponent);
+        return pPlayerMovemntComponent;
+    }
 }
 
 } // namespace fw
