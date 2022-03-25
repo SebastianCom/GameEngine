@@ -75,8 +75,10 @@ void Game::Init()
 
     // Load our Meshes.
     m_Meshes["Sprite"] = new fw::Mesh( GL_TRIANGLES, g_SpriteVerts, g_SpriteIndices );
-    m_Meshes["Cube"] = new fw::Mesh( GL_TRIANGLES, g_CubeVerts );
+    m_Meshes["Cube"] = new fw::Mesh( GL_TRIANGLES, g_CubeVerts);
     m_Meshes["Plane"] = CreatePlane();
+    m_Meshes["Obj"] = new fw::Mesh("Data/Meshes/cube.obj");
+    m_Meshes["ObjGun"] = new fw::Mesh("Data/Meshes/Sebs_Glock3.obj");
 
     // Load our Shaders.
     m_Shaders["Basic"] = new fw::ShaderProgram( "Data/Shaders/Basic.vert", "Data/Shaders/Basic.frag" );
@@ -86,11 +88,14 @@ void Game::Init()
     m_Textures["Sprites"] = new fw::Texture( "Data/Textures/Sprites.png" );
     m_Textures["Water"] = new fw::Texture( "Data/Textures/Water.png" );
     m_Textures["BG"] = new fw::Texture( "Data/Textures/BG.png" );
+    //m_Textures["BaseColor"] = new fw::Texture(255, 165, 0, 255); //working
+    m_Textures["BaseColor"] = new fw::Texture(255, 165, 0, 255); //working
 
     // Create our Materials.
     m_Materials["Sprites"] = new fw::Material( m_Shaders["Basic"], m_Textures["Sprites"], fw::Color4f::Blue() );
     m_Materials["Water"] = new fw::Material( m_Shaders["Water"], m_Textures["Water"], fw::Color4f::Blue() );
     m_Materials["BG"] = new fw::Material( m_Shaders["Basic"], m_Textures["BG"], fw::Color4f::Blue() );
+    m_Materials["BaseColor"] = new fw::Material( m_Shaders["Basic"], m_Textures["BaseColor"], fw::Color4f::Blue() );
 
     // Load our Spritesheets.
     m_SpriteSheets["Sprites"] = new fw::SpriteSheet( "Data/Textures/Sprites.json", m_Textures["Sprites"] );
@@ -99,12 +104,12 @@ void Game::Init()
     //m_Materials["Sokoban"] = new fw::Material( m_Shaders["Basic"], m_Textures["Sprites"], fw::Color4f::Blue() );
 
     // Create our Scenes.
-    m_Scenes["Cube"] = new CubeScene( this );
+    m_Scenes["Obj"] = new CubeScene( this );
     m_Scenes["Physics"] = new PhysicsScene( this );
     m_Scenes["Physics3D"] = new PhysicsScene3D( this );
     m_Scenes["ThirdPerson"] = new ThirdPersonScene( this );
     m_Scenes["Water"] = new WaterScene( this );
-    m_pCurrentScene = m_Scenes["Physics"];
+    m_pCurrentScene = m_Scenes["Obj"];
 }
 
 void Game::StartFrame(float deltaTime)

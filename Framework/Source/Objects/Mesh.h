@@ -21,11 +21,12 @@ class Mesh
 public:
     Mesh(GLenum primitiveType, const std::vector<VertexFormat>& verts);
     Mesh(GLenum primitiveType, const std::vector<VertexFormat>& verts, const std::vector<unsigned int>& indices);
+    Mesh(const char* objfilename);
     virtual ~Mesh();
 
     void Create(GLenum primitiveType, const std::vector<VertexFormat>& verts);
     void Create(GLenum primitiveType, const std::vector<VertexFormat>& verts, const std::vector<unsigned int>& indices);
-    void LoadFromOBJ();
+    void LoadFromOBJ(const char* objfilename);
 
     void SetupUniform(ShaderProgram* pShader, char* name, float value);
     void SetupUniform(ShaderProgram* pShader, char* name, vec2 value);
@@ -38,6 +39,11 @@ protected:
     GLenum m_PrimitiveType = GL_POINTS;
     int m_NumVerts = 0;
     int m_NumIndices = 0;
+
+    std::vector<vec3> m_Vertices;
+    std::vector<vec2> m_UVCoords;
+    std::vector<vec3> m_Normals;
+    std::vector<vec3> m_VertexFormat;
 };
 
 } // namespace fw

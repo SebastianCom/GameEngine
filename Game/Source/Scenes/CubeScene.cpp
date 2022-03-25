@@ -9,12 +9,18 @@
 CubeScene::CubeScene(Game* pGame)
     : fw::Scene( pGame )
 {
-    m_pCamera = new fw::Camera( this, vec3(0, 0, -10) );
-
+    m_pCamera = new fw::Camera(this, vec3(0, 0, -15));
+    m_pCamera->SetLookAtPosition(vec3(0, 0, 0));
+    
     // Cube Object.
     fw::GameObject* pGameObject = new fw::GameObject( "Cube", this, vec3(0,0,0) );
-    pGameObject->AddComponent( new fw::MeshComponent( pGame->GetMesh("Cube"), pGame->GetMaterial("Water") ) );
+    pGameObject->AddComponent(new fw::MeshComponent(pGame->GetMesh("Obj"), pGame->GetMaterial("BaseColor")));
     m_Objects.push_back( pGameObject );
+
+    fw::GameObject* pGameObject2 = new fw::GameObject("Glock", this, vec3(5, 0, 0));
+    pGameObject2->AddComponent(new fw::MeshComponent(pGame->GetMesh("ObjGun"), pGame->GetMaterial("BaseColor")));
+    pGameObject2->GetTransform()->SetScale(vec3(.1f, .1f, .1f));
+    m_Objects.push_back(pGameObject2);
 }
 
 CubeScene::~CubeScene()
@@ -36,4 +42,5 @@ void CubeScene::Update(float deltaTime)
 
     float time = (float)fw::GetSystemTimeSinceGameStart() * 20;
     m_Objects[0]->GetTransform()->SetRotation( vec3( time*4, time, 0 ) );
+    m_Objects[1]->GetTransform()->SetRotation( vec3( time*4, time, 0 ) );
 }

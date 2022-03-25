@@ -20,6 +20,11 @@ Mesh::Mesh(GLenum primitiveType, const std::vector<VertexFormat>& verts, const s
     Create( primitiveType, verts, indices );
 }
 
+Mesh::Mesh(const char* objfilename)
+{
+    LoadFromOBJ(objfilename);
+}
+
 Mesh::~Mesh()
 {
     // Release the memory.
@@ -55,36 +60,69 @@ void Mesh::Create(GLenum primitiveType, const std::vector<VertexFormat>& verts, 
     }
 }
 
-void Mesh::LoadFromOBJ()
+void Mesh::LoadFromOBJ(const char* objfilename)
 {
-    // Test code to setup the mesh as a single point to verify it's rendering properly.
-    std::vector<VertexFormat> verts =
+    long length = 0;
+    char* buffer = LoadCompleteFile(objfilename, &length);
+    if (buffer == 0 || length == 0)
     {
-        { vec3(0.0f,0.0f,0.0f),  255,255,255,255,  vec2(0.0f,0.0f) }
-    };
+        delete[] buffer;
+        return;
+    }
+    char* next_token = 0;
+    char* line = strtok_s(buffer, "\n", &next_token);
 
-    Create( GL_POINTS, verts );
+    while (line)
+    {
+        if (line[0] == 'v' && line[1] == ' ')
+        {
+            vec3 Temp;
+            sscanf(line, "v %f %f %f", &Temp.x, &Temp.y, &Temp.z);
+            m_Vertices.push_back(Temp);
+        }
+        else if (line[0] == 'v' && line[1] == 't')
+        {
+            vec2 Temp;
+            sscanf(line, "vt %f %f", &Temp.x, &Temp.y);
+            m_UVCoords.push_back(Temp);
+        }
+        else if (line[0] == 'v' && line[1] == 'n')
+        {
+            vec3 Temp;
+            sscanf(line, "vn %f %f %f", &Temp.x, &Temp.y, &Temp.z);
+            m_Normals.push_back(Temp);
+        }
+        else if (line[0] == 'f')
+        {
+            vec3 Temp;
+            vec3 Temp2;
+            vec3 Temp3;
+            sscanf(line, "f %f/%f/%f %f/%f/%f %f/%f/%f", &Temp.x, &Temp.y, &Temp.z, &Temp2.x, &Temp2.y, &Temp2.z, &Temp3.x, &Temp3.y, &Temp3.z);
+            m_VertexFormat.push_back(Temp);
+            m_VertexFormat.push_back(Temp2);
+            m_VertexFormat.push_back(Temp3);
+        }
 
-    //long length = 0;
-    //char* buffer = LoadCompleteFile( objfilename, &length );
-    //if( buffer == 0 || length == 0 )
-    //{
-    //    delete[] buffer;
-    //    return;
-    //}
+        OutputMessage("%s\n", line);
+        line = strtok_s(0, "\n", &next_token);
 
-    //char* next_token = 0;
-    //char* line = strtok_s( buffer, "\n", &next_token );
-    //while( line )
-    //{
-    //    //"v  -1.0  -1.0  -1.0";
+    }
 
-    //    vec3 pos;
-    //    sscanf_s( line, "v %f %f %f", &pos.x, &pos.y, &pos.z );
+    int bp = 1;
+    std::vector<VertexFormat> verts;
+    for (int i = 0; i < m_VertexFormat.size(); i++)
+    {
+        VertexFormat CurentVertexSet = { m_Vertices[(m_VertexFormat[i].x) - 1], 255, 255, 255, 255, m_UVCoords[(m_VertexFormat[i].y) - 1] };
+        verts.push_back(CurentVertexSet);
+    }
+    bp = 2;
+    //std::vector<VertexFormat> verts{
+    //{ 
+    //    vec3(0.0f,0.0f,0.0f),  255,255,255,255,  vec2(0.0f,0.0f) }
 
-    //    OutputMessage( "%s\n", line );
-    //    line = strtok_s( 0, "\n", &next_token );
-    //}
+    //};
+
+    Create(GL_TRIANGLES, verts, std::vector<unsigned int>());
 }
 
 void Mesh::SetupUniform(ShaderProgram* pShader, char* name, float value)

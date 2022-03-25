@@ -70,6 +70,25 @@ Texture::Texture(const char* filename)
 
     stbi_image_free( pixels );
 }
+Texture::Texture(const char r1, const char g1, const char b1, const char a1)
+{
+    unsigned char pixels[4];
+
+    pixels[0] = r1;
+    pixels[1] = g1;
+    pixels[2] = b1;
+    pixels[3] = a1;
+
+    glGenTextures(1, &m_TextureID);
+
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, m_TextureID);
+
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, 1, 1, 0, GL_RGBA, GL_UNSIGNED_BYTE, pixels);
+
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+}
 
 Texture::~Texture()
 {
