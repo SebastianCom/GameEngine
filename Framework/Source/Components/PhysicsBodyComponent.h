@@ -19,14 +19,6 @@ public:
     static const char* GetStaticType() { return "PhysicsBodyComponent"; }
     virtual const char* GetType() override { return GetStaticType(); }
 
-    vec3 GetPosition() { return m_Position; }
-    vec3 GetRotation() { return m_Rotation; }
-    vec3 GetScale() { return m_Scale; }
-
-    void SetPosition(vec3 pos) { m_Position = pos; }
-    void SetRotation(vec3 rot) { m_Rotation = rot; }
-    void SetScale(vec3 scale) { m_Scale = scale; }
-
     PhysicsBody* GetBody() { return m_pBody; };
 
     void Editor_FillInspectorWindow(TransformComponent* pTransform);

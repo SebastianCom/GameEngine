@@ -56,20 +56,7 @@ void ComponentManager::RemoveComponent(Component* pComponent)
 }
 
 void ComponentManager::UpdatePhysics(Component* pPhysComp, Component* pTranComp)
-{
-    //for (Component* pPComponent : m_Components["PhysicsBodyComponent"])
-    //{
-    //    for (Component* pTComponent : m_Components["TransformComponent"])
-    //    {
-    //        PhysicsBodyComponent* pPhysicsBody = static_cast<PhysicsBodyComponent*>(pPComponent);
-    //        TransformComponent* pTransform = static_cast<TransformComponent*>(pTComponent);
-    //        //pTransform->SetPosition(pPhysicsBody->GetBody()->GetPosition());
-    //       // pTransform->SetRotation(pPhysicsBody->GetBody()->GetRotation());
-    //        pPhysicsBody->GetBody()->SetTransform(pTransform->GetPosition(), pTransform->GetRotation());
-    //        int bp =1;
-    //    }
-    //}
-   
+{  
     PhysicsBodyComponent* pPhysicsBody = static_cast<PhysicsBodyComponent*>(pPhysComp);
     TransformComponent* pTransform = static_cast<TransformComponent*>(pTranComp);
 
@@ -78,7 +65,7 @@ void ComponentManager::UpdatePhysics(Component* pPhysComp, Component* pTranComp)
 
 }
 
-Component* ComponentManager::GetComponentOftype(const char* pComponentName) //MIDTERM
+Component* ComponentManager::GetComponentOftype(const char* pComponentName) 
 {
 
     for (Component* pComponent : m_Components[pComponentName])

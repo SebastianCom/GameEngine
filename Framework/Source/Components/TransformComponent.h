@@ -29,6 +29,7 @@ public:
     void SetScale(vec3 scale) { m_Scale = scale; }
 
     void Editor_FillInspectorWindow(PhysicsBodyComponent* pPhysicsBody);
+    void Editor_FillInspectorWindow();
 
 protected:
     mat4 m_WorldTranform;

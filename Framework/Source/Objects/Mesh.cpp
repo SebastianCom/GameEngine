@@ -108,19 +108,12 @@ void Mesh::LoadFromOBJ(const char* objfilename)
 
     }
 
-    int bp = 1;
     std::vector<VertexFormat> verts;
     for (int i = 0; i < m_VertexFormat.size(); i++)
     {
         VertexFormat CurentVertexSet = { m_Vertices[(m_VertexFormat[i].x) - 1], 255, 255, 255, 255, m_UVCoords[(m_VertexFormat[i].y) - 1] };
         verts.push_back(CurentVertexSet);
     }
-    bp = 2;
-    //std::vector<VertexFormat> verts{
-    //{ 
-    //    vec3(0.0f,0.0f,0.0f),  255,255,255,255,  vec2(0.0f,0.0f) }
-
-    //};
 
     Create(GL_TRIANGLES, verts, std::vector<unsigned int>());
 }
@@ -182,7 +175,8 @@ void Mesh::Draw(Camera* pCamera, ShaderProgram* pShader, Texture* pTexture, cons
     GLint loc = glGetUniformLocation( pShader->GetProgram(), "u_MaterialColor" );
     Color4f matColor( 15.0f/255.0f, 103.0f/255.0f, 227.0f/255.0f, 1.0f );
     glUniform4f( loc, matColor.r, matColor.g, matColor.b, matColor.a );
-    
+
+
     // Setup textures.
     glActiveTexture( GL_TEXTURE0 );
     glBindTexture( GL_TEXTURE_2D, pTexture->GetTextureID() );

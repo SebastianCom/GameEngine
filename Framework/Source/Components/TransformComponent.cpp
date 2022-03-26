@@ -36,5 +36,12 @@ void TransformComponent::Editor_FillInspectorWindow(PhysicsBodyComponent* pPhysi
     ImGui::DragFloat3("Rot", &m_Rotation.x, 0.01f);
     ImGui::DragFloat3("Scale", &m_Scale.x, 0.01f);
 }
+void TransformComponent::Editor_FillInspectorWindow()
+{
+
+    ImGui::DragFloat3("Pos", &m_Position.x, 0.01f);
+    ImGui::DragFloat3("Rot", &m_Rotation.x, 0.01f);
+    ImGui::DragFloat3("Scale", &m_Scale.x, 0.01f);
+}
 
 } // namespace fw

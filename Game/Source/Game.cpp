@@ -89,23 +89,35 @@ void Game::Init()
     m_Textures["Sprites"] = new fw::Texture( "Data/Textures/Sprites.png" );
     m_Textures["Water"] = new fw::Texture( "Data/Textures/Water.png" );
     m_Textures["BG"] = new fw::Texture( "Data/Textures/BG.png" );
-    //m_Textures["BaseColor"] = new fw::Texture(255, 165, 0, 255); //working
-    m_Textures["BaseColor"] = new fw::Texture(255, 165, 0, 255); //working
+    m_Textures["BaseColor"] = new fw::Texture(255, 165, 0, 255); 
+    m_Textures["Red"] = new fw::Texture("Data/Textures/Color/Red.png"); 
+    m_Textures["Yellow"] = new fw::Texture("Data/Textures/Color/Yellow.png"); 
+    m_Textures["Blue"] = new fw::Texture("Data/Textures/Color/Blue.png"); 
+    m_Textures["Brown"] = new fw::Texture("Data/Textures/Color/Brown.png"); 
+    m_Textures["Green"] = new fw::Texture("Data/Textures/Color/Green.png"); 
+    m_Textures["LightBlue"] = new fw::Texture("Data/Textures/Color/LightBlue.png"); 
+    m_Textures["Orange"] = new fw::Texture("Data/Textures/Color/Orange.png"); 
+    m_Textures["Pink"] = new fw::Texture("Data/Textures/Color/Pink.png"); 
+    m_Textures["Purple"] = new fw::Texture("Data/Textures/Color/Purple.png"); 
+    m_Textures["White"] = new fw::Texture("Data/Textures/Color/White.png"); 
 
     // Create our Materials.
     m_Materials["Sprites"] = new fw::Material( m_Shaders["Basic"], m_Textures["Sprites"], fw::Color4f::Blue() );
     m_Materials["Water"] = new fw::Material( m_Shaders["Water"], m_Textures["Water"], fw::Color4f::Blue() );
     m_Materials["BG"] = new fw::Material( m_Shaders["Basic"], m_Textures["BG"], fw::Color4f::Blue() );
-    m_Materials["BaseColor"] = new fw::Material( m_Shaders["Basic"], m_Textures["BaseColor"], fw::Color4f::Blue() );
+    
+    //Color Mats
+    m_Materials["Purple"] = new fw::Material( m_Shaders["Basic"], m_Textures["Purple"], fw::Color4f::Blue() );
+    m_Materials["White"] = new fw::Material( m_Shaders["Basic"], m_Textures["White"], fw::Color4f::Blue() );
+    m_Materials["LightBlue"] = new fw::Material( m_Shaders["Basic"], m_Textures["LightBlue"], fw::Color4f::Blue() );
+    m_Materials["Red"] = new fw::Material( m_Shaders["Basic"], m_Textures["Red"], fw::Color4f::Blue() );
+    m_Materials["Pink"] = new fw::Material( m_Shaders["Basic"], m_Textures["Pink"], fw::Color4f::Blue() );
 
     // Load our Spritesheets.
     m_SpriteSheets["Sprites"] = new fw::SpriteSheet( "Data/Textures/Sprites.json", m_Textures["Sprites"] );
 
-    // Load our Materials (which I didn't implement!!!).
-    //m_Materials["Sokoban"] = new fw::Material( m_Shaders["Basic"], m_Textures["Sprites"], fw::Color4f::Blue() );
-
     // Create our Scenes.
-    m_Scenes["Cube"] = new CubeScene( this );
+    m_Scenes["Obj"] = new CubeScene( this );
     m_Scenes["Physics"] = new PhysicsScene( this );
     m_Scenes["Physics3D"] = new PhysicsScene3D( this );
     m_Scenes["ThirdPerson"] = new ThirdPersonScene( this );
@@ -130,9 +142,9 @@ void Game::Update(float deltaTime)
     ImGui::ShowDemoWindow();
 
     ImGui::Begin( "Scene Selector" );
-    if( ImGui::Button( "Cube" ) )
+    if( ImGui::Button( "Obj" ) )
     {
-        m_pCurrentScene = m_Scenes["Cube"];
+        m_pCurrentScene = m_Scenes["Obj"];
     }
     if( ImGui::Button( "Physics" ) )
     {

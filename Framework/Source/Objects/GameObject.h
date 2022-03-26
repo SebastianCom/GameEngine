@@ -52,8 +52,6 @@ public:
         return nullptr;
     };
 
-    // Setters.
-    //void SetTexture(Texture* pTexture) { m_pTexture = pTexture; }
 
 public:
     void Editor_FillInspectorWindow();
@@ -65,7 +63,6 @@ protected:
     TransformComponent* m_pTransform = nullptr;
     std::vector<Component*> m_Components;
 
-    //PhysicsBody* m_pPhysicsBody = nullptr;
     PhysicsBodyComponent* m_pPhysicsBody = nullptr;
 };
 

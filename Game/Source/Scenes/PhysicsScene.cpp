@@ -18,16 +18,15 @@ PhysicsScene::PhysicsScene(Game* pGame)
     m_pPlayerController = new PlayerController( pGame->GetFramework()->GetEventManager() );
 
     // BG
-    fw::GameObject* pBG = new fw::GameObject( "Ground", this, vec3(0,0,10) );
+    fw::GameObject* pBG = new fw::GameObject( "BackGround", this, vec3(0,0,10) );
     pBG->AddComponent( new fw::MeshComponent( pGame->GetMesh("Sprite"), pGame->GetMaterial("BG") ) );
     pBG->GetTransform()->SetScale( vec3( 5, 5, 1 ) );
     m_Objects.push_back( pBG );
 
     //New Player
-    fw::GameObject* pPlayer = new fw::GameObject("Ground", this, vec3(2, 5, 0));
+    fw::GameObject* pPlayer = new fw::GameObject("Player", this, vec3(2, 5, 0));
     pPlayer->AddComponent(new fw::MeshComponent(pGame->GetMesh("Sprite"), pGame->GetMaterial("BG")));
     pPlayer->AddComponent(new fw::PlayerMovementComponent(m_pPlayerController, pPlayer));
-   // pPlayer->AddComponent(new fw::PhysicsBodyComponent(m_pPhysicsWorld, true, 1, pPlayer, pPlayer->GetTransform()));
     pPlayer->CreateBody(m_pPhysicsWorld, true, 1);
     m_Objects.push_back( pPlayer );
 
@@ -35,11 +34,9 @@ PhysicsScene::PhysicsScene(Game* pGame)
     fw::GameObject* pGameObject = new fw::GameObject( "Ground", this, vec3(0,-5,0) );
     pGameObject->AddComponent( new fw::MeshComponent( pGame->GetMesh("Sprite"), pGame->GetMaterial("Sprites") ) );
     pGameObject->GetTransform()->SetScale( vec3( 5, 2, 1 ) );
-    //pGameObject->AddComponent(new fw::PhysicsBodyComponent(m_pPhysicsWorld, false, 1, pGameObject, pGameObject->GetTransform()));
     pGameObject->CreateBody( m_pPhysicsWorld, false, 1 );
     m_Objects.push_back( pGameObject );
 
-    //m_pCamera->SetObjectWeAreLookingAt( pPlayer );
 }
 
 PhysicsScene::~PhysicsScene()
@@ -62,8 +59,6 @@ void PhysicsScene::Update(float deltaTime)
     Scene::Update( deltaTime );
 
     float time = (float)fw::GetSystemTimeSinceGameStart() * 20;
-    //m_Objects[0]->SetRotation( vec3( 0, time, 0 ) );
-   
 
     fw::Component* pComponent = m_pComponentManager->GetComponentOftype(fw::PlayerMovementComponent::GetStaticType());
     fw::PlayerMovementComponent* pPlayerComp = static_cast<fw::PlayerMovementComponent*>(pComponent);
