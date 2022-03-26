@@ -33,7 +33,10 @@ void TransformComponent::Editor_FillInspectorWindow(PhysicsBodyComponent* pPhysi
     {
         pPhysicsBody->GetBody()->SetTransform(m_Position, m_Rotation);
     }
-    ImGui::DragFloat3("Rot", &m_Rotation.x, 0.01f);
+    ImGui::DragFloat3("Rot", &m_Rotation.x, 1.0f);
+    {
+        pPhysicsBody->GetBody()->SetTransform(m_Position, m_Rotation);
+    }
     ImGui::DragFloat3("Scale", &m_Scale.x, 0.01f);
 }
 void TransformComponent::Editor_FillInspectorWindow()
