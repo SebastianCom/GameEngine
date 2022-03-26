@@ -47,6 +47,11 @@ void PhysicsBodyBullet3D::SetTransform(vec3 pos, vec3 rot)
 {
 }
 
+void PhysicsBodyBullet3D::SetEnabled(bool bEnabled)
+{
+    
+}
+
 void PhysicsBodyBullet3D::ApplyForceToCenter(vec3 force)
 {
     m_pBody->applyCentralForce( btVector3(force.x, force.y, force.z) );

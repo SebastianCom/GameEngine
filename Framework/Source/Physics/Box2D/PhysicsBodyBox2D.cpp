@@ -33,6 +33,11 @@ void PhysicsBodyBox2D::SetTransform(vec3 pos, vec3 rot)
     m_pBody->SetAwake( true );
 }
 
+void PhysicsBodyBox2D::SetEnabled(bool bEnabled)
+{
+    m_pBody->SetEnabled(bEnabled);
+}
+
 void PhysicsBodyBox2D::ApplyForceToCenter(vec3 force)
 {
     m_pBody->ApplyForceToCenter( b2Vec2(force.x, force.y), true );

@@ -3,6 +3,7 @@
 #include "Framework.h"
 #include "PhysicsBodyComponent.h"
 #include "Physics/PhysicsWorld.h"
+#include "Physics/Box2D/PhysicsBodyBox2D.h"
 
 namespace fw {
 
@@ -29,13 +30,18 @@ void PhysicsBodyComponent::Editor_FillInspectorWindow(TransformComponent* pTrans
     {
         pTransform->SetPosition(pos);
     }
-    if (ImGui::DragFloat3("Physics Rot", &rot.x, 0.01f))
+    if (ImGui::DragFloat3("Physics Rot", &rot.x, 1.0f))
     {
+  
+        m_pBody->SetEnabled(false);
+        
         pTransform->SetRotation(rot);
     }
     ImGui::DragFloat3("Physics Scale", &m_Scale.x, 0.01f);
 
     m_pBody->SetTransform(pos, rot);
+    
+    m_pBody->SetEnabled(true);
 }
 
 } // namespace fw

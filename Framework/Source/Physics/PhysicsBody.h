@@ -15,6 +15,7 @@ public:
 
     // Setters.
     virtual void SetTransform(vec3 pos, vec3 rot) = 0;
+    virtual void SetEnabled(bool bEnabled) = 0;
 
     // Forces.
     virtual void ApplyForceToCenter(vec3 force) = 0;
