@@ -23,18 +23,11 @@ PhysicsScene::PhysicsScene(Game* pGame)
     pBG->GetTransform()->SetScale( vec3( 5, 5, 1 ) );
     m_Objects.push_back( pBG );
 
-    //// Player.
-    //Player* pPlayer = new Player( this, vec3(2,5,0), m_pPlayerController );
-    //pPlayer->AddComponent( new fw::MeshComponent( pGame->GetMesh("Sprite"), pGame->GetMaterial("Sprites") ) );
-    //pPlayer->SetSpriteSheet( pGame->GetSpriteSheet("Sprites") );
-    //pPlayer->CreateBody( m_pPhysicsWorld, true, 1 );
-    ////m_pPhysicsWorld->CreateJoint( pPlayer->GetPhysicsBody(), vec3(0,5,0) );
-    //m_Objects.push_back( pPlayer );
-
     //New Player
     fw::GameObject* pPlayer = new fw::GameObject("Ground", this, vec3(2, 5, 0));
     pPlayer->AddComponent(new fw::MeshComponent(pGame->GetMesh("Sprite"), pGame->GetMaterial("BG")));
     pPlayer->AddComponent(new fw::PlayerMovementComponent(m_pPlayerController, pPlayer));
+   // pPlayer->AddComponent(new fw::PhysicsBodyComponent(m_pPhysicsWorld, true, 1, pPlayer, pPlayer->GetTransform()));
     pPlayer->CreateBody(m_pPhysicsWorld, true, 1);
     m_Objects.push_back( pPlayer );
 
@@ -42,6 +35,7 @@ PhysicsScene::PhysicsScene(Game* pGame)
     fw::GameObject* pGameObject = new fw::GameObject( "Ground", this, vec3(0,-5,0) );
     pGameObject->AddComponent( new fw::MeshComponent( pGame->GetMesh("Sprite"), pGame->GetMaterial("Sprites") ) );
     pGameObject->GetTransform()->SetScale( vec3( 5, 2, 1 ) );
+    //pGameObject->AddComponent(new fw::PhysicsBodyComponent(m_pPhysicsWorld, false, 1, pGameObject, pGameObject->GetTransform()));
     pGameObject->CreateBody( m_pPhysicsWorld, false, 1 );
     m_Objects.push_back( pGameObject );
 
@@ -75,6 +69,5 @@ void PhysicsScene::Update(float deltaTime)
     fw::PlayerMovementComponent* pPlayerComp = static_cast<fw::PlayerMovementComponent*>(pComponent);
     pPlayerComp->Update(deltaTime);
 
-    // Ask componentmanager for all player components.
-    // loop over them and update them.
+
 }

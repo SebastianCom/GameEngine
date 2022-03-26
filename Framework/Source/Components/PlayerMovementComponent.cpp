@@ -36,7 +36,7 @@ void PlayerMovementComponent::Update(float deltaTime)
 
     if (m_pGameObject->GetPhysicsBody())
     {
-        m_pGameObject->GetPhysicsBody()->ApplyForceToCenter(vec3(rightAxis, forwardAxis, 0) * m_Speed);
+        m_pGameObject->GetPhysicsBody()->GetBody()->ApplyForceToCenter(vec3(rightAxis, forwardAxis, 0) * m_Speed);
     }
     else
     {

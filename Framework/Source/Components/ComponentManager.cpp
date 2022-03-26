@@ -4,6 +4,8 @@
 #include "Component.h"
 #include "Components/TransformComponent.h"
 #include "Components/PlayerMovementComponent.h"
+#include "Components/PhysicsBodyComponent.h"
+#include "Physics/PhysicsBody.h"
 #include "MeshComponent.h"
 #include "Objects/GameObject.h"
 
@@ -51,6 +53,29 @@ void ComponentManager::RemoveComponent(Component* pComponent)
     assert( std::find(list.begin(), list.end(), pComponent) != list.end() );
 
     list.erase( std::remove(list.begin(), list.end(), pComponent), list.end() );
+}
+
+void ComponentManager::UpdatePhysics(Component* pPhysComp, Component* pTranComp)
+{
+    //for (Component* pPComponent : m_Components["PhysicsBodyComponent"])
+    //{
+    //    for (Component* pTComponent : m_Components["TransformComponent"])
+    //    {
+    //        PhysicsBodyComponent* pPhysicsBody = static_cast<PhysicsBodyComponent*>(pPComponent);
+    //        TransformComponent* pTransform = static_cast<TransformComponent*>(pTComponent);
+    //        //pTransform->SetPosition(pPhysicsBody->GetBody()->GetPosition());
+    //       // pTransform->SetRotation(pPhysicsBody->GetBody()->GetRotation());
+    //        pPhysicsBody->GetBody()->SetTransform(pTransform->GetPosition(), pTransform->GetRotation());
+    //        int bp =1;
+    //    }
+    //}
+   
+    PhysicsBodyComponent* pPhysicsBody = static_cast<PhysicsBodyComponent*>(pPhysComp);
+    TransformComponent* pTransform = static_cast<TransformComponent*>(pTranComp);
+
+    pTransform->SetPosition(pPhysicsBody->GetBody()->GetPosition());
+    pTransform->SetRotation(pPhysicsBody->GetBody()->GetRotation());
+
 }
 
 Component* ComponentManager::GetComponentOftype(const char* pComponentName) //MIDTERM

@@ -6,19 +6,18 @@
 
 namespace fw {
 
-    class PhysicsBodyComponent;
+class PhysicsWorld;
+class PhysicsBody;
+class TransformComponent;
 
-class TransformComponent : public Component
+class PhysicsBodyComponent : public Component
 {
 public:
-    TransformComponent(vec3 pos, vec3 rot, vec3 scale);
-    virtual ~TransformComponent();
+    PhysicsBodyComponent(PhysicsWorld* pWorld, bool dynamic, float density, GameObject* pGameObject, TransformComponent* pTransform);
+    virtual ~PhysicsBodyComponent();
 
-    static const char* GetStaticType() { return "TransformComponent"; }
+    static const char* GetStaticType() { return "PhysicsBodyComponent"; }
     virtual const char* GetType() override { return GetStaticType(); }
-
-    void UpdateWorldTransform();
-    const mat4& GetWorldTransform() const;
 
     vec3 GetPosition() { return m_Position; }
     vec3 GetRotation() { return m_Rotation; }
@@ -28,10 +27,17 @@ public:
     void SetRotation(vec3 rot) { m_Rotation = rot; }
     void SetScale(vec3 scale) { m_Scale = scale; }
 
-    void Editor_FillInspectorWindow(PhysicsBodyComponent* pPhysicsBody);
+    PhysicsBody* GetBody() { return m_pBody; };
+
+    void Editor_FillInspectorWindow(TransformComponent* pTransform);
 
 protected:
-    mat4 m_WorldTranform;
+
+    PhysicsBody* m_pBody;
+    PhysicsWorld* m_pWorld; 
+    bool m_bDynamic; 
+    float m_Density;
+
     vec3 m_Position = vec3( 0, 0, 0 );
     vec3 m_Rotation = vec3( 0, 0, 0 );
     vec3 m_Scale = vec3( 1, 1, 1 );

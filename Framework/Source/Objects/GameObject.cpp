@@ -3,6 +3,7 @@
 #include "GameObject.h"
 #include "Components/MeshComponent.h"
 #include "Components/TransformComponent.h"
+#include "Components/PhysicsBodyComponent.h"
 #include "Physics/PhysicsBody.h"
 
 namespace fw {
@@ -26,16 +27,16 @@ GameObject::~GameObject()
 
 void GameObject::Update(float deltaTime)
 {
-    if( m_pPhysicsBody )
+    if (m_pPhysicsBody)
     {
-        GetTransform()->SetPosition( m_pPhysicsBody->GetPosition() );
-        GetTransform()->SetRotation( m_pPhysicsBody->GetRotation() );
+        m_pScene->GetComponentManager()->UpdatePhysics(m_pPhysicsBody, m_pTransform);
     }
 }
 
 void GameObject::CreateBody(PhysicsWorld* pWorld, bool isDynamic, float density)
 {
-    m_pPhysicsBody = pWorld->CreateBody( GetTransform(), isDynamic, density, this );
+    m_pPhysicsBody = new fw::PhysicsBodyComponent(pWorld, isDynamic, density, this, m_pTransform);
+    AddComponent(m_pPhysicsBody);
 }
 
 void GameObject::AddComponent(Component* pComponent)
@@ -48,20 +49,15 @@ void GameObject::AddComponent(Component* pComponent)
 void GameObject::Editor_FillInspectorWindow()
 {
     ImGui::Text( "Name: %s", m_Name.c_str() );
+ 
+     m_pTransform->Editor_FillInspectorWindow(m_pPhysicsBody);
 
-    // TODO:
-    // m_pTransform->Editor_FillInspectorWindow();
-    //if( ImGui::DragFloat3( "Pos", &m_Position.x, 0.01f ) )
-    //{
-    //    m_pPhysicsBody->SetPosition( m_Position );
-    //}
-    //ImGui::DragFloat3( "Rot", &m_Rotation.x, 0.01f );
-    //ImGui::DragFloat3( "Scale", &m_Scale.x, 0.01f );
-
+     //TODO
     if( m_pPhysicsBody )
     {
-        m_pPhysicsBody->Editor_FillInspectorWindow();
+        m_pPhysicsBody->Editor_FillInspectorWindow(m_pTransform);
     }
+    
 }
 
 } // namespace fw

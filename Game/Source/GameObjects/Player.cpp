@@ -31,7 +31,7 @@ void Player::Update(float deltaTime)
 
     if( m_pPhysicsBody )
     {
-        m_pPhysicsBody->ApplyForceToCenter( vec3(rightAxis,forwardAxis,0) * speed );
+        m_pPhysicsBody->GetBody()->ApplyForceToCenter( vec3(rightAxis,forwardAxis,0) * speed );
     }
     else
     {

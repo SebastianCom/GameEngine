@@ -41,7 +41,7 @@ void Player3D::Update(float deltaTime)
 
         // Move the player.
         newPos += dir * speed * deltaTime;
-        m_pPhysicsBody->ApplyForceToCenter(dir * speed);
+        m_pPhysicsBody->GetBody()->ApplyForceToCenter(dir * speed);
     }
     else
     {

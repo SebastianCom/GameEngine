@@ -18,6 +18,7 @@ class PhysicsBody;
 class PhysicsWorld;
 class Scene;
 class TransformComponent;
+class PhysicsBodyComponent;
 
 class GameObject
 {
@@ -34,7 +35,7 @@ public:
     // Getters.
     std::string GetName() { return m_Name; }
     TransformComponent* GetTransform() { return m_pTransform; }
-    PhysicsBody* GetPhysicsBody() { return m_pPhysicsBody; }
+    PhysicsBodyComponent* GetPhysicsBody() { return m_pPhysicsBody; }
     Scene* GetScene() { return m_pScene; }
 
     template <class Type>
@@ -64,7 +65,8 @@ protected:
     TransformComponent* m_pTransform = nullptr;
     std::vector<Component*> m_Components;
 
-    PhysicsBody* m_pPhysicsBody = nullptr;
+    //PhysicsBody* m_pPhysicsBody = nullptr;
+    PhysicsBodyComponent* m_pPhysicsBody = nullptr;
 };
 
 } // namespace fw

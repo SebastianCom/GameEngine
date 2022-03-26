@@ -17,6 +17,8 @@ public:
     void AddComponent(Component* pComponent);
     void RemoveComponent(Component* pComponent);
 
+    void UpdatePhysics(Component* pPhysComp, Component* pTranComp);
+
     Component* GetComponentOftype(const char* pComponentName);
 
 protected:

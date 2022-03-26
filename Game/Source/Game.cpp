@@ -79,6 +79,7 @@ void Game::Init()
     m_Meshes["Plane"] = CreatePlane();
     m_Meshes["Obj"] = new fw::Mesh("Data/Meshes/cube.obj");
     m_Meshes["ObjGun"] = new fw::Mesh("Data/Meshes/Sebs_Glock3.obj");
+    m_Meshes["ObjTree"] = new fw::Mesh("Data/Meshes/Tree_NotbySeb.obj");
 
     // Load our Shaders.
     m_Shaders["Basic"] = new fw::ShaderProgram( "Data/Shaders/Basic.vert", "Data/Shaders/Basic.frag" );
@@ -104,12 +105,12 @@ void Game::Init()
     //m_Materials["Sokoban"] = new fw::Material( m_Shaders["Basic"], m_Textures["Sprites"], fw::Color4f::Blue() );
 
     // Create our Scenes.
-    m_Scenes["Obj"] = new CubeScene( this );
+    m_Scenes["Cube"] = new CubeScene( this );
     m_Scenes["Physics"] = new PhysicsScene( this );
     m_Scenes["Physics3D"] = new PhysicsScene3D( this );
     m_Scenes["ThirdPerson"] = new ThirdPersonScene( this );
     m_Scenes["Water"] = new WaterScene( this );
-    m_pCurrentScene = m_Scenes["Obj"];
+    m_pCurrentScene = m_Scenes["Physics"];
 }
 
 void Game::StartFrame(float deltaTime)

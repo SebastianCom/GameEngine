@@ -21,6 +21,11 @@ CubeScene::CubeScene(Game* pGame)
     pGameObject2->AddComponent(new fw::MeshComponent(pGame->GetMesh("ObjGun"), pGame->GetMaterial("BaseColor")));
     pGameObject2->GetTransform()->SetScale(vec3(.1f, .1f, .1f));
     m_Objects.push_back(pGameObject2);
+
+    fw::GameObject* pGameObject3 = new fw::GameObject("Glock", this, vec3(-5, 0, 0));
+    pGameObject3->AddComponent(new fw::MeshComponent(pGame->GetMesh("ObjTree"), pGame->GetMaterial("BaseColor")));
+    pGameObject3->GetTransform()->SetScale(vec3(.1f, .1f, .1f));
+    m_Objects.push_back(pGameObject3);
 }
 
 CubeScene::~CubeScene()
@@ -43,4 +48,5 @@ void CubeScene::Update(float deltaTime)
     float time = (float)fw::GetSystemTimeSinceGameStart() * 20;
     m_Objects[0]->GetTransform()->SetRotation( vec3( time*4, time, 0 ) );
     m_Objects[1]->GetTransform()->SetRotation( vec3( time*4, time, 0 ) );
+    m_Objects[2]->GetTransform()->SetRotation( vec3( time*4, time, 0 ) );
 }
