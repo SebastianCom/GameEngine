@@ -84,9 +84,6 @@ fw::Mesh* CreatePlane() //vec2 worldSize, ivec2 gridSize)
         }
     }   
 
-    //glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
-    //std::vector<unsigned int> indices;
-
     fw::Mesh* pMesh = new fw::Mesh( GL_POINTS, verts ); //, indices );
     return pMesh;
 };

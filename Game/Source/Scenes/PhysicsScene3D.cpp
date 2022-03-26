@@ -18,11 +18,6 @@ PhysicsScene3D::PhysicsScene3D(Game* pGame)
 
     m_pPlayerController = new PlayerController(pGame->GetFramework()->GetEventManager());
 
-    //// BG
-    //fw::GameObject* pBG = new fw::GameObject("Ground", this, vec3(0, 0, 10));
-    //pBG->AddComponent(new fw::MeshComponent(pGame->GetMesh("Sprite"), pGame->GetMaterial("BG")));
-    //pBG->GetTransform()->SetScale(vec3(5, 5, 1));
-    //m_Objects.push_back(pBG);
 
     // Player.
     Player3D* pPlayer = new Player3D( this, vec3(0.5f,3.5f,0), m_pPlayerController );

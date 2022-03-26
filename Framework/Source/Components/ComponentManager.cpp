@@ -62,7 +62,6 @@ void ComponentManager::UpdatePhysics(Component* pPhysComp, Component* pTranComp)
 
     pTransform->SetPosition(pPhysicsBody->GetBody()->GetPosition());
     pTransform->SetRotation(pPhysicsBody->GetBody()->GetRotation());
-
 }
 
 Component* ComponentManager::GetComponentOftype(const char* pComponentName) 

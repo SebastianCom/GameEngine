@@ -11,7 +11,6 @@ public:
     virtual ~Enemy();
 
     virtual void Update(float deltaTime) override;
-    //virtual void Draw() override;
 
 protected:
 };

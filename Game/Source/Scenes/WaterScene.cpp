@@ -17,7 +17,6 @@ WaterScene::WaterScene(Game* pGame)
                                                       pGame->GetMaterial("Water") ) );
     m_Objects.push_back( pWaterPlane );
 
-    //m_pCamera->SetObjectWeAreLookingAt( pWaterPlane );
 }
 
 WaterScene::~WaterScene()

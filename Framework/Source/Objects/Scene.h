@@ -36,7 +36,6 @@ protected:
 
     ComponentManager* m_pComponentManager = nullptr;
 
-    //PlayerController* m_pPlayerController = nullptr;
     std::vector<GameObject*> m_Objects;
 };
 

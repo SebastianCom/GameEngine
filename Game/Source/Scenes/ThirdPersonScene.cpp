@@ -37,13 +37,8 @@ ThirdPersonScene::ThirdPersonScene(Game* pGame)
     pGameObject->AddComponent( new fw::MeshComponent( pGame->GetMesh("Obj"), pGame->GetMaterial("White") ) );
     m_Objects.push_back( pGameObject );
 
-    //// Player Object.
-    //Player* pPlayer = new Player(this, vec3(0, 1, -4), m_pPlayerController);
-    //pPlayer->GetTransform()->SetScale(vec3(1));
-    //pPlayer->AddComponent(new fw::MeshComponent(pGame->GetMesh("Obj"), pGame->GetMaterial("Purple")));
-    //m_Objects.push_back(pPlayer);
 
-        // Player Object.
+    // Player Object.
     fw::GameObject* pPlayer = new fw::GameObject("Player", this, vec3(0, 1, -4));
     pPlayer->GetTransform()->SetScale(vec3(1));
     pPlayer->AddComponent(new fw::MeshComponent(pGame->GetMesh("Obj"), pGame->GetMaterial("Purple")));
