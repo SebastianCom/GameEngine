@@ -158,6 +158,10 @@ void Game::Update(float deltaTime)
     {
         m_pCurrentScene = m_Scenes["Water"];
     }
+    if (ImGui::Button("Physics3D"))
+    {
+        m_pCurrentScene = m_Scenes["Physics3D"];
+    }
     ImGui::End(); //"Scene Selector"
 
     m_pCurrentScene->Update( deltaTime );

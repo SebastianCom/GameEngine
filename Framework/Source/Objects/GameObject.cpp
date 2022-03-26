@@ -50,14 +50,15 @@ void GameObject::Editor_FillInspectorWindow()
 {
     ImGui::Text( "Name: %s", m_Name.c_str() );
  
-     m_pTransform->Editor_FillInspectorWindow();
+    
 
     if( m_pPhysicsBody )
     {
         m_pTransform->Editor_FillInspectorWindow(m_pPhysicsBody);
         m_pPhysicsBody->Editor_FillInspectorWindow(m_pTransform);
     }
-    
+    else
+        m_pTransform->Editor_FillInspectorWindow();
 }
 
 } // namespace fw

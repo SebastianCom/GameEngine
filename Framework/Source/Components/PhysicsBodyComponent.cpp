@@ -12,7 +12,6 @@ PhysicsBodyComponent::PhysicsBodyComponent(PhysicsWorld* pWorld, bool dynamic, f
     , m_Density(density)
 {
     m_pBody = pWorld->CreateBody(pTransform, dynamic, density, pGameObject);
-
 }
 
 PhysicsBodyComponent::~PhysicsBodyComponent()
