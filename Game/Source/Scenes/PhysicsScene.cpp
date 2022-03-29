@@ -60,9 +60,21 @@ void PhysicsScene::Update(float deltaTime)
 
     float time = (float)fw::GetSystemTimeSinceGameStart() * 20;
 
+    //TODO
+    // Should be this
+    //std::vector<fw::Component*>& list = m_pComponentManager->GetComponentsOfType(PlayerMovementComponent::GetStaticType());
+    //for (fw::Component* pComponent : list)
+    //{
+    //    PlayerMovementComponent* pMovementComponent = static_cast<PlayerMovementComponent*>(pComponent);
+    //    pMovementComponent->Update(deltaTime);
+    //}
     fw::Component* pComponent = m_pComponentManager->GetComponentOftype(fw::PlayerMovementComponent::GetStaticType());
+    
+    //TODO
+    //MOVE into playermovementcomponent 
     fw::PlayerMovementComponent* pPlayerComp = static_cast<fw::PlayerMovementComponent*>(pComponent);
     pPlayerComp->Update(deltaTime);
 
+    
 
 }

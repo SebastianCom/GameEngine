@@ -17,7 +17,7 @@ PhysicsBodyComponent::PhysicsBodyComponent(PhysicsWorld* pWorld, bool dynamic, f
 
 PhysicsBodyComponent::~PhysicsBodyComponent()
 {
-
+    delete m_pBody;
 }
 
 void PhysicsBodyComponent::Editor_FillInspectorWindow(TransformComponent* pTransform)

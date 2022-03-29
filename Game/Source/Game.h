@@ -39,4 +39,6 @@ protected:
     
     std::map<std::string, fw::Scene*> m_Scenes;
     fw::Scene* m_pCurrentScene = nullptr;
+
+    fw::FrameBufferObject* m_pOffscreenFBO = nullptr;
 };

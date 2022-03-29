@@ -29,6 +29,7 @@
 #include "Objects/ShaderProgram.h"
 #include "Objects/SpriteSheet.h"
 #include "Objects/Texture.h"
+#include "Objects/FrameBufferObject.h"
 #include "Physics/PhysicsBody.h"
 #include "Physics/Box2D/PhysicsWorldBox2D.h"
 #include "Physics/Bullet3D/PhysicsWorldBullet3D.h"

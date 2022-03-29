@@ -22,7 +22,7 @@ public:
     Component* GetComponentOftype(const char* pComponentName);
 
 protected:
-    std::map<const char*, std::vector<Component*>> m_Components;
+    std::map<const char*, std::vector<Component*>> m_Components; // for every component in the map they have a vector 
 };
 
 } // namespace fw

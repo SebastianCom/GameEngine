@@ -84,6 +84,7 @@ PFNGLGENFRAMEBUFFERSPROC            glGenFramebuffers = nullptr;
 PFNGLBINDFRAMEBUFFERPROC            glBindFramebuffer = nullptr;
 PFNGLFRAMEBUFFERTEXTURE2DPROC       glFramebufferTexture2D = nullptr;
 PFNGLCHECKFRAMEBUFFERSTATUSPROC     glCheckFramebufferStatus = nullptr;
+PFNGLDRAWBUFFERSPROC                glDrawBuffers = nullptr;
 
 PFNGLGENRENDERBUFFERSPROC           glGenRenderbuffers = nullptr;
 PFNGLBINDRENDERBUFFERPROC           glBindRenderbuffer = nullptr;
@@ -189,6 +190,8 @@ void OpenGL_InitExtensions()
     glCheckFramebufferStatus        = (PFNGLCHECKFRAMEBUFFERSTATUSPROC)     wglGetProcAddress( "glCheckFramebufferStatus" );
     if( glCheckFramebufferStatus == nullptr )
         glCheckFramebufferStatus        = (PFNGLCHECKFRAMEBUFFERSTATUSPROC)     wglGetProcAddress( "glCheckFramebufferStatusEXT" );
+
+    glDrawBuffers                       = (PFNGLDRAWBUFFERSPROC)            wglGetProcAddress("glDrawBuffers");
 
     glGenRenderbuffers              = (PFNGLGENRENDERBUFFERSPROC)           wglGetProcAddress( "glGenRenderbuffers" );
     if( glGenRenderbuffers == nullptr )

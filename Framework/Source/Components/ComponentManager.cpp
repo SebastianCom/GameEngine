@@ -64,6 +64,8 @@ void ComponentManager::UpdatePhysics(Component* pPhysComp, Component* pTranComp)
     pTransform->SetRotation(pPhysicsBody->GetBody()->GetRotation());
 }
 
+//TODO
+//std::vector<Component*>& ComponentManager::GetComponentOfType(const char* pComponentName) - should be this
 Component* ComponentManager::GetComponentOftype(const char* pComponentName) 
 {
 
@@ -72,6 +74,7 @@ Component* ComponentManager::GetComponentOftype(const char* pComponentName)
         PlayerMovementComponent* pPlayerMovemntComponent = static_cast<PlayerMovementComponent*>(pComponent);
         return pPlayerMovemntComponent;
     }
+    //should be - return m_Components[type]; only that.... could be constant 
 }
 
 } // namespace fw

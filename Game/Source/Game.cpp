@@ -68,12 +68,15 @@ void Game::Init()
     glEnable( GL_BLEND );
     glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );
     glEnable( GL_DEPTH_TEST );
-    glViewport( 300, 50, 600, 600 );
+    //glViewport( 300, 50, 600, 600 );
 
     // Back-face culling settings.
     glEnable( GL_CULL_FACE );
     //glCullFace( GL_BACK );
     glFrontFace( GL_CW );
+
+    //Create a framebuffer object
+    m_pOffscreenFBO = new fw::FrameBufferObject(80, 80, { fw::FrameBufferObject::FBOColorFormat_RGBA_UByte });
 
     // Load our Meshes.
     m_Meshes["Sprite"] = new fw::Mesh( GL_TRIANGLES, g_SpriteVerts, g_SpriteIndices );
@@ -220,9 +223,21 @@ void Game::Update(float deltaTime)
 
 void Game::Draw()
 {
+    //Offscreen
+    m_pOffscreenFBO->Bind();
+    glViewport(0, 0, m_pOffscreenFBO->GetRequestedWidth(), m_pOffscreenFBO->GetRequestedHeight());
+    glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
+    m_pCurrentScene->Draw();
+    m_pOffscreenFBO->Unbind();
+
+    //Onscreen 
+    glViewport(0, 0, 1280, 720);
     glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 
-    m_pCurrentScene->Draw();
-
+    ImGui::Begin("Scene");
+    ImTextureID textureID = (ImTextureID)(intptr_t)m_pOffscreenFBO->GetColorTextureHandle(0);
+    ImGui::Image(textureID, ImVec2(400,400), ImVec2(0,80.0f/128.0f), ImVec2(80.0f / 128.0f,0) );
+    ImGui::End();
+    
     m_pImGuiManager->EndFrame();
 }
