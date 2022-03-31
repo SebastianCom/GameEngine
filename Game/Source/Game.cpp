@@ -134,8 +134,17 @@ void Game::Init()
 void Game::StartFrame(float deltaTime)
 {
     m_pImGuiManager->StartFrame( deltaTime );
-    //ImGui::DockSpace(ImGui::GetID("Game dockspace"));
 
+    ImGuiWindowFlags flags = ImGuiWindowFlags_NoDocking;
+
+    flags |= ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove;
+    flags |= ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoNavFocus;
+    ImGuiViewport* viewport = ImGui::GetMainViewport();
+    ImGui::SetNextWindowPos(viewport->WorkPos);
+    ImGui::SetNextWindowSize(viewport->WorkSize);
+    ImGui::Begin("Main Dock", nullptr, flags);
+    ImGui::DockSpace(ImGui::GetID("Game Dockspace"));
+    ImGui::End();//Main dock
 
     m_pCurrentScene->StartFrame( deltaTime );
 }
@@ -174,6 +183,7 @@ void Game::Update(float deltaTime)
 
     m_pCurrentScene->Update( deltaTime );
 
+   
     // Figure out world space coordinate of mouse.
     {
         // Get window mouse coordinates.
@@ -215,13 +225,16 @@ void Game::Update(float deltaTime)
         rayPerc = (zDesired - nearPosition.z) / rayDir.z;
         vec3 posAtZDesired = nearPosition + rayDir*rayPerc;
 
+        ImGui::Begin("Debug");
         ImGui::Text( "Window Coords: %d, %d", windowCoord.x, windowCoord.y );
         ImGui::Text( "Viewport Coords: %d, %d", viewportCoord.x, viewportCoord.y );
         ImGui::Text( "Clip Space Coords: %0.2f, %0.2f", clipSpaceCoord.x, clipSpaceCoord.y );
         ImGui::Text( "View Space Coords: %0.2f, %0.2f", viewSpaceCoord.x, viewSpaceCoord.y );
         ImGui::Text( "World Space at Z zero:  %0.2f, %0.2f, %0.2f", posAtZZero.x, posAtZZero.y, posAtZZero.z );
         ImGui::Text( "World Space at desized: %0.2f, %0.2f, %0.2f", posAtZDesired.x, posAtZDesired.y, posAtZDesired.z );
+        ImGui::End(); //Debug
     }
+
 }
 
 void Game::Draw()
