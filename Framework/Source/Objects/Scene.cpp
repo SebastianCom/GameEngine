@@ -67,6 +67,15 @@ void Scene::Draw()
     m_pComponentManager->Draw( m_pCamera );
 }
 
+void Scene::ResizeCamera(float sizeX, float sizeY)
+{
+    // Aspect Ratio = width/height 
+
+    float ARatio = sizeX / sizeY;
+
+    m_pCamera->SetRatio(ARatio);
+}
+
 void Scene::Editor_CreateObjectList()
 {
     ImGui::Begin( "Object List" );

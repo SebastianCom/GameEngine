@@ -62,6 +62,7 @@ void Game::Init()
 
     m_pImGuiManager = new fw::ImGuiManager( &m_FWCore );
 
+
     // OpenGL settings.
     glClearColor( 0.0f, 0.0f, 0.2f, 1.0f );
     glPointSize( 10 );
@@ -76,7 +77,7 @@ void Game::Init()
     glFrontFace( GL_CW );
 
     //Create a framebuffer object
-    m_pOffscreenFBO = new fw::FrameBufferObject(80, 80, { fw::FrameBufferObject::FBOColorFormat_RGBA_UByte });
+    m_pOffscreenFBO = new fw::FrameBufferObject(400, 400, { fw::FrameBufferObject::FBOColorFormat_RGBA_UByte });
 
     // Load our Meshes.
     m_Meshes["Sprite"] = new fw::Mesh( GL_TRIANGLES, g_SpriteVerts, g_SpriteIndices );
@@ -133,6 +134,8 @@ void Game::Init()
 void Game::StartFrame(float deltaTime)
 {
     m_pImGuiManager->StartFrame( deltaTime );
+    //ImGui::DockSpace(ImGui::GetID("Game dockspace"));
+
 
     m_pCurrentScene->StartFrame( deltaTime );
 }
@@ -235,8 +238,18 @@ void Game::Draw()
     glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 
     ImGui::Begin("Scene");
-    ImTextureID textureID = (ImTextureID)(intptr_t)m_pOffscreenFBO->GetColorTextureHandle(0);
-    ImGui::Image(textureID, ImVec2(400,400), ImVec2(0,80.0f/128.0f), ImVec2(80.0f / 128.0f,0) );
+
+    ImVec2 windowMin = ImGui::GetWindowContentRegionMin();
+    ImVec2 windowMax = ImGui::GetWindowContentRegionMax();
+    ImVec2 windowSize(windowMax.x - windowMin.x, windowMax.y - windowMin.y);
+
+    m_pOffscreenFBO->Resize(windowSize.x, windowSize.y);
+    m_pCurrentScene->ResizeCamera(windowSize.x, windowSize.y);
+
+    ImTextureID textureID = (ImTextureID)(uint64_t)m_pOffscreenFBO->GetColorTextureHandle(0);
+    ImVec2 uv0 = ImVec2(0, m_pOffscreenFBO->GetHeightRatio());
+    ImVec2 uv1 = ImVec2(m_pOffscreenFBO->GetWidthRatio(), 0);
+    ImGui::Image(textureID, windowSize, uv0, uv1);
     ImGui::End();
     
     m_pImGuiManager->EndFrame();

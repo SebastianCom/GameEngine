@@ -16,6 +16,7 @@ class Texture;
 class MeshComponent : public Component
 {
 public:
+    //MeshComponent() = default;
     MeshComponent(Mesh* pMesh, Material* pMaterial);
     virtual ~MeshComponent();
 

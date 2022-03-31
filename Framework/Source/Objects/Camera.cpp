@@ -24,7 +24,7 @@ void Camera::Update(float deltaTime)
     }
 
     m_ViewMatrix.CreateLookAtView( GetTransform()->GetPosition(), vec3(0,1,0), m_LookAtPosition );
-    m_ProjectionMatrix.CreatePerspectiveVFoV( 45.0f, 1.0f, 0.01f, 400.0f );
+    m_ProjectionMatrix.CreatePerspectiveVFoV( 45.0f, AspectRatio, 0.01f, 400.0f );
 }
 
 void Camera::Hack_ThirdPersonCamUpdate(FWCore* pFramework, float deltaTime)

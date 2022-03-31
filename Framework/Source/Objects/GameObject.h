@@ -32,6 +32,8 @@ public:
 
     void AddComponent(Component* pComponent);
 
+
+
     // Getters.
     std::string GetName() { return m_Name; }
     TransformComponent* GetTransform() { return m_pTransform; }

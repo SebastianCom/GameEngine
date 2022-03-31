@@ -20,6 +20,8 @@ public:
     virtual void Update(float deltaTime);
     virtual void Draw();
 
+    void ResizeCamera(float sizeX, float sizeY);
+
     ComponentManager* GetComponentManager() { return m_pComponentManager; }
     GameCore* GetGame() { return m_pGame; }
     Camera* GetCamera() { return m_pCamera; }

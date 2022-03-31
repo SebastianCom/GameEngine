@@ -22,21 +22,21 @@ PhysicsScene3D::PhysicsScene3D(Game* pGame)
     // Player.
     Player3D* pPlayer = new Player3D( this, vec3(0.5f,3.5f,0), m_pPlayerController );
     pPlayer->GetTransform()->SetScale( vec3(1) );
-    pPlayer->AddComponent( new fw::MeshComponent( pGame->GetMesh("Cube"), pGame->GetMaterial("Sprites") ) );
+    pPlayer->AddComponent( new fw::MeshComponent( pGame->GetMesh("Cube"), pGame->GetMaterial("Purple") ) );
     pPlayer->CreateBody(m_pPhysicsWorld, true, 1);
     m_Objects.push_back( pPlayer );
 
     // Ground Object.
     fw::GameObject* pGameObject = new fw::GameObject("Cube", this, vec3(0, -0.05f, 0));
     pGameObject->GetTransform()->SetScale(vec3(30.0f, 0.1f, 30.0f));
-    pGameObject->AddComponent(new fw::MeshComponent(pGame->GetMesh("Cube"), pGame->GetMaterial("BG")));
+    pGameObject->AddComponent(new fw::MeshComponent(pGame->GetMesh("Cube"), pGame->GetMaterial("LightBlue")));
     pGameObject->CreateBody(m_pPhysicsWorld, false, 0);
     m_Objects.push_back(pGameObject);
 
     // Random Cube Object.
     pGameObject = new fw::GameObject("Cube", this, vec3(0, 2, 0));
     pGameObject->GetTransform()->SetScale(vec3(1));
-    pGameObject->AddComponent(new fw::MeshComponent(pGame->GetMesh("Cube"), pGame->GetMaterial("Water")));
+    pGameObject->AddComponent(new fw::MeshComponent(pGame->GetMesh("Cube"), pGame->GetMaterial("Red")));
     pGameObject->CreateBody(m_pPhysicsWorld, true, 1);
     m_Objects.push_back(pGameObject);
 
