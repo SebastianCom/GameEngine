@@ -178,8 +178,12 @@ void Mesh::Draw(Camera* pCamera, ShaderProgram* pShader, Texture* pTexture, cons
 
 
     // Setup textures.
-    glActiveTexture( GL_TEXTURE0 );
-    glBindTexture( GL_TEXTURE_2D, pTexture->GetTextureID() );
+    if (pTexture)
+    {
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, pTexture->GetTextureID());
+    }
+
 
     // Misc uniforms.
     SetupUniform( pShader, "u_Time", (float)GetSystemTimeSinceGameStart() );

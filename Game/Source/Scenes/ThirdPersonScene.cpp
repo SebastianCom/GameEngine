@@ -16,11 +16,11 @@ ThirdPersonScene::ThirdPersonScene(Game* pGame)
     // Ground Object.
     fw::GameObject* pGameObject = new fw::GameObject( "Ground", this, vec3(0,-0.05f,0) );
     pGameObject->GetTransform()->SetScale( vec3(30.0f,0.1f,30.0f) );
-    pGameObject->AddComponent( new fw::MeshComponent( pGame->GetMesh("Obj"), pGame->GetMaterial("LightBlue") ) );
+    pGameObject->AddComponent( new fw::MeshComponent( pGame->GetMesh("Obj"), pGame->GetMaterial("LitMat") ) );
     m_Objects.push_back( pGameObject );
 
     // Random Cube Object.
-    pGameObject = new fw::GameObject( "Cube", this, vec3(0,2,0) );
+    pGameObject = new fw::GameObject( "Cube", this, vec3(-3,2,0) );
     pGameObject->GetTransform()->SetScale( vec3(2) );
     pGameObject->AddComponent( new fw::MeshComponent( pGame->GetMesh("Obj"), pGame->GetMaterial("White") ) );
     m_Objects.push_back( pGameObject );

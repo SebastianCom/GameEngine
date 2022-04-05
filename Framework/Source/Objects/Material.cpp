@@ -15,6 +15,7 @@ Material::Material(ShaderProgram* pShaderProgram, Texture* pTexture, Color4f col
     , m_pTexture( pTexture )
     , m_Color( color )
 {
+
 }
 
 Material::~Material()

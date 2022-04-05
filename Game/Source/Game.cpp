@@ -90,6 +90,7 @@ void Game::Init()
     // Load our Shaders.
     m_Shaders["Basic"] = new fw::ShaderProgram( "Data/Shaders/Basic.vert", "Data/Shaders/Basic.frag" );
     m_Shaders["Water"] = new fw::ShaderProgram( "Data/Shaders/Water.vert", "Data/Shaders/Water.frag" );
+    m_Shaders["LitColor"] = new fw::ShaderProgram("Data/Shaders/Light-SolidColor.vert", "Data/Shaders/Light-SolidColor.frag");
 
     // Load our Textures.
     m_Textures["Sprites"] = new fw::Texture( "Data/Textures/Sprites.png" );
@@ -111,6 +112,7 @@ void Game::Init()
     m_Materials["Sprites"] = new fw::Material( m_Shaders["Basic"], m_Textures["Sprites"], fw::Color4f::Blue() );
     m_Materials["Water"] = new fw::Material( m_Shaders["Water"], m_Textures["Water"], fw::Color4f::Blue() );
     m_Materials["BG"] = new fw::Material( m_Shaders["Basic"], m_Textures["BG"], fw::Color4f::Blue() );
+    m_Materials["LitMat"] = new fw::Material(m_Shaders["LitColor"], nullptr, fw::Color4f::White());
     
     //Color Mats
     m_Materials["Purple"] = new fw::Material( m_Shaders["Basic"], m_Textures["Purple"], fw::Color4f::Blue() );
@@ -128,7 +130,7 @@ void Game::Init()
     m_Scenes["Physics3D"] = new PhysicsScene3D( this );
     m_Scenes["ThirdPerson"] = new ThirdPersonScene( this );
     m_Scenes["Water"] = new WaterScene( this );
-    m_pCurrentScene = m_Scenes["Physics"];
+    m_pCurrentScene = m_Scenes["ThirdPerson"];
 }
 
 void Game::StartFrame(float deltaTime)
