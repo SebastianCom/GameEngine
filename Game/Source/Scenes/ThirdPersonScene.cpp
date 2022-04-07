@@ -20,9 +20,9 @@ ThirdPersonScene::ThirdPersonScene(Game* pGame)
     m_Objects.push_back( pGameObject );
 
     // Random Cube Object.
-    pGameObject = new fw::GameObject( "Cube", this, vec3(-3,2,0) );
-    pGameObject->GetTransform()->SetScale( vec3(2) );
-    pGameObject->AddComponent( new fw::MeshComponent( pGame->GetMesh("Obj"), pGame->GetMaterial("White") ) );
+    pGameObject = new fw::GameObject( "Cube", this, vec3(-4,2,0) );
+    pGameObject->GetTransform()->SetScale( vec3(4) );
+    pGameObject->AddComponent( new fw::MeshComponent( pGame->GetMesh("Cube"), pGame->GetMaterial("LitMat") ) );
     m_Objects.push_back( pGameObject );
 
     // Random Cube Object.
@@ -72,4 +72,7 @@ void ThirdPersonScene::Update(float deltaTime)
     fw::Component* pComponent = m_pComponentManager->GetComponentOftype(fw::PlayerMovementComponent::GetStaticType());
     fw::PlayerMovementComponent* pPlayerComp = static_cast<fw::PlayerMovementComponent*>(pComponent);
     pPlayerComp->Update(deltaTime);
+
+    float time = (float)fw::GetSystemTimeSinceGameStart() * 20;
+    m_Objects[1]->GetTransform()->SetRotation(vec3(0, time*2, 0));
 }

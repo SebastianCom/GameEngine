@@ -111,7 +111,7 @@ void Mesh::LoadFromOBJ(const char* objfilename)
     std::vector<VertexFormat> verts;
     for (int i = 0; i < m_VertexFormat.size(); i++)
     {
-        VertexFormat CurentVertexSet = { m_Vertices[(m_VertexFormat[i].x) - 1], 255, 255, 255, 255, m_UVCoords[(m_VertexFormat[i].y) - 1] };
+        VertexFormat CurentVertexSet = { m_Vertices[(m_VertexFormat[i].x) - 1], 255, 255, 255, 255, m_UVCoords[(m_VertexFormat[i].y) - 1], m_Normals[(m_VertexFormat[i].z)-1] };
         verts.push_back(CurentVertexSet);
     }
 
@@ -140,7 +140,7 @@ void Mesh::SetupAttribute(ShaderProgram* pShader, char* name, int size, GLenum t
     }
 }
 
-void Mesh::Draw(Camera* pCamera, ShaderProgram* pShader, Texture* pTexture, const mat4& worldMat, vec2 uvScale, vec2 uvOffset, float time)
+void Mesh::Draw(Camera* pCamera, ShaderProgram* pShader, Texture* pTexture, const mat4& worldMat, const mat4& normalMat, vec2 uvScale, vec2 uvOffset, float time)
 {
     //ShaderProgram* pShader = pMaterial->GetShader();
     //Texture* pTexture = pMaterial->GetTexture();
@@ -154,6 +154,7 @@ void Mesh::Draw(Camera* pCamera, ShaderProgram* pShader, Texture* pTexture, cons
     SetupAttribute( pShader, "a_Position", 3, GL_FLOAT, GL_FALSE, sizeof(VertexFormat), offsetof(VertexFormat, pos) );
     SetupAttribute( pShader, "a_Color", 4, GL_UNSIGNED_BYTE, GL_TRUE, sizeof(VertexFormat), offsetof(VertexFormat, color) );
     SetupAttribute( pShader, "a_UVCoord", 2, GL_FLOAT, GL_FALSE, sizeof(VertexFormat), offsetof(VertexFormat, uv) );
+    SetupAttribute( pShader, "a_Normal", 3, GL_FLOAT, GL_FALSE, sizeof(VertexFormat), offsetof(VertexFormat, normal) );
 
     // Setup the uniforms.
     glUseProgram( pShader->GetProgram() );
@@ -161,6 +162,9 @@ void Mesh::Draw(Camera* pCamera, ShaderProgram* pShader, Texture* pTexture, cons
     // Transform uniforms.
     GLint location = glGetUniformLocation( pShader->GetProgram(), "u_WorldMatrix" );
     glUniformMatrix4fv( location, 1, false, &worldMat.m11 );
+
+    location = glGetUniformLocation(pShader->GetProgram(), "u_NormalMatrix");
+    glUniformMatrix4fv(location, 1, false, &normalMat.m11);
 
     location = glGetUniformLocation( pShader->GetProgram(), "u_ViewMatrix" );
     glUniformMatrix4fv( location, 1, false, &pCamera->GetViewMatrix().m11 );

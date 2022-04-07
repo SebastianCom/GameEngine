@@ -30,8 +30,14 @@ void ComponentManager::Draw(Camera* pCamera)
     for( Component* pComponent : m_Components[MeshComponent::GetStaticType()] )
     {
         MeshComponent* pMeshComponent = static_cast<MeshComponent*>( pComponent );
+        
+        vec3 rot = pMeshComponent->GetGameObject()->GetTransform()->GetRotation();
+        mat4 normalMatrix;
+        normalMatrix.CreateRotation(rot);
+        
         const mat4& worldTransform = pMeshComponent->GetGameObject()->GetTransform()->GetWorldTransform();
-        pMeshComponent->Draw( pCamera, worldTransform );
+        
+        pMeshComponent->Draw( pCamera, worldTransform, normalMatrix );
     }
 }
 

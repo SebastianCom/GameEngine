@@ -5,11 +5,11 @@
 
 const std::vector<fw::VertexFormat> g_SpriteVerts =
 {
-    { vec3(-0.5f, 0.5f,0.0f),  255,255,255,255,  vec2(0.0f,1.0f) }, // top left
-    { vec3( 0.5f, 0.5f,0.0f),  255,255,255,255,  vec2(1.0f,1.0f) }, // top right
-    { vec3(-0.5f,-0.5f,0.0f),  255,255,255,255,  vec2(0.0f,0.0f) }, // bottom left
-    { vec3( 0.5f,-0.5f,0.0f),  255,255,255,255,  vec2(1.0f,0.0f) }, // bottom right
-};
+    { vec3(-0.5f, 0.5f,0.0f),  255,255,255,255,  vec2(0.0f,1.0f), vec3(0,0,-1) }, // top left
+    { vec3( 0.5f, 0.5f,0.0f),  255,255,255,255,  vec2(1.0f,1.0f), vec3(0,0,-1) }, // top right
+    { vec3(-0.5f,-0.5f,0.0f),  255,255,255,255,  vec2(0.0f,0.0f), vec3(0,0,-1) }, // bottom left
+    { vec3( 0.5f,-0.5f,0.0f),  255,255,255,255,  vec2(1.0f,0.0f), vec3(0,0,-1) }, // bottom right
+};                                                            
 const std::vector<unsigned int> g_SpriteIndices =
 {
     0, 1, 2, 2, 1, 3,
@@ -18,54 +18,53 @@ const std::vector<unsigned int> g_SpriteIndices =
 const std::vector<fw::VertexFormat> g_CubeVerts =
 {
     // Front
-    { vec3(-0.5f, 0.5f,-0.5f),  255,255,255,255,  vec2(0.0f,1.0f) }, // top left
-    { vec3( 0.5f, 0.5f,-0.5f),  255,255,255,255,  vec2(1.0f,1.0f) }, // top right
-    { vec3(-0.5f,-0.5f,-0.5f),  255,255,255,255,  vec2(0.0f,0.0f) }, // bottom left
-
-    { vec3( 0.5f, 0.5f,-0.5f),  255,255,255,255,  vec2(1.0f,1.0f) }, // top right
-    { vec3( 0.5f,-0.5f,-0.5f),  255,255,255,255,  vec2(1.0f,0.0f) }, // bottom right
-    { vec3(-0.5f,-0.5f,-0.5f),  255,255,255,255,  vec2(0.0f,0.0f) }, // bottom left
+    { vec3(-0.5f, 0.5f,-0.5f),  255,255,255,255,  vec2(0.0f,1.0f), vec3(0,0,-1) }, // top left
+    { vec3( 0.5f, 0.5f,-0.5f),  255,255,255,255,  vec2(1.0f,1.0f), vec3(0,0,-1) }, // top right
+    { vec3(-0.5f,-0.5f,-0.5f),  255,255,255,255,  vec2(0.0f,0.0f), vec3(0,0,-1) }, // bottom left
+                                                                            
+    { vec3( 0.5f, 0.5f,-0.5f),  255,255,255,255,  vec2(1.0f,1.0f), vec3(0,0,-1) }, // top right
+    { vec3( 0.5f,-0.5f,-0.5f),  255,255,255,255,  vec2(1.0f,0.0f), vec3(0,0,-1) }, // bottom right
+    { vec3(-0.5f,-0.5f,-0.5f),  255,255,255,255,  vec2(0.0f,0.0f), vec3(0,0,-1) }, // bottom left
 
     // Back
-    { vec3(-0.5f, 0.5f, 0.5f),  255,255,255,255,  vec2(0.0f,1.0f) }, // top left
-    { vec3(-0.5f,-0.5f, 0.5f),  255,255,255,255,  vec2(0.0f,0.0f) }, // bottom left
-    { vec3( 0.5f, 0.5f, 0.5f),  255,255,255,255,  vec2(1.0f,1.0f) }, // top right
-
-    { vec3( 0.5f,-0.5f, 0.5f),  255,255,255,255,  vec2(1.0f,0.0f) }, // bottom right
-    { vec3( 0.5f, 0.5f, 0.5f),  255,255,255,255,  vec2(1.0f,1.0f) }, // top right
-    { vec3(-0.5f,-0.5f, 0.5f),  255,255,255,255,  vec2(0.0f,0.0f) }, // bottom left
+    { vec3(-0.5f, 0.5f, 0.5f),  255,255,255,255,  vec2(0.0f,1.0f), vec3(0,0,1) }, // top left
+    { vec3(-0.5f,-0.5f, 0.5f),  255,255,255,255,  vec2(0.0f,0.0f), vec3(0,0,1) }, // bottom left
+    { vec3( 0.5f, 0.5f, 0.5f),  255,255,255,255,  vec2(1.0f,1.0f), vec3(0,0,1) }, // top right
+    { vec3( 0.5f,-0.5f, 0.5f),  255,255,255,255,  vec2(1.0f,0.0f), vec3(0,0,1) }, // bottom right
+    { vec3( 0.5f, 0.5f, 0.5f),  255,255,255,255,  vec2(1.0f,1.0f), vec3(0,0,1) }, // top right
+    { vec3(-0.5f,-0.5f, 0.5f),  255,255,255,255,  vec2(0.0f,0.0f), vec3(0,0,1) }, // bottom left
 
     // Left
-    { vec3(-0.5f, -0.5f, 0.5f),  255,255,255,255,  vec2(0.0f,1.0f) }, // top left
-    { vec3(-0.5f,  0.5f, 0.5f),  255,255,255,255,  vec2(1.0f,1.0f) }, // top right
-    { vec3(-0.5f, -0.5f,-0.5f),  255,255,255,255,  vec2(0.0f,0.0f) }, // bottom left
-    { vec3(-0.5f,  0.5f,-0.5f),  255,255,255,255,  vec2(1.0f,0.0f) }, // bottom right
-    { vec3(-0.5f, -0.5f,-0.5f),  255,255,255,255,  vec2(0.0f,0.0f) }, // bottom left
-    { vec3(-0.5f,  0.5f, 0.5f),  255,255,255,255,  vec2(1.0f,1.0f) }, // top right
+    { vec3(-0.5f, -0.5f, 0.5f),  255,255,255,255,  vec2(0.0f,1.0f), vec3(-1,0,0) }, // top left
+    { vec3(-0.5f,  0.5f, 0.5f),  255,255,255,255,  vec2(1.0f,1.0f), vec3(-1,0,0) }, // top right
+    { vec3(-0.5f, -0.5f,-0.5f),  255,255,255,255,  vec2(0.0f,0.0f), vec3(-1,0,0) }, // bottom left
+    { vec3(-0.5f,  0.5f,-0.5f),  255,255,255,255,  vec2(1.0f,0.0f), vec3(-1,0,0) }, // bottom right
+    { vec3(-0.5f, -0.5f,-0.5f),  255,255,255,255,  vec2(0.0f,0.0f), vec3(-1,0,0) }, // bottom left
+    { vec3(-0.5f,  0.5f, 0.5f),  255,255,255,255,  vec2(1.0f,1.0f), vec3(-1,0,0) }, // top right
 
     // Right
-    { vec3(0.5f, -0.5f, 0.5f),  255,255,255,255,  vec2(0.0f,1.0f) }, // top left
-    { vec3(0.5f, -0.5f,-0.5f),  255,255,255,255,  vec2(0.0f,0.0f) }, // bottom left
-    { vec3(0.5f,  0.5f, 0.5f),  255,255,255,255,  vec2(1.0f,1.0f) }, // top right
-    { vec3(0.5f,  0.5f,-0.5f),  255,255,255,255,  vec2(1.0f,0.0f) }, // bottom right
-    { vec3(0.5f,  0.5f, 0.5f),  255,255,255,255,  vec2(1.0f,1.0f) }, // top right
-    { vec3(0.5f, -0.5f,-0.5f),  255,255,255,255,  vec2(0.0f,0.0f) }, // bottom left
+    { vec3(0.5f, -0.5f, 0.5f),  255,255,255,255,  vec2(0.0f,1.0f), vec3(1,0,0) }, // top left
+    { vec3(0.5f, -0.5f,-0.5f),  255,255,255,255,  vec2(0.0f,0.0f), vec3(1,0,0) }, // bottom left
+    { vec3(0.5f,  0.5f, 0.5f),  255,255,255,255,  vec2(1.0f,1.0f), vec3(1,0,0) }, // top right
+    { vec3(0.5f,  0.5f,-0.5f),  255,255,255,255,  vec2(1.0f,0.0f), vec3(1,0,0) }, // bottom right
+    { vec3(0.5f,  0.5f, 0.5f),  255,255,255,255,  vec2(1.0f,1.0f), vec3(1,0,0) }, // top right
+    { vec3(0.5f, -0.5f,-0.5f),  255,255,255,255,  vec2(0.0f,0.0f), vec3(1,0,0) }, // bottom left
 
     // Top
-    { vec3(-0.5f, 0.5f, 0.5f),  255,255,255,255,  vec2(0.0f,1.0f) }, // top left
-    { vec3( 0.5f, 0.5f, 0.5f),  255,255,255,255,  vec2(1.0f,1.0f) }, // top right
-    { vec3(-0.5f, 0.5f,-0.5f),  255,255,255,255,  vec2(0.0f,0.0f) }, // bottom left
-    { vec3( 0.5f, 0.5f,-0.5f),  255,255,255,255,  vec2(1.0f,0.0f) }, // bottom right
-    { vec3(-0.5f, 0.5f,-0.5f),  255,255,255,255,  vec2(0.0f,0.0f) }, // bottom left
-    { vec3( 0.5f, 0.5f, 0.5f),  255,255,255,255,  vec2(1.0f,1.0f) }, // top right
+    { vec3(-0.5f, 0.5f, 0.5f),  255,255,255,255,  vec2(0.0f,1.0f), vec3(0,1,0) }, // top left
+    { vec3( 0.5f, 0.5f, 0.5f),  255,255,255,255,  vec2(1.0f,1.0f), vec3(0,1,0) }, // top right
+    { vec3(-0.5f, 0.5f,-0.5f),  255,255,255,255,  vec2(0.0f,0.0f), vec3(0,1,0) }, // bottom left
+    { vec3( 0.5f, 0.5f,-0.5f),  255,255,255,255,  vec2(1.0f,0.0f), vec3(0,1,0) }, // bottom right
+    { vec3(-0.5f, 0.5f,-0.5f),  255,255,255,255,  vec2(0.0f,0.0f), vec3(0,1,0) }, // bottom left
+    { vec3( 0.5f, 0.5f, 0.5f),  255,255,255,255,  vec2(1.0f,1.0f), vec3(0,1,0) }, // top right
 
     // Bottom
-    { vec3(-0.5f,-0.5f, 0.5f),  255,255,255,255,  vec2(0.0f,1.0f) }, // top left
-    { vec3(-0.5f,-0.5f,-0.5f),  255,255,255,255,  vec2(0.0f,0.0f) }, // bottom left
-    { vec3( 0.5f,-0.5f, 0.5f),  255,255,255,255,  vec2(1.0f,1.0f) }, // top right
-    { vec3( 0.5f,-0.5f,-0.5f),  255,255,255,255,  vec2(1.0f,0.0f) }, // bottom right
-    { vec3( 0.5f,-0.5f, 0.5f),  255,255,255,255,  vec2(1.0f,1.0f) }, // top right
-    { vec3(-0.5f,-0.5f,-0.5f),  255,255,255,255,  vec2(0.0f,0.0f) }, // bottom left
+    { vec3(-0.5f,-0.5f, 0.5f),  255,255,255,255,  vec2(0.0f,1.0f), vec3(0,-1,0) }, // top left
+    { vec3(-0.5f,-0.5f,-0.5f),  255,255,255,255,  vec2(0.0f,0.0f), vec3(0,-1,0) }, // bottom left
+    { vec3( 0.5f,-0.5f, 0.5f),  255,255,255,255,  vec2(1.0f,1.0f), vec3(0,-1,0) }, // top right
+    { vec3( 0.5f,-0.5f,-0.5f),  255,255,255,255,  vec2(1.0f,0.0f), vec3(0,-1,0) }, // bottom right
+    { vec3( 0.5f,-0.5f, 0.5f),  255,255,255,255,  vec2(1.0f,1.0f), vec3(0,-1,0) }, // top right
+    { vec3(-0.5f,-0.5f,-0.5f),  255,255,255,255,  vec2(0.0f,0.0f), vec3(0,-1,0) }, // bottom left
 };
 
 fw::Mesh* CreatePlane() //vec2 worldSize, ivec2 gridSize)
@@ -80,7 +79,7 @@ fw::Mesh* CreatePlane() //vec2 worldSize, ivec2 gridSize)
         {
             vec3 pos = vec3( x*stepSize.x, 0, y*stepSize.y );
 
-            verts.push_back( { pos,  255,255,255,255,  vec2(pos.x/5.0f, pos.z/5.0f) } );
+            verts.push_back( { pos,  255,255,255,255,  vec2(pos.x/5.0f, pos.z/5.0f), vec3(0,1,0) } );
         }
     }   
 
