@@ -6,6 +6,7 @@
 #include "Texture.h"
 #include "Utility/Utility.h"
 #include "Math/Matrix.h"
+#include "Components/TransformComponent.h"
 
 namespace fw {
 
@@ -171,6 +172,23 @@ void Mesh::Draw(Camera* pCamera, ShaderProgram* pShader, Texture* pTexture, cons
 
     location = glGetUniformLocation( pShader->GetProgram(), "u_ProjMatrix" );
     glUniformMatrix4fv( location, 1, false, &pCamera->GetProjectionMatrix().m11 );
+
+
+    location = glGetUniformLocation(pShader->GetProgram(), "u_LightPosition");
+    vec3 lightPosition[4] = { vec3(0,2,5), vec3(5,2,0), vec3(-5,2,0), vec3(0,2,-5) };
+    glUniform3fv(location, 4, &lightPosition[0].x);
+
+    location = glGetUniformLocation(pShader->GetProgram(), "u_LightColor");
+    vec3 lightColor[4] = { vec3(0,0,1), vec3(1,0,0), vec3(0,1,0), vec3(1,1,0) };
+    glUniform3fv(location, 4, &lightColor[0].x);
+
+    location = glGetUniformLocation(pShader->GetProgram(), "u_LightRadii");
+    float lightRadii[4] = {5.0f, 5.0f, 5.0f, 5.0f};
+    glUniform1fv(location, 4, &lightRadii[0]);
+
+    location = glGetUniformLocation(pShader->GetProgram(), "u_CamPosition");
+    vec3 pos = pCamera->GetTransform()->GetPosition().x;
+    glUniform3fv(location, 1, &pos.x);
 
     // Texture uniforms.
     SetupUniform( pShader, "u_UVScale", uvScale );
