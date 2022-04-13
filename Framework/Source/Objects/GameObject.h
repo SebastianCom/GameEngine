@@ -67,7 +67,10 @@ protected:
     std::vector<Component*> m_Components;
 
     PhysicsBodyComponent* m_pPhysicsBody = nullptr;
-    LightComponent* m_pLightComponent = nullptr;
+    std::vector<LightComponent*> m_pLightComponent{};
+
+    LightComponent* m_ClickedLight = nullptr;
+    int LightIndex = 0;
 };
 
 } // namespace fw

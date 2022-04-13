@@ -27,7 +27,7 @@ public:
     vec3 GetColor() { return m_Color; }
     float GetRadius() { return m_Radius;  }
 
-    void Editor_FillInspectorWindow();
+    void Editor_FillInspectorWindow(int index);
 
 protected:
 

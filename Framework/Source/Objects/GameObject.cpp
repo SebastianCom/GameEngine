@@ -49,24 +49,49 @@ void GameObject::AddComponent(Component* pComponent)
 
 void GameObject::CreateLight(vec3 pos, vec3 color, float radius, Mesh* mesh)
 {
-    m_pLightComponent = new fw::LightComponent(pos, color, radius, mesh);
-    AddComponent(m_pLightComponent);
+    m_pLightComponent.push_back(new fw::LightComponent(pos, color, radius, mesh));
+    AddComponent(m_pLightComponent.back());
 }
 
 void GameObject::Editor_FillInspectorWindow()
 {
     ImGui::Text( "Name: %s", m_Name.c_str() );
  
-    
 
-    if( m_pPhysicsBody )
+    if (m_pPhysicsBody)
     {
         m_pTransform->Editor_FillInspectorWindow(m_pPhysicsBody);
         m_pPhysicsBody->Editor_FillInspectorWindow(m_pTransform);
-        m_pLightComponent->Editor_FillInspectorWindow();//TODO
+        for (int i = 0; i < m_pLightComponent.size(); i++)
+            m_pLightComponent[i]->Editor_FillInspectorWindow(i);
     }
     else
         m_pTransform->Editor_FillInspectorWindow();
+        
+    //Light Control 
+    if (ImGui::TreeNodeEx(this, ImGuiTreeNodeFlags_DefaultOpen, "Lights"))
+    {
+        for (int i = 0; i < m_pLightComponent.size(); i++)
+        {
+            char name[30];
+            sprintf_s(name, 30, "Light: %i", i+1);
+
+            ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_Leaf | ImGuiTreeNodeFlags_NoTreePushOnOpen;
+            ImGui::TreeNodeEx(m_pLightComponent[i], flags, name);
+            if (ImGui::IsItemClicked())
+            {
+                m_ClickedLight = m_pLightComponent[i];
+                LightIndex = i;
+            }
+        }
+        ImGui::TreePop();
+    }
+
+    if (m_ClickedLight)
+    {
+        m_ClickedLight->Editor_FillInspectorWindow(LightIndex);
+    }
+       
 }
 
 } // namespace fw

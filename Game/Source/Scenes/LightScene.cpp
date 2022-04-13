@@ -1,12 +1,12 @@
 #include "Framework.h"
 
-#include "ThirdPersonScene.h"
+#include "LightScene.h"
 #include "DataTypes.h"
 #include "GameObjects/PlayerController.h"
 #include "GameObjects/Player.h"
 #include "Game.h"
 
-ThirdPersonScene::ThirdPersonScene(Game* pGame)
+LightScene::LightScene(Game* pGame)
     : fw::Scene( pGame )
 {
     m_pPlayerController = new PlayerController( pGame->GetFramework()->GetEventManager() );
@@ -22,29 +22,42 @@ ThirdPersonScene::ThirdPersonScene(Game* pGame)
     pGameObject->AddComponent( new fw::MeshComponent( pGame->GetMesh("Obj"), pGame->GetMaterial("LitMat") ) );
     m_Objects.push_back( pGameObject );
 
+    //Light Object
+    pGameObject = new fw::GameObject("Lights", this, vec3(0, 0, 0));
+    pGameObject->CreateLight(vec3(0, 15, 0), vec3(1, 1, 1), 50.0f, pGame->GetMesh("Obj"));
+    pGameObject->CreateLight(vec3(10, 1.5f, 0), vec3(0, 1, 0), 30.0f, pGame->GetMesh("Obj"));
+    pGameObject->CreateLight(vec3(-10, 1.5f, -5), vec3(1, 0, 0), 30.0f, pGame->GetMesh("Obj"));
+    pGameObject->CreateLight(vec3(0, 1.5f, 10), vec3(0, 1, 1), 30.0f, pGame->GetMesh("Obj"));
+    m_Objects.push_back(pGameObject);
 
-    // Random Cube Object.
-    pGameObject = new fw::GameObject( "Cube", this, vec3(2.5f,2,0) );
-    pGameObject->GetTransform()->SetScale( vec3(4) );
+    // Random Left Wall Object.
+    pGameObject = new fw::GameObject( "Cube", this, vec3(-15,2,0) );
+    pGameObject->GetTransform()->SetScale( vec3(3, 25,25) );
     pGameObject->AddComponent( new fw::MeshComponent( pGame->GetMesh("Cube"), pGame->GetMaterial("LitMat") ) );
     m_Objects.push_back( pGameObject );
 
-    // Random Cube Object.
-    pGameObject = new fw::GameObject( "Cube", this, vec3(-15,1,3) );
-    pGameObject->GetTransform()->SetScale( vec3(1) );
-    pGameObject->AddComponent( new fw::MeshComponent( pGame->GetMesh("Obj"), pGame->GetMaterial("Red") ) );
+    // Random Front Wall Object.
+    pGameObject = new fw::GameObject( "Cube", this, vec3(0,2,15) );
+    pGameObject->GetTransform()->SetScale( vec3(25, 25, 3) );
+    pGameObject->AddComponent( new fw::MeshComponent( pGame->GetMesh("Obj"), pGame->GetMaterial("LitMat") ) );
     m_Objects.push_back( pGameObject );
 
-    // Random Cube Object.
-    pGameObject = new fw::GameObject( "Cube", this, vec3(7,1,-6) );
-    pGameObject->GetTransform()->SetScale( vec3(1) );
-    pGameObject->AddComponent( new fw::MeshComponent( pGame->GetMesh("Obj"), pGame->GetMaterial("White") ) );
+    // Random Right Wall Object.
+    pGameObject = new fw::GameObject( "Cube", this, vec3(15,2,0) );
+    pGameObject->GetTransform()->SetScale( vec3(3, 25, 25) );
+    pGameObject->AddComponent( new fw::MeshComponent( pGame->GetMesh("Obj"), pGame->GetMaterial("LitMat") ) );
     m_Objects.push_back( pGameObject );
+
+    // Random Back Wall Object.
+    pGameObject = new fw::GameObject("Cube", this, vec3(0, 2, -15));
+    pGameObject->GetTransform()->SetScale(vec3(25, 25, 3));
+    pGameObject->AddComponent(new fw::MeshComponent(pGame->GetMesh("Obj"), pGame->GetMaterial("LitMat")));
+    m_Objects.push_back(pGameObject);
 
     // Player Object.
-    fw::GameObject* pPlayer = new fw::GameObject("Player", this, vec3(0, 1, -4));
+    fw::GameObject* pPlayer = new fw::GameObject("Player", this, vec3(0, 1, 0));
     pPlayer->GetTransform()->SetScale(vec3(1));
-    pPlayer->AddComponent(new fw::MeshComponent(pGame->GetMesh("Obj"), pGame->GetMaterial("Purple")));
+    pPlayer->AddComponent(new fw::MeshComponent(pGame->GetMesh("Sphere"), pGame->GetMaterial("LitMat")));
     pPlayer->AddComponent(new fw::PlayerMovementComponent(m_pPlayerController, pPlayer));
     m_Objects.push_back(pPlayer);
 
@@ -53,21 +66,21 @@ ThirdPersonScene::ThirdPersonScene(Game* pGame)
 
 }
 
-ThirdPersonScene::~ThirdPersonScene()
+LightScene::~LightScene()
 {
 }
 
-void ThirdPersonScene::StartFrame(float deltaTime)
+void LightScene::StartFrame(float deltaTime)
 {
     m_pPlayerController->StartFrame();
 }
 
-void ThirdPersonScene::OnEvent(fw::Event* pEvent)
+void LightScene::OnEvent(fw::Event* pEvent)
 {
     fw::Scene::OnEvent( pEvent );
 }
 
-void ThirdPersonScene::Update(float deltaTime)
+void LightScene::Update(float deltaTime)
 {
     Scene::Update( deltaTime );
 
@@ -78,8 +91,6 @@ void ThirdPersonScene::Update(float deltaTime)
     fw::PlayerMovementComponent* pPlayerComp = static_cast<fw::PlayerMovementComponent*>(pComponent);
     pPlayerComp->Update(deltaTime);
 
-    float time = (float)fw::GetSystemTimeSinceGameStart() * 20;
-    m_Objects[2]->GetTransform()->SetRotation(vec3(0, time*2, 0));
 
     
     ImGui::Begin("Camera Debug");

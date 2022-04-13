@@ -79,7 +79,7 @@ void Scene::ResizeCamera(float sizeX, float sizeY)
 
 void Scene::Editor_CreateObjectList()
 {
-    ImGui::Begin( "Object List" );
+    ImGui::Begin( "Object List");
 
     if( ImGui::TreeNodeEx( this, ImGuiTreeNodeFlags_DefaultOpen, "Objects" ) )
     {

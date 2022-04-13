@@ -10,6 +10,7 @@
 #include "Scenes/PhysicsScene3D.h"
 #include "Scenes/ThirdPersonScene.h"
 #include "Scenes/WaterScene.h"
+#include "Scenes/LightScene.h"
 
 
 //Working Copy for maintenance 2 - needed a comment to i could commit again
@@ -86,6 +87,7 @@ void Game::Init()
     m_Meshes["Obj"] = new fw::Mesh("Data/Meshes/cube.obj");
     m_Meshes["ObjGun"] = new fw::Mesh("Data/Meshes/Sebs_Glock3.obj");
     m_Meshes["ObjTree"] = new fw::Mesh("Data/Meshes/Tree_NotbySeb.obj");
+    m_Meshes["Sphere"] = new fw::Mesh("Data/Meshes/sphere.obj");
 
     // Load our Shaders.
     m_Shaders["Basic"] = new fw::ShaderProgram( "Data/Shaders/Basic.vert", "Data/Shaders/Basic.frag" );
@@ -130,7 +132,8 @@ void Game::Init()
     m_Scenes["Physics3D"] = new PhysicsScene3D( this );
     m_Scenes["ThirdPerson"] = new ThirdPersonScene( this );
     m_Scenes["Water"] = new WaterScene( this );
-    m_pCurrentScene = m_Scenes["ThirdPerson"];
+    m_Scenes["Light"] = new LightScene( this );
+    m_pCurrentScene = m_Scenes["Light"];
 }
 
 void Game::StartFrame(float deltaTime)
