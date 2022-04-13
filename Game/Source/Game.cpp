@@ -11,6 +11,7 @@
 #include "Scenes/ThirdPersonScene.h"
 #include "Scenes/WaterScene.h"
 #include "Scenes/LightScene.h"
+#include "Scenes/ObjScene.h"
 
 
 //Working Copy for maintenance 2 - needed a comment to i could commit again
@@ -127,7 +128,8 @@ void Game::Init()
     m_SpriteSheets["Sprites"] = new fw::SpriteSheet( "Data/Textures/Sprites.json", m_Textures["Sprites"] );
 
     // Create our Scenes.
-    m_Scenes["Obj"] = new CubeScene( this );
+    m_Scenes["Obj"] = new ObjScene( this );
+    m_Scenes["Cube"] = new CubeScene( this );
     m_Scenes["Physics"] = new PhysicsScene( this );
     m_Scenes["Physics3D"] = new PhysicsScene3D( this );
     m_Scenes["ThirdPerson"] = new ThirdPersonScene( this );
@@ -187,6 +189,10 @@ void Game::Update(float deltaTime)
     if (ImGui::Button("Light"))
     {
         m_pCurrentScene = m_Scenes["Light"];
+    }
+    if (ImGui::Button("Cube"))
+    {
+        m_pCurrentScene = m_Scenes["Cube"];
     }
     ImGui::End(); //"Scene Selector"
 
