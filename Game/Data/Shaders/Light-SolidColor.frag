@@ -11,6 +11,7 @@ uniform vec3 u_LightColor[4];
 uniform float u_LightRadii[4];
 
 
+
 void main()
 {
     vec3 finalColor[4];

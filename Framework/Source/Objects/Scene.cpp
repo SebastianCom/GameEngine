@@ -76,6 +76,7 @@ void Scene::ResizeCamera(float sizeX, float sizeY)
     m_pCamera->SetRatio(ARatio);
 }
 
+
 void Scene::Editor_CreateObjectList()
 {
     ImGui::Begin( "Object List" );

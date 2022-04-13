@@ -8,6 +8,7 @@ namespace fw {
 class Camera;
 class ShaderProgram;
 class Texture;
+class LightComponent;
 
 struct VertexFormat
 {
@@ -29,6 +30,8 @@ public:
     void Create(GLenum primitiveType, const std::vector<VertexFormat>& verts, const std::vector<unsigned int>& indices);
     void LoadFromOBJ(const char* objfilename);
 
+    void AddLightComponent(LightComponent* lightComp) { m_LightComponents.push_back(lightComp); }
+
     void SetupUniform(ShaderProgram* pShader, char* name, float value);
     void SetupUniform(ShaderProgram* pShader, char* name, vec2 value);
     void SetupAttribute(ShaderProgram* pShader, char* name, int size, GLenum type, GLboolean normalize, int stride, int64_t startIndex);
@@ -45,6 +48,7 @@ protected:
     std::vector<vec2> m_UVCoords;
     std::vector<vec3> m_Normals;
     std::vector<vec3> m_VertexFormat;
+    std::vector<LightComponent*> m_LightComponents;
 };
 
 } // namespace fw

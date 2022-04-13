@@ -17,6 +17,7 @@
 #include "Components/TransformComponent.h"
 #include "Components/PlayerMovementComponent.h"
 #include "Components/PhysicsBodyComponent.h"
+#include "Components/LightComponent.h"
 #include "Events/Event.h"
 #include "Events/EventManager.h"
 #include "Math/Random.h"

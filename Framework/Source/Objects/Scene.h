@@ -26,6 +26,7 @@ public:
     GameCore* GetGame() { return m_pGame; }
     Camera* GetCamera() { return m_pCamera; }
 
+
 protected:
     void Editor_CreateObjectList();
     GameObject* m_pEditor_SelectedObject = nullptr;

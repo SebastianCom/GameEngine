@@ -19,6 +19,7 @@ class PhysicsWorld;
 class Scene;
 class TransformComponent;
 class PhysicsBodyComponent;
+class LightComponent;
 
 class GameObject
 {
@@ -32,7 +33,7 @@ public:
 
     void AddComponent(Component* pComponent);
 
-
+    void CreateLight(vec3 pos, vec3 color, float radius, Mesh* mesh);
 
     // Getters.
     std::string GetName() { return m_Name; }
@@ -66,6 +67,7 @@ protected:
     std::vector<Component*> m_Components;
 
     PhysicsBodyComponent* m_pPhysicsBody = nullptr;
+    LightComponent* m_pLightComponent = nullptr;
 };
 
 } // namespace fw

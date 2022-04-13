@@ -7,6 +7,7 @@
 #include "Utility/Utility.h"
 #include "Math/Matrix.h"
 #include "Components/TransformComponent.h"
+#include "Components/LightComponent.h"
 
 namespace fw {
 
@@ -175,16 +176,34 @@ void Mesh::Draw(Camera* pCamera, ShaderProgram* pShader, Texture* pTexture, cons
 
 
     location = glGetUniformLocation(pShader->GetProgram(), "u_LightPosition");
-    vec3 lightPosition[4] = { vec3(0,2,5), vec3(5,2,0), vec3(-5,2,0), vec3(0,2,-5) };
-    glUniform3fv(location, 4, &lightPosition[0].x);
+    //vec3 lightPosition[4] = { vec3(0,2,5), vec3(5,2,0), vec3(-5,2,0), vec3(0,2,-5) };
+    
+    assert(m_LightComponents.size() <= 4 && "Only 4 Lights allowed currently");
+    
+    vec3 lightPosition[4];
+    for (int i = 0; i < m_LightComponents.size(); i++)
+    {
+        lightPosition[i] = m_LightComponents.at(i)->GetPosition();
+    }
+    glUniform3fv(location, m_LightComponents.size(), &lightPosition[0].x);
 
+    //vec3 lightColor[4] = { vec3(0,0,1), vec3(1,0,0), vec3(0,1,0), vec3(1,1,0) };
     location = glGetUniformLocation(pShader->GetProgram(), "u_LightColor");
-    vec3 lightColor[4] = { vec3(0,0,1), vec3(1,0,0), vec3(0,1,0), vec3(1,1,0) };
-    glUniform3fv(location, 4, &lightColor[0].x);
+    vec3 lightColor[4];
+    for (int i = 0; i < m_LightComponents.size(); i++)
+    {
+        lightColor[i] = m_LightComponents.at(i)->GetColor();
+    }
+    glUniform3fv(location, m_LightComponents.size(), &lightColor[0].x);
 
+    //float lightRadii[4] = {5.0f, 5.0f, 5.0f, 5.0f};
     location = glGetUniformLocation(pShader->GetProgram(), "u_LightRadii");
-    float lightRadii[4] = {5.0f, 5.0f, 5.0f, 5.0f};
-    glUniform1fv(location, 4, &lightRadii[0]);
+    float lightRadii[4];
+    for (int i = 0; i < m_LightComponents.size(); i++)
+    {
+        lightRadii[i] = m_LightComponents.at(i)->GetRadius();
+    }
+    glUniform1fv(location, m_LightComponents.size(), &lightRadii[0]);
 
     location = glGetUniformLocation(pShader->GetProgram(), "u_CamPosition");
     vec3 pos = pCamera->GetTransform()->GetPosition().x;

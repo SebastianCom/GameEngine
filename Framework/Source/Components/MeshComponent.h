@@ -12,6 +12,7 @@ class Material;
 class Mesh;
 class ShaderProgram;
 class Texture;
+class LightComponent;
 
 class MeshComponent : public Component
 {
@@ -30,7 +31,8 @@ public:
 
 protected:
     Mesh* m_pMesh = nullptr;
-    Material* m_pMaterial = nullptr;    
+    Material* m_pMaterial = nullptr;   
+    LightComponent* m_LightComponent;
     vec2 m_UVScale = vec2( 1, 1 );
     vec2 m_UVOffset = vec2( 0, 0 );
 };

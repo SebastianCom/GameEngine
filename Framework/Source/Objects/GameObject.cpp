@@ -5,6 +5,7 @@
 #include "Components/TransformComponent.h"
 #include "Components/PhysicsBodyComponent.h"
 #include "Physics/PhysicsBody.h"
+#include "Components/LightComponent.h"
 
 namespace fw {
 
@@ -46,6 +47,12 @@ void GameObject::AddComponent(Component* pComponent)
     m_Components.push_back( pComponent );
 }
 
+void GameObject::CreateLight(vec3 pos, vec3 color, float radius, Mesh* mesh)
+{
+    m_pLightComponent = new fw::LightComponent(pos, color, radius, mesh);
+    AddComponent(m_pLightComponent);
+}
+
 void GameObject::Editor_FillInspectorWindow()
 {
     ImGui::Text( "Name: %s", m_Name.c_str() );
@@ -56,6 +63,7 @@ void GameObject::Editor_FillInspectorWindow()
     {
         m_pTransform->Editor_FillInspectorWindow(m_pPhysicsBody);
         m_pPhysicsBody->Editor_FillInspectorWindow(m_pTransform);
+        m_pLightComponent->Editor_FillInspectorWindow();//TODO
     }
     else
         m_pTransform->Editor_FillInspectorWindow();

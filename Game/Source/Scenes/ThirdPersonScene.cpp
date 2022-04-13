@@ -16,11 +16,14 @@ ThirdPersonScene::ThirdPersonScene(Game* pGame)
     // Ground Object.
     fw::GameObject* pGameObject = new fw::GameObject( "Ground", this, vec3(0,-0.05f,0) );
     pGameObject->GetTransform()->SetScale( vec3(30.0f,0.1f,30.0f) );
+    //pGameObject->AddComponent( new fw::LightComponent(vec3(0,2,0), vec3(1,0,0), 5.0f, pGame->GetMesh("Obj")));
+    pGameObject->CreateLight(vec3(0, 2, 0), vec3(1, 0, 0), 5.0f, pGame->GetMesh("Obj"));
+    pGameObject->CreateLight(vec3(6, 2, 0), vec3(0, 1, 0), 5.0f, pGame->GetMesh("Obj"));
     pGameObject->AddComponent( new fw::MeshComponent( pGame->GetMesh("Obj"), pGame->GetMaterial("LitMat") ) );
     m_Objects.push_back( pGameObject );
 
     // Random Cube Object.
-    pGameObject = new fw::GameObject( "Cube", this, vec3(0,2,0) );
+    pGameObject = new fw::GameObject( "Cube", this, vec3(2.5f,2,0) );
     pGameObject->GetTransform()->SetScale( vec3(4) );
     pGameObject->AddComponent( new fw::MeshComponent( pGame->GetMesh("Cube"), pGame->GetMaterial("LitMat") ) );
     m_Objects.push_back( pGameObject );
@@ -37,7 +40,6 @@ ThirdPersonScene::ThirdPersonScene(Game* pGame)
     pGameObject->AddComponent( new fw::MeshComponent( pGame->GetMesh("Obj"), pGame->GetMaterial("White") ) );
     m_Objects.push_back( pGameObject );
 
-
     // Player Object.
     fw::GameObject* pPlayer = new fw::GameObject("Player", this, vec3(0, 1, -4));
     pPlayer->GetTransform()->SetScale(vec3(1));
@@ -46,6 +48,8 @@ ThirdPersonScene::ThirdPersonScene(Game* pGame)
     m_Objects.push_back(pPlayer);
 
     m_pCamera->SetObjectWeAreLookingAt( pPlayer );
+
+
 }
 
 ThirdPersonScene::~ThirdPersonScene()
@@ -76,6 +80,8 @@ void ThirdPersonScene::Update(float deltaTime)
     float time = (float)fw::GetSystemTimeSinceGameStart() * 20;
     m_Objects[1]->GetTransform()->SetRotation(vec3(0, time*2, 0));
 
+    ImGui::Begin("Camera Debug");
     vec3 pos = m_pCamera->GetTransform()->GetPosition();
     ImGui::Text("Camera Pos: %0.2f, %0.2f, %0.2f", pos.x, pos.y, pos.z);
+    ImGui::End();//Camera debug - being undockable was killing me 
 }
