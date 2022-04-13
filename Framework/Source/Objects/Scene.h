@@ -26,6 +26,8 @@ public:
     GameCore* GetGame() { return m_pGame; }
     Camera* GetCamera() { return m_pCamera; }
 
+    void CreateLightComponents();
+
 
 protected:
     void Editor_CreateObjectList();

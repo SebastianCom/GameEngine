@@ -16,17 +16,14 @@ ThirdPersonScene::ThirdPersonScene(Game* pGame)
     // Ground Object.
     fw::GameObject* pGameObject = new fw::GameObject( "Ground", this, vec3(0,-0.05f,0) );
     pGameObject->GetTransform()->SetScale( vec3(30.0f,0.1f,30.0f) );
-    //pGameObject->AddComponent( new fw::LightComponent(vec3(0,2,0), vec3(1,0,0), 5.0f, pGame->GetMesh("Obj")));
-    //pGameObject->CreateLight(vec3(0, 2, 0), vec3(1, 0, 0), 5.0f, pGame->GetMesh("Obj"));
-    //pGameObject->CreateLight(vec3(6, 2, 0), vec3(0, 1, 0), 5.0f, pGame->GetMesh("Obj"));
-    pGameObject->AddComponent( new fw::MeshComponent( pGame->GetMesh("Obj"), pGame->GetMaterial("LitMat") ) );
+    pGameObject->AddComponent( new fw::MeshComponent( pGame->GetMesh("Obj"), pGame->GetMaterial("LightBlue") ) );
     m_Objects.push_back( pGameObject );
 
 
     // Random Cube Object.
     pGameObject = new fw::GameObject( "Cube", this, vec3(2.5f,2,0) );
     pGameObject->GetTransform()->SetScale( vec3(4) );
-    pGameObject->AddComponent( new fw::MeshComponent( pGame->GetMesh("Cube"), pGame->GetMaterial("LitMat") ) );
+    pGameObject->AddComponent( new fw::MeshComponent( pGame->GetMesh("Cube"), pGame->GetMaterial("White") ) );
     m_Objects.push_back( pGameObject );
 
     // Random Cube Object.
@@ -49,7 +46,6 @@ ThirdPersonScene::ThirdPersonScene(Game* pGame)
     m_Objects.push_back(pPlayer);
 
     m_pCamera->SetObjectWeAreLookingAt( pPlayer );
-
 
 }
 

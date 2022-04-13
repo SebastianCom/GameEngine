@@ -31,31 +31,31 @@ LightScene::LightScene(Game* pGame)
     m_Objects.push_back(pGameObject);
 
     // Random Left Wall Object.
-    pGameObject = new fw::GameObject( "Cube", this, vec3(-15,2,0) );
+    pGameObject = new fw::GameObject( "Left Wall", this, vec3(-15,2,0) );
     pGameObject->GetTransform()->SetScale( vec3(3, 25,25) );
     pGameObject->AddComponent( new fw::MeshComponent( pGame->GetMesh("Cube"), pGame->GetMaterial("LitMat") ) );
     m_Objects.push_back( pGameObject );
 
     // Random Front Wall Object.
-    pGameObject = new fw::GameObject( "Cube", this, vec3(0,2,15) );
+    pGameObject = new fw::GameObject( "Front Wall", this, vec3(0,2,15) );
     pGameObject->GetTransform()->SetScale( vec3(25, 25, 3) );
     pGameObject->AddComponent( new fw::MeshComponent( pGame->GetMesh("Obj"), pGame->GetMaterial("LitMat") ) );
     m_Objects.push_back( pGameObject );
 
     // Random Right Wall Object.
-    pGameObject = new fw::GameObject( "Cube", this, vec3(15,2,0) );
+    pGameObject = new fw::GameObject( "Right Wall", this, vec3(15,2,0) );
     pGameObject->GetTransform()->SetScale( vec3(3, 25, 25) );
     pGameObject->AddComponent( new fw::MeshComponent( pGame->GetMesh("Obj"), pGame->GetMaterial("LitMat") ) );
     m_Objects.push_back( pGameObject );
 
     // Random Back Wall Object.
-    pGameObject = new fw::GameObject("Cube", this, vec3(0, 2, -15));
+    pGameObject = new fw::GameObject("Back Wall", this, vec3(0, 2, -15));
     pGameObject->GetTransform()->SetScale(vec3(25, 25, 3));
     pGameObject->AddComponent(new fw::MeshComponent(pGame->GetMesh("Obj"), pGame->GetMaterial("LitMat")));
     m_Objects.push_back(pGameObject);
 
     // Player Object.
-    fw::GameObject* pPlayer = new fw::GameObject("Player", this, vec3(0, 1, 0));
+    fw::GameObject* pPlayer = new fw::GameObject("Sphere", this, vec3(0, 1, 0));
     pPlayer->GetTransform()->SetScale(vec3(1));
     pPlayer->AddComponent(new fw::MeshComponent(pGame->GetMesh("Sphere"), pGame->GetMaterial("LitMat")));
     pPlayer->AddComponent(new fw::PlayerMovementComponent(m_pPlayerController, pPlayer));
@@ -63,6 +63,9 @@ LightScene::LightScene(Game* pGame)
 
     m_pCamera->SetObjectWeAreLookingAt( pPlayer );
 
+    //This could be done easier through the lightcomponent itself, but i am hoping scene managment will load and 
+    // unload scenes so that each scene could have 4 lights opposed to the game having a total of 4 lights
+    CreateLightComponents();
 
 }
 
@@ -90,7 +93,6 @@ void LightScene::Update(float deltaTime)
     fw::Component* pComponent = m_pComponentManager->GetComponentOftype(fw::PlayerMovementComponent::GetStaticType());
     fw::PlayerMovementComponent* pPlayerComp = static_cast<fw::PlayerMovementComponent*>(pComponent);
     pPlayerComp->Update(deltaTime);
-
 
     
     ImGui::Begin("Camera Debug");

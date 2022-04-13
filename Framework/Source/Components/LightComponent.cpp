@@ -14,7 +14,7 @@ namespace fw {
 		m_Radius(radius),
 		m_pMesh(mesh)
 	{
-		m_pMesh->AddLightComponent(this);
+
 	}
 	LightComponent::~LightComponent()
 	{

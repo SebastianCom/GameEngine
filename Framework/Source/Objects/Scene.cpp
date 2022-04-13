@@ -7,6 +7,8 @@
 #include "Objects/Camera.h"
 #include "Physics/PhysicsWorld.h"
 #include "../Libraries/imgui/imgui.h"
+#include "Components/LightComponent.h"
+#include "Objects/Mesh.h"
 
 namespace fw {
 
@@ -76,6 +78,20 @@ void Scene::ResizeCamera(float sizeX, float sizeY)
     m_pCamera->SetRatio(ARatio);
 }
 
+
+void Scene::CreateLightComponents()
+{
+    for (fw::GameObject* pObject : m_Objects)
+    {
+        if (pObject->GetComponent<fw::LightComponent>())
+        {
+            for (fw::LightComponent* pLight : pObject->GetLightComponents())
+            {
+                pLight->GetMesh()->AddLightComponent(pLight);
+            }
+        }
+    }
+}
 
 void Scene::Editor_CreateObjectList()
 {

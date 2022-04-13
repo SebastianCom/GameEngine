@@ -26,6 +26,7 @@ public:
     vec3 GetPosition() { return m_Position; }
     vec3 GetColor() { return m_Color; }
     float GetRadius() { return m_Radius;  }
+    Mesh* GetMesh() { return m_pMesh;  }
 
     void Editor_FillInspectorWindow(int index);
 

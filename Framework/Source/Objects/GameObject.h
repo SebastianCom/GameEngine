@@ -35,6 +35,8 @@ public:
 
     void CreateLight(vec3 pos, vec3 color, float radius, Mesh* mesh);
 
+    std::vector<LightComponent*> GetLightComponents() { return m_pLightComponent; };
+
     // Getters.
     std::string GetName() { return m_Name; }
     TransformComponent* GetTransform() { return m_pTransform; }
