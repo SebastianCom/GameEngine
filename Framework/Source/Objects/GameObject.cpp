@@ -65,7 +65,7 @@ void GameObject::Editor_FillInspectorWindow()
         for (int i = 0; i < m_pLightComponent.size(); i++)
             m_pLightComponent[i]->Editor_FillInspectorWindow(i);
     }
-    else
+    else if (m_pLightComponent.size() == 0)
         m_pTransform->Editor_FillInspectorWindow();
         
     //Light Control 
