@@ -206,7 +206,7 @@ void Mesh::Draw(Camera* pCamera, ShaderProgram* pShader, Texture* pTexture, cons
     glUniform1fv(location, m_LightComponents.size(), &lightRadii[0]);
 
     location = glGetUniformLocation(pShader->GetProgram(), "u_CamPosition");
-    vec3 pos = pCamera->GetTransform()->GetPosition().x;
+    vec3 pos = pCamera->GetTransform()->GetPosition();
     glUniform3fv(location, 1, &pos.x);
 
     // Texture uniforms.

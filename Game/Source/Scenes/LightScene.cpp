@@ -16,18 +16,15 @@ LightScene::LightScene(Game* pGame)
     // Ground Object.
     fw::GameObject* pGameObject = new fw::GameObject( "Ground", this, vec3(0,-0.05f,0) );
     pGameObject->GetTransform()->SetScale( vec3(30.0f,0.1f,30.0f) );
-    //pGameObject->AddComponent( new fw::LightComponent(vec3(0,2,0), vec3(1,0,0), 5.0f, pGame->GetMesh("Obj")));
-    //pGameObject->CreateLight(vec3(0, 2, 0), vec3(1, 0, 0), 5.0f, pGame->GetMesh("Obj"));
-    //pGameObject->CreateLight(vec3(6, 2, 0), vec3(0, 1, 0), 5.0f, pGame->GetMesh("Obj"));
     pGameObject->AddComponent( new fw::MeshComponent( pGame->GetMesh("Obj"), pGame->GetMaterial("LitMat") ) );
     m_Objects.push_back( pGameObject );
 
     //Light Object
     pGameObject = new fw::GameObject("Lights", this, vec3(0, 0, 0));
     pGameObject->CreateLight(vec3(0, 15, 0), vec3(1, 1, 1), 50.0f, pGame->GetMesh("Obj"));
-    pGameObject->CreateLight(vec3(10, 1.5f, 0), vec3(0, 1, 0), 30.0f, pGame->GetMesh("Obj"));
-    pGameObject->CreateLight(vec3(-10, 1.5f, -5), vec3(1, 0, 0), 30.0f, pGame->GetMesh("Obj"));
-    pGameObject->CreateLight(vec3(0, 1.5f, 10), vec3(0, 1, 1), 30.0f, pGame->GetMesh("Obj"));
+    pGameObject->CreateLight(vec3(10, 1.5f, 0), vec3(0, 1, 0), 25.0f, pGame->GetMesh("Obj"));
+    pGameObject->CreateLight(vec3(-10, 1.5f, -5), vec3(1, 0, 0), 25.0f, pGame->GetMesh("Obj"));
+    pGameObject->CreateLight(vec3(0, 1.5f, 10), vec3(0, 1, 1), 25.0f, pGame->GetMesh("Obj"));
     m_Objects.push_back(pGameObject);
 
     // Random Left Wall Object.

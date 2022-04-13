@@ -33,13 +33,10 @@ void main()
 
         float diffusePerc = max(0.0, dot(  normNormal, normDir));
 
-//        vec3 camDir = vec3(u_CamPosition - v_SurfacePos);
-//        vec3 halfVec = normalize(camDir + dirToLight);
-//        float specPrec = max( 0.0, dot(normNormal, halfVec));
-//        float SpecTerm = (specPrec * lightColor);
-//        finalColor[i] = materialColor * lightColor * diffusePerc * attenuation * SpecTerm; //*SpecTerm
-
-        finalColor[i] = materialColor * lightColor * diffusePerc * attenuation; //*SpecTerm
+        vec3 camDir = u_CamPosition - v_SurfacePos;
+        vec3 halfVec = normalize(camDir + dirToLight);
+        float specPrec = pow( max( 0.0, dot(normNormal, halfVec)), 200);
+        finalColor[i] = materialColor * lightColor  * diffusePerc * attenuation + (specPrec * lightColor);
     }
     
     vec3 lights = finalColor[0] += finalColor[1] += finalColor[2] += finalColor[3];
