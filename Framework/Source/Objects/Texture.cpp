@@ -70,6 +70,35 @@ Texture::Texture(const char* filename)
 
     stbi_image_free( pixels );
 }
+Texture::Texture(std::vector<const char*> filenames)
+{
+
+    assert(filenames.size() == 6);
+    
+    glGenTextures(1, &m_TextureID);
+   
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_CUBE_MAP, m_TextureID);
+    stbi_set_flip_vertically_on_load(false);
+
+    for (int i = 0; i < 6; i++)
+    {
+        int width;
+        int height;
+        int channels;
+        unsigned char* pixels = stbi_load(filenames[i], &width, &height, &channels, 4);
+        assert(pixels != nullptr);
+
+        glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, pixels);
+
+
+        stbi_image_free(pixels);
+    }
+        
+    glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+
+}
 Texture::Texture(const char r1, const char g1, const char b1, const char a1)
 {
     unsigned char pixels[4];

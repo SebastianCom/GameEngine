@@ -9,6 +9,7 @@ class Camera;
 class ShaderProgram;
 class Texture;
 class LightComponent;
+class Material;
 
 struct VertexFormat
 {
@@ -35,7 +36,7 @@ public:
     void SetupUniform(ShaderProgram* pShader, char* name, float value);
     void SetupUniform(ShaderProgram* pShader, char* name, vec2 value);
     void SetupAttribute(ShaderProgram* pShader, char* name, int size, GLenum type, GLboolean normalize, int stride, int64_t startIndex);
-    void Draw(Camera* pCamera, ShaderProgram* pShader, Texture* pTexture, const mat4& worldMat, const mat4& normalMat, vec2 uvScale, vec2 uvOffset, float time);
+    void Draw(Camera* pCamera, ShaderProgram* pShader, Texture* pTexture, const mat4& worldMat, const mat4& normalMat, vec2 uvScale, vec2 uvOffset, float time, Material* pMaterial);
 
 protected:
     GLuint m_VBO = 0;

@@ -12,6 +12,7 @@
 #include "Scenes/WaterScene.h"
 #include "Scenes/LightScene.h"
 #include "Scenes/ObjScene.h"
+#include "Scenes/CubeMap.h"
 
 
 //Working Copy for maintenance 2 - needed a comment to i could commit again
@@ -94,6 +95,7 @@ void Game::Init()
     m_Shaders["Basic"] = new fw::ShaderProgram( "Data/Shaders/Basic.vert", "Data/Shaders/Basic.frag" );
     m_Shaders["Water"] = new fw::ShaderProgram( "Data/Shaders/Water.vert", "Data/Shaders/Water.frag" );
     m_Shaders["LitColor"] = new fw::ShaderProgram("Data/Shaders/Light-SolidColor.vert", "Data/Shaders/Light-SolidColor.frag");
+    m_Shaders["Cubemap"] = new fw::ShaderProgram("Data/Shaders/CubeMap.vert", "Data/Shaders/CubeMap.frag");
 
     // Load our Textures.
     m_Textures["Sprites"] = new fw::Texture( "Data/Textures/Sprites.png" );
@@ -110,12 +112,26 @@ void Game::Init()
     m_Textures["Pink"] = new fw::Texture("Data/Textures/Color/Pink.png"); 
     m_Textures["Purple"] = new fw::Texture("Data/Textures/Color/Purple.png"); 
     m_Textures["White"] = new fw::Texture("Data/Textures/Color/White.png"); 
+    m_Textures["TestCubeMap"] = new fw::Texture({ "Data/Textures/TestCubeMap/posx.png", 
+                                                  "Data/Textures/TestCubeMap/negx.png",
+                                                  "Data/Textures/TestCubeMap/posy.png", 
+                                                  "Data/Textures/TestCubeMap/negy.png", 
+                                                  "Data/Textures/TestCubeMap/posz.png", 
+                                                  "Data/Textures/TestCubeMap/negz.png" });
+    m_Textures["Yokohama"] = new fw::Texture({ "Data/Textures/Yokohama2/posx.png",
+                                              "Data/Textures/Yokohama2/negx.png",
+                                              "Data/Textures/Yokohama2/posy.png",
+                                              "Data/Textures/Yokohama2/negy.png",
+                                              "Data/Textures/Yokohama2/posz.png",
+                                              "Data/Textures/Yokohama2/negz.png" });
 
     // Create our Materials.
-    m_Materials["Sprites"] = new fw::Material( m_Shaders["Basic"], m_Textures["Sprites"], fw::Color4f::Blue() );
-    m_Materials["Water"] = new fw::Material( m_Shaders["Water"], m_Textures["Water"], fw::Color4f::Blue() );
+    m_Materials["Sprites"] = new fw::Material( m_Shaders["Basic"], m_Textures["Sprites"], fw::Color4f::Blue());
+    m_Materials["Water"] = new fw::Material( m_Shaders["Water"], m_Textures["Water"], fw::Color4f::Blue());
     m_Materials["BG"] = new fw::Material( m_Shaders["Basic"], m_Textures["BG"], fw::Color4f::Blue() );
     m_Materials["LitMat"] = new fw::Material(m_Shaders["LitColor"], nullptr, fw::Color4f::White());
+    m_Materials["CubeMap"] = new fw::Material( m_Shaders["Cubemap"], nullptr, fw::Color4f::Blue(), m_Textures["TestCubeMap"]);
+    m_Materials["Yokohama"] = new fw::Material( m_Shaders["Cubemap"], nullptr, fw::Color4f::Blue(), m_Textures["Yokohama"]);
     
     //Color Mats
     m_Materials["Purple"] = new fw::Material( m_Shaders["Basic"], m_Textures["Purple"], fw::Color4f::Blue() );
@@ -135,7 +151,8 @@ void Game::Init()
     m_Scenes["ThirdPerson"] = new ThirdPersonScene( this );
     m_Scenes["Water"] = new WaterScene( this );
     m_Scenes["Light"] = new LightScene( this );
-    m_pCurrentScene = m_Scenes["Light"];
+    m_Scenes["CubeMap"] = new CubemapScene( this );
+    m_pCurrentScene = m_Scenes["CubeMap"];
 }
 
 void Game::StartFrame(float deltaTime)
@@ -193,6 +210,10 @@ void Game::Update(float deltaTime)
     if (ImGui::Button("Cube"))
     {
         m_pCurrentScene = m_Scenes["Cube"];
+    }
+    if (ImGui::Button("CubeMap"))
+    {
+        m_pCurrentScene = m_Scenes["CubeMap"];
     }
     ImGui::End(); //"Scene Selector"
 
@@ -258,6 +279,20 @@ void Game::Draw()
     m_pOffscreenFBO->Bind();
     glViewport(0, 0, m_pOffscreenFBO->GetRequestedWidth(), m_pOffscreenFBO->GetRequestedHeight());
     glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
+    
+    //Skybox
+    {
+        glDepthMask(false);
+        glFrontFace(GL_CCW);
+
+        fw::mat4 identity;
+        identity.SetIdentity();
+        m_Meshes["Cube"]->Draw(m_pCurrentScene->GetCamera(), m_Shaders["Cubemap"], m_Textures["Yokohama"], identity, identity, vec2(1, 1), vec2(1, 1), 0.0f, m_Materials["Yokohama"]);
+
+        glDepthMask(true);
+        glFrontFace(GL_CW);
+    }
+    
     m_pCurrentScene->Draw();
     m_pOffscreenFBO->Unbind();
 

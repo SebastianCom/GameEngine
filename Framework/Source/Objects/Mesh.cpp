@@ -8,6 +8,7 @@
 #include "Math/Matrix.h"
 #include "Components/TransformComponent.h"
 #include "Components/LightComponent.h"
+#include "Material.h"
 
 namespace fw {
 
@@ -142,7 +143,7 @@ void Mesh::SetupAttribute(ShaderProgram* pShader, char* name, int size, GLenum t
     }
 }
 
-void Mesh::Draw(Camera* pCamera, ShaderProgram* pShader, Texture* pTexture, const mat4& worldMat, const mat4& normalMat, vec2 uvScale, vec2 uvOffset, float time)
+void Mesh::Draw(Camera* pCamera, ShaderProgram* pShader, Texture* pTexture, const mat4& worldMat, const mat4& normalMat, vec2 uvScale, vec2 uvOffset, float time, Material* pMaterial)
 {
     //ShaderProgram* pShader = pMaterial->GetShader();
     //Texture* pTexture = pMaterial->GetTexture();
@@ -223,6 +224,16 @@ void Mesh::Draw(Camera* pCamera, ShaderProgram* pShader, Texture* pTexture, cons
     {
         glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D, pTexture->GetTextureID());
+        GLint location = glGetUniformLocation(pShader->GetProgram(), "u_Texture");
+        glUniform1i(location, 0);
+    }
+
+    if (pMaterial->GetCubemap() != nullptr)
+    {
+        glActiveTexture(GL_TEXTURE0 + 1);
+        glBindTexture(GL_TEXTURE_CUBE_MAP, pMaterial->GetCubemap()->GetTextureID());
+        GLint location = glGetUniformLocation(pShader->GetProgram(), "u_TextureCubemap");
+        glUniform1i(location, 1);
     }
 
 

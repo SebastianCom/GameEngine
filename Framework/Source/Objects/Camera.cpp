@@ -30,7 +30,7 @@ void Camera::Update(float deltaTime)
 void Camera::Hack_ThirdPersonCamUpdate(FWCore* pFramework, float deltaTime)
 {
     float speed = 90.0f;
-    float distance = 10.0f;
+    static float distance = 10.0f;
 
     vec3 rot = GetTransform()->GetRotation();
 
@@ -43,6 +43,11 @@ void Camera::Hack_ThirdPersonCamUpdate(FWCore* pFramework, float deltaTime)
         rot.x -= deltaTime * speed;
     if( pFramework->IsKeyDown('K') )
         rot.x += deltaTime * speed;
+
+    if (pFramework->IsKeyDown('U'))
+        distance -= deltaTime * speed * 0.05f;
+    if (pFramework->IsKeyDown('M'))
+        distance += deltaTime * speed * 0.05f;
 
     m_ViewMatrix.SetIdentity();
     m_ViewMatrix.Translate( vec3(0,0,-distance) );

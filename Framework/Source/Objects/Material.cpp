@@ -17,6 +17,14 @@ Material::Material(ShaderProgram* pShaderProgram, Texture* pTexture, Color4f col
 {
 
 }
+Material::Material(ShaderProgram* pShaderProgram, Texture* pTexture, Color4f color, Texture* pCubemap)
+    : m_pShaderProgram(pShaderProgram)
+    , m_pTexture(pTexture)
+    , m_Color(color)
+    , m_pCubemap(pCubemap)
+{
+
+}
 
 Material::~Material()
 {
