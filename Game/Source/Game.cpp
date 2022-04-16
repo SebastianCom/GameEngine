@@ -111,6 +111,7 @@ void Game::Init()
     m_Textures["LightBlue"] = new fw::Texture("Data/Textures/Color/LightBlue.png"); 
     m_Textures["Orange"] = new fw::Texture("Data/Textures/Color/Orange.png"); 
     m_Textures["Pink"] = new fw::Texture("Data/Textures/Color/Pink.png"); 
+    m_Textures["SpinOF"] = new fw::Texture("Data/Textures/Color/SpinOF.png"); 
     m_Textures["Purple"] = new fw::Texture("Data/Textures/Color/Purple.png"); 
     m_Textures["White"] = new fw::Texture("Data/Textures/Color/White.png"); 
     m_Textures["TestCubeMap"] = new fw::Texture({ "Data/Textures/TestCubeMap/posx.png", 
@@ -140,6 +141,8 @@ void Game::Init()
     m_Materials["LightBlue"] = new fw::Material( m_Shaders["Basic"], m_Textures["LightBlue"], fw::Color4f::Blue() );
     m_Materials["Red"] = new fw::Material( m_Shaders["Basic"], m_Textures["Red"], fw::Color4f::Blue() );
     m_Materials["Pink"] = new fw::Material( m_Shaders["Basic"], m_Textures["Pink"], fw::Color4f::Blue() );
+    
+    m_Materials["SpinnerToggle"] = new fw::Material( m_Shaders["Basic"], m_Textures["SpinOF"], fw::Color4f::Blue() );
 
     // Load our Spritesheets.
     m_SpriteSheets["Sprites"] = new fw::SpriteSheet( "Data/Textures/Sprites.json", m_Textures["Sprites"] );

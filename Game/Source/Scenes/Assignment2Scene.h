@@ -18,5 +18,10 @@ public:
 protected:
     PlayerController* m_pPlayerController = nullptr;
 
+    bool SpinnerToggle = false;
 
+    b2RevoluteJoint* m_pSpinner = nullptr;
+
+    bool m_bCollision = false;
+    float m_CollisionTimer = 0.0f;
 };

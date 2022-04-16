@@ -128,6 +128,10 @@ b2Joint* PhysicsWorldBox2D::CreateJoint(PhysicsBody* pBody, vec3 pos, JointType 
         jointDef.Initialize( static_cast<PhysicsBodyBox2D*>(pBody)->Getb2Body(), m_pGroundBody, pos );
         b2Joint* pJoint = m_pWorld->CreateJoint( &jointDef );
 
+        b2FrictionJointDef frictionDef;
+        frictionDef.Initialize(static_cast<PhysicsBodyBox2D*>(pBody)->Getb2Body(), m_pGroundBody, pos);
+        //b2FrictionJoint* pFriction = m_pWorld->CreateJoint(&pFriction);
+
         return pJoint;
         //jointDef.Initialize(static_cast<PhysicsBodyBox2D*>(pBody)->Getb2Body(), static_cast<PhysicsBodyBox2D*>(otherBody)->Getb2Body(), pos);
         //jointDef.enableMotor = true;
