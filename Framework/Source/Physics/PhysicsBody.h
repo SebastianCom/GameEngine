@@ -20,6 +20,7 @@ public:
     // Forces.
     virtual void ApplyForceToCenter(vec3 force) = 0;
 
+
 public:
     virtual void Editor_FillInspectorWindow() = 0;
 };

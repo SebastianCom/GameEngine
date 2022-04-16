@@ -185,6 +185,7 @@ void Game::Update(float deltaTime)
     ImGui::ShowDemoWindow();
 
     ImGui::Begin( "Scene Selector" );
+    ImGui::Columns(2); //I did not like scrolling lol
     if( ImGui::Button( "Obj" ) )
     {
         m_pCurrentScene = m_Scenes["Obj"];
@@ -209,6 +210,9 @@ void Game::Update(float deltaTime)
     {
         m_pCurrentScene = m_Scenes["Light"];
     }
+
+    ImGui::NextColumn();
+
     if (ImGui::Button("Cube"))
     {
         m_pCurrentScene = m_Scenes["Cube"];
@@ -216,6 +220,10 @@ void Game::Update(float deltaTime)
     if (ImGui::Button("CubeMap"))
     {
         m_pCurrentScene = m_Scenes["CubeMap"];
+    }
+    if (ImGui::Button("A2"))
+    {
+        m_pCurrentScene = m_Scenes["A2"];
     }
     ImGui::End(); //"Scene Selector"
 

@@ -4,6 +4,8 @@
 #include "PhysicsBodyComponent.h"
 #include "Physics/PhysicsWorld.h"
 #include "Physics/Box2D/PhysicsBodyBox2D.h"
+#include "Events/EventManager.h"
+#include "Events/Event.h"
 
 namespace fw {
 
@@ -11,8 +13,10 @@ PhysicsBodyComponent::PhysicsBodyComponent(PhysicsWorld* pWorld, bool dynamic, f
     : m_pWorld(pWorld)
     , m_bDynamic(dynamic)
     , m_Density(density)
+    , m_pGameObject(pGameObject)
 {
     m_pBody = pWorld->CreateBody(pTransform, dynamic, density, pGameObject);
+
 }
 
 PhysicsBodyComponent::~PhysicsBodyComponent()
@@ -42,6 +46,23 @@ void PhysicsBodyComponent::Editor_FillInspectorWindow(TransformComponent* pTrans
     m_pBody->SetTransform(pos, rot);
     
     m_pBody->SetEnabled(true);
+}
+
+void PhysicsBodyComponent::RegisterForEvents(EventManager* pEventManager)
+{
+    if (pEventManager)
+    {
+       pEventManager->RegisterForEvents(fw::CollisionEvent::GetStaticEventType(), this);
+    }
+}
+
+void PhysicsBodyComponent::OnEvent(fw::Event* pEvent)
+{
+    if (pEvent->GetEventType() == fw::CollisionEvent::GetStaticEventType())
+    {
+        m_pGameObject->GetScene()->CollObjectA = dynamic_cast<CollisionEvent*>(pEvent)->m_pObjectA;
+        m_pGameObject->GetScene()->CollObjectB = dynamic_cast<CollisionEvent*>(pEvent)->m_pObjectB;
+    }
 }
 
 } // namespace fw

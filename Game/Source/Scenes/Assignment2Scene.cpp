@@ -17,13 +17,13 @@ Assignment2Scene::Assignment2Scene(Game* pGame)
 
     m_pPlayerController = new PlayerController( pGame->GetFramework()->GetEventManager() );
 
-
     //New Player
     fw::GameObject* pPlayer = new fw::GameObject("Player", this, vec3(3, 5, 0));
     pPlayer->AddComponent(new fw::MeshComponent(pGame->GetMesh("Sprite"), pGame->GetMaterial("Purple")));
     pPlayer->AddComponent(new fw::PlayerMovementComponent(m_pPlayerController, pPlayer));
     pPlayer->CreateBody(m_pPhysicsWorld, true, 1);
-
+    pPlayer->GetPhysicsBody()->RegisterForEvents(pGame->GetFramework()->GetEventManager());
+    m_Objects.push_back(pPlayer);
     //New Spinner
     fw::GameObject* pSpinner = new fw::GameObject("Spinner", this, vec3(0, 5, 0));
     pSpinner->AddComponent(new fw::MeshComponent(pGame->GetMesh("Sprite"), pGame->GetMaterial("Pink")));
@@ -66,6 +66,7 @@ void Assignment2Scene::Update(float deltaTime)
 
     float time = (float)fw::GetSystemTimeSinceGameStart() * 20;
 
+    HandleCollision();
 
 
     //TODO
@@ -77,4 +78,15 @@ void Assignment2Scene::Update(float deltaTime)
 
     
 
+}
+
+void Assignment2Scene::HandleCollision()
+{
+    if (CollObjectA) //&& CollObjectB)
+    {
+        if (CollObjectA->GetName() == "Player")
+        {
+            assert(true);
+        }
+    }
 }

@@ -44,6 +44,18 @@ void Scene::OnEvent(Event* pEvent)
 
         delete pObject;
     }
+    if (pEvent->GetEventType() == CollisionEvent::GetStaticEventType())
+    {
+        CollisionEvent* pCollisionEvent = static_cast<CollisionEvent*>(pEvent);
+        CollObjectA = pCollisionEvent->GetGameObjectA();
+        CollObjectB = pCollisionEvent->GetGameObjectB();
+
+    }
+    else
+    {
+        CollObjectA = nullptr;
+        CollObjectB = nullptr;
+    }
 }
 
 void Scene::Update(float deltaTime)

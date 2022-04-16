@@ -15,6 +15,7 @@ GameObject::GameObject(std::string name, Scene* pScene, vec3 pos)
 {
     m_pTransform = new TransformComponent( pos, vec3(0), vec3(1) );
     AddComponent( m_pTransform );
+
 }
 
 GameObject::~GameObject()

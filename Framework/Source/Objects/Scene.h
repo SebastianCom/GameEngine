@@ -29,6 +29,9 @@ public:
     void CreateLightComponents();
 
 
+    GameObject* CollObjectA = nullptr;
+    GameObject* CollObjectB = nullptr;
+
 protected:
     void Editor_CreateObjectList();
     GameObject* m_pEditor_SelectedObject = nullptr;
@@ -42,6 +45,7 @@ protected:
     ComponentManager* m_pComponentManager = nullptr;
 
     std::vector<GameObject*> m_Objects;
+
 };
 
 } // namespace fw

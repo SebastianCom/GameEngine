@@ -96,9 +96,9 @@ public:
     GameObject* GetGameObjectA() { return m_pObjectA; }
     GameObject* GetGameObjectB() { return m_pObjectB; }
 
-protected:
     GameObject* m_pObjectA = nullptr;
     GameObject* m_pObjectB = nullptr;
+protected:
 };
 
 } // namespace fw
