@@ -13,6 +13,7 @@ namespace fw {
 
 class EventManager;
 class PhysicsBodyBullet3D;
+enum class JointType;
 
 class PhysicsWorldBullet3D : public PhysicsWorld
 {
@@ -25,7 +26,7 @@ public:
     virtual void SetGravity(vec3 gravity) override;
 
     virtual PhysicsBody* CreateBody(TransformComponent* pTransform, bool isDynamic, float density, GameObject* pGameObject) override;
-    virtual void CreateJoint(PhysicsBody* pBody, vec3 pos) override;
+    virtual  b2Joint* CreateJoint(PhysicsBody* pBody, vec3 pos, JointType jointType, PhysicsBody* otherBody) override;
 
     // Getters
     btDynamicsWorld* GetbtWorld() { return m_pWorld; };

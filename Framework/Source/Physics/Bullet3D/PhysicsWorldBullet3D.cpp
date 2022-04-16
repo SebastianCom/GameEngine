@@ -5,7 +5,7 @@
 #include "Events/Event.h"
 #include "Events/EventManager.h"
 #include "Components/TransformComponent.h"
-
+#include "Objects/GameObject.h"
 #include "btBulletDynamicsCommon.h"
 
 namespace fw {
@@ -87,9 +87,10 @@ PhysicsBody* PhysicsWorldBullet3D::CreateBody(TransformComponent* pTransform, bo
     return pBody;
 }
 
-void PhysicsWorldBullet3D::CreateJoint(PhysicsBody* pBody, vec3 pos)
+b2Joint* PhysicsWorldBullet3D::CreateJoint(PhysicsBody* pBody, vec3 pos, JointType jointType, PhysicsBody* otherBody)
 {
     assert( false ); // implement this.
+    return nullptr;
 }
 
 } // namespace fw

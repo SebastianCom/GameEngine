@@ -120,15 +120,21 @@ PhysicsBody* PhysicsWorldBox2D::CreateBody(TransformComponent* pTransform, bool 
     return new PhysicsBodyBox2D( pBody );
 }
 
-void PhysicsWorldBox2D::CreateJoint(PhysicsBody* pBody, vec3 pos)
+b2Joint* PhysicsWorldBox2D::CreateJoint(PhysicsBody* pBody, vec3 pos, JointType jointType, PhysicsBody* otherBody)
 {
-    b2RevoluteJointDef jointDef;
-    jointDef.Initialize( static_cast<PhysicsBodyBox2D*>(pBody)->Getb2Body(), m_pGroundBody, pos );
-    //jointDef.enableMotor = true;
-    //jointDef.motorSpeed = 20.0f;
-    //jointDef.maxMotorTorque = 3.0f;
+    if (jointType == JointType::Revolute)
+    {
+        b2RevoluteJointDef jointDef;
+        jointDef.Initialize( static_cast<PhysicsBodyBox2D*>(pBody)->Getb2Body(), m_pGroundBody, pos );
+        b2Joint* pJoint = m_pWorld->CreateJoint( &jointDef );
 
-    b2Joint* pJoint = m_pWorld->CreateJoint( &jointDef );
+        return pJoint;
+        //jointDef.Initialize(static_cast<PhysicsBodyBox2D*>(pBody)->Getb2Body(), static_cast<PhysicsBodyBox2D*>(otherBody)->Getb2Body(), pos);
+        //jointDef.enableMotor = true;
+        //jointDef.motorSpeed = 20.0f;
+        //jointDef.maxMotorTorque = 3.0f;
+
+    }
 }
 
 } // namespace fw

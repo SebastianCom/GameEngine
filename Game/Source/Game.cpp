@@ -13,6 +13,7 @@
 #include "Scenes/LightScene.h"
 #include "Scenes/ObjScene.h"
 #include "Scenes/CubeMap.h"
+#include "Scenes/Assignment2Scene.h"
 
 
 //Working Copy for maintenance 2 - needed a comment to i could commit again
@@ -152,7 +153,8 @@ void Game::Init()
     m_Scenes["Water"] = new WaterScene( this );
     m_Scenes["Light"] = new LightScene( this );
     m_Scenes["CubeMap"] = new CubemapScene( this );
-    m_pCurrentScene = m_Scenes["CubeMap"];
+    m_Scenes["A2"] = new Assignment2Scene( this );
+    m_pCurrentScene = m_Scenes["A2"];
 }
 
 void Game::StartFrame(float deltaTime)

@@ -21,6 +21,22 @@ class TransformComponent;
 class PhysicsBodyComponent;
 class LightComponent;
 
+enum class JointType
+{
+    None = 0,
+    Revolute,
+    Distance,
+    Prismatic,
+    Line,
+    Weld,
+    Pulley,
+    Friction,
+    Gear,
+    Mouse,
+    MAX
+
+};
+
 class GameObject
 {
 public:
@@ -36,6 +52,8 @@ public:
     void CreateLight(vec3 pos, vec3 color, float radius, Mesh* mesh);
 
     std::vector<LightComponent*> GetLightComponents() { return m_pLightComponent; };
+
+    void CreateJointDef(PhysicsWorld* pWorld, vec3 location, JointType joint, PhysicsBody* otherBody );
 
     // Getters.
     std::string GetName() { return m_Name; }
@@ -61,6 +79,8 @@ public:
 public:
     void Editor_FillInspectorWindow();
 
+    b2RevoluteJoint* m_pRevJoint = nullptr;
+
 protected:
     Scene* m_pScene = nullptr;
     std::string m_Name;
@@ -73,6 +93,7 @@ protected:
 
     LightComponent* m_ClickedLight = nullptr;
     int LightIndex = 0;
+   
 };
 
 } // namespace fw
