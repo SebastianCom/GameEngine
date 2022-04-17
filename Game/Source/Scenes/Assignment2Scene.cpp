@@ -122,11 +122,6 @@ void Assignment2Scene::HandleCollision()
                     SpinnerToggle = !SpinnerToggle;
                     m_pSpinner->EnableMotor(SpinnerToggle);
 
-                    //The motor does shut off but keeps its current velocity so it really never stops spinning 
-                    if(SpinnerToggle == false)
-                        m_pSpinner->GetBodyA()->SetFixedRotation(true);
-                    else
-                        m_pSpinner->GetBodyA()->SetFixedRotation(false);
                     m_bCollision = true;
                     m_CollisionTimer = 1.0f;
                 }
