@@ -17,7 +17,7 @@ Assignment2Scene::Assignment2Scene(Game* pGame)
 
     m_pPlayerController = new PlayerController( pGame->GetFramework()->GetEventManager() );
 
-    //New Player
+    //Player
     fw::GameObject* pPlayer = new fw::GameObject("Player", this, vec3(3, 5, 0));
     pPlayer->AddComponent(new fw::MeshComponent(pGame->GetMesh("Sprite"), pGame->GetMaterial("Purple")));
     pPlayer->AddComponent(new fw::PlayerMovementComponent(m_pPlayerController, pPlayer));
@@ -25,20 +25,30 @@ Assignment2Scene::Assignment2Scene(Game* pGame)
     //pPlayer->GetPhysicsBody()->RegisterForEvents(pGame->GetFramework()->GetEventManager());
     m_Objects.push_back(pPlayer);
     
-    //New Spinner
+    //Spinner
     fw::GameObject* pSpinner = new fw::GameObject("Spinner", this, vec3(0, 5, 0));
     pSpinner->AddComponent(new fw::MeshComponent(pGame->GetMesh("Sprite"), pGame->GetMaterial("Pink")));
     pSpinner->AddComponent(new fw::PlayerMovementComponent(m_pPlayerController, pPlayer));
     pSpinner->CreateBody(m_pPhysicsWorld, true, 1);
     pSpinner->GetPhysicsBody()->RegisterForEvents(pGame->GetFramework()->GetEventManager());
-    pSpinner->CreateJointDef(m_pPhysicsWorld, vec3(0, 5, 0), fw::JointType::Revolute, nullptr);
-    //pSpinner->m_pRevJoint->EnableMotor(true);
+    pSpinner->CreateJoint(m_pPhysicsWorld, vec3(0, 5, 0), fw::JointType::Revolute, nullptr); //This joint also has a friction joint
     pSpinner->m_pRevJoint->SetMotorSpeed(20.0f);
     pSpinner->m_pRevJoint->SetMaxMotorTorque(3.0f);
     m_pSpinner = pSpinner->m_pRevJoint;
     m_Objects.push_back(pSpinner);
 
-    //New Spinner
+    //Prismatic Spinner
+    fw::GameObject* pGearSpinner = new fw::GameObject("GearSpinner", this, vec3(5, 5, 0));
+    pGearSpinner->AddComponent(new fw::MeshComponent(pGame->GetMesh("Sprite"), pGame->GetMaterial("Red")));
+    pGearSpinner->AddComponent(new fw::PlayerMovementComponent(m_pPlayerController, pPlayer));
+    pGearSpinner->CreateBody(m_pPhysicsWorld, true, 1);
+    pGearSpinner->GetPhysicsBody()->RegisterForEvents(pGame->GetFramework()->GetEventManager());
+    pGearSpinner->CreateJoint(m_pPhysicsWorld, vec3(5, 5, 0), fw::JointType::Revolute, nullptr); //Keep it in spot
+    pGearSpinner->CreateJoint(m_pPhysicsWorld, pSpinner->m_pRevJoint, pGearSpinner->m_pRevJoint, pSpinner->GetPhysicsBody()->GetBody()); //Keep it in spot
+    m_Objects.push_back(pGearSpinner);
+
+
+    //Spinner Sensor
     fw::GameObject* pSpinnerToggle = new fw::GameObject("SpinnerSensor", this, vec3(-5.6f, -5.0f, 0));
     pSpinnerToggle->AddComponent(new fw::MeshComponent(pGame->GetMesh("Sprite"), pGame->GetMaterial("SpinnerToggle")));
     pSpinnerToggle->AddComponent(new fw::PlayerMovementComponent(m_pPlayerController, pPlayer));

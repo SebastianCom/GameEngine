@@ -44,6 +44,7 @@ PhysicsWorldBox2D::PhysicsWorldBox2D(EventManager* pEventManager)
 
     // Create a ground body for joints in future.
     b2BodyDef bodyDef;
+    bodyDef.type = b2_dynamicBody;
     m_pGroundBody = m_pWorld->CreateBody( &bodyDef );
 }
 
@@ -136,12 +137,20 @@ b2Joint* PhysicsWorldBox2D::CreateJoint(PhysicsBody* pBody, vec3 pos, JointType 
         b2Joint* pFriction = m_pWorld->CreateJoint(&frictionDef);
 
         return pJoint;
-        //jointDef.Initialize(static_cast<PhysicsBodyBox2D*>(pBody)->Getb2Body(), static_cast<PhysicsBodyBox2D*>(otherBody)->Getb2Body(), pos);
-        //jointDef.enableMotor = true;
-        //jointDef.motorSpeed = 20.0f;
-        //jointDef.maxMotorTorque = 3.0f;
 
     }
+}
+
+b2Joint* PhysicsWorldBox2D::CreateJoint(PhysicsBody* pBody, b2Joint* jointOne, b2Joint* jointTwo, PhysicsBody* otherBody)
+{
+    b2GearJointDef jointDef;
+    jointDef.joint1 = jointOne;
+    jointDef.joint2 = jointTwo;
+    jointDef.bodyA = static_cast<PhysicsBodyBox2D*>(otherBody)->Getb2Body();
+    jointDef.bodyB = static_cast<PhysicsBodyBox2D*>(pBody)->Getb2Body();
+    b2Joint* pJoint = m_pWorld->CreateJoint(&jointDef);
+
+    return pJoint;
 }
 
 } // namespace fw

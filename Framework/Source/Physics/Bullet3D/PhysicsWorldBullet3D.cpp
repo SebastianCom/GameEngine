@@ -93,5 +93,10 @@ b2Joint* PhysicsWorldBullet3D::CreateJoint(PhysicsBody* pBody, vec3 pos, JointTy
     return nullptr;
 }
 
+b2Joint* PhysicsWorldBullet3D::CreateJoint(PhysicsBody* pBody, b2Joint* jointOne, b2Joint* jointTwo, PhysicsBody* otherBody)
+{
+    return nullptr;
+}
+
 } // namespace fw
 

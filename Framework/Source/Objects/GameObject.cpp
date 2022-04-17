@@ -54,12 +54,17 @@ void GameObject::CreateLight(vec3 pos, vec3 color, float radius, Mesh* mesh)
     AddComponent(m_pLightComponent.back());
 }
 
-void GameObject::CreateJointDef(PhysicsWorld* pWorld, vec3 location, JointType joint, PhysicsBody* otherBody)
+void GameObject::CreateJoint(PhysicsWorld* pWorld, vec3 location, JointType joint, PhysicsBody* otherBody)
 {
     if (joint == JointType::Revolute)
     {
         m_pRevJoint = static_cast<b2RevoluteJoint*>(pWorld->CreateJoint(m_pPhysicsBody->GetBody(), location, joint, otherBody));
     }
+}
+
+void GameObject::CreateJoint(PhysicsWorld* pWorld, b2Joint* jointOne, b2Joint* jointTwo, PhysicsBody* otherBody)
+{
+    pWorld->CreateJoint(m_pPhysicsBody->GetBody(), jointOne, jointTwo, otherBody);
 }
 
 void GameObject::Editor_FillInspectorWindow()

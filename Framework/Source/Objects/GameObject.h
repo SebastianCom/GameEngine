@@ -53,7 +53,8 @@ public:
 
     std::vector<LightComponent*> GetLightComponents() { return m_pLightComponent; };
 
-    void CreateJointDef(PhysicsWorld* pWorld, vec3 location, JointType joint, PhysicsBody* otherBody );
+    void CreateJoint(PhysicsWorld* pWorld, vec3 location, JointType joint, PhysicsBody* otherBody );
+    void CreateJoint(PhysicsWorld* pWorld, b2Joint* jointOne, b2Joint* jointTwo, PhysicsBody* otherBody);
 
     // Getters.
     std::string GetName() { return m_Name; }
@@ -80,6 +81,7 @@ public:
     void Editor_FillInspectorWindow();
 
     b2RevoluteJoint* m_pRevJoint = nullptr;
+    b2GearJoint* m_pGearJoint = nullptr;
 
 protected:
     Scene* m_pScene = nullptr;

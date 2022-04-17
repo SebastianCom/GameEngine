@@ -31,6 +31,8 @@ public:
 
     virtual PhysicsBody* CreateBody(TransformComponent* pTransform, bool isDynamic, float density, GameObject* pGameObject) override;
     virtual  b2Joint* CreateJoint(PhysicsBody* pBody, vec3 pos, JointType jointType, PhysicsBody* otherBody) override;
+    virtual  b2Joint* CreateJoint(PhysicsBody* pBody, b2Joint* jointOne, b2Joint* jointTwo, PhysicsBody* otherBody) override;
+
 
     b2World* Getb2World() { return m_pWorld; }
 
