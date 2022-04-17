@@ -87,6 +87,11 @@ PhysicsBody* PhysicsWorldBullet3D::CreateBody(TransformComponent* pTransform, bo
     return pBody;
 }
 
+PhysicsBody* PhysicsWorldBullet3D::CreateBody(TransformComponent* pTransform, bool isDynamic, float density, GameObject* pGameObject, bool sensor)
+{
+    return nullptr;
+}
+
 b2Joint* PhysicsWorldBullet3D::CreateJoint(PhysicsBody* pBody, vec3 pos, JointType jointType, PhysicsBody* otherBody)
 {
     assert( false ); // implement this.

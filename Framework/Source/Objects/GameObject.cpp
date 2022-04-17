@@ -40,6 +40,11 @@ void GameObject::CreateBody(PhysicsWorld* pWorld, bool isDynamic, float density)
     m_pPhysicsBody = new fw::PhysicsBodyComponent(pWorld, isDynamic, density, this, m_pTransform);
     AddComponent(m_pPhysicsBody);
 }
+void GameObject::CreateBody(PhysicsWorld* pWorld, bool isDynamic, float density, bool sensor)
+{
+    m_pPhysicsBody = new fw::PhysicsBodyComponent(pWorld, isDynamic, density, this, m_pTransform, sensor);
+    AddComponent(m_pPhysicsBody);
+}
 
 void GameObject::AddComponent(Component* pComponent)
 {

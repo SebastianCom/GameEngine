@@ -18,6 +18,7 @@ class PhysicsBodyComponent : public Component, public EventListener
 {
 public:
     PhysicsBodyComponent(PhysicsWorld* pWorld, bool dynamic, float density, GameObject* pGameObject, TransformComponent* pTransform);
+    PhysicsBodyComponent(PhysicsWorld* pWorld, bool dynamic, float density, GameObject* pGameObject, TransformComponent* pTransform, bool sensor);
     virtual ~PhysicsBodyComponent();
 
     static const char* GetStaticType() { return "PhysicsBodyComponent"; }

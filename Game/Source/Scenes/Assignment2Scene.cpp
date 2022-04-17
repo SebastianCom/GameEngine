@@ -22,7 +22,6 @@ Assignment2Scene::Assignment2Scene(Game* pGame)
     pPlayer->AddComponent(new fw::MeshComponent(pGame->GetMesh("Sprite"), pGame->GetMaterial("Purple")));
     pPlayer->AddComponent(new fw::PlayerMovementComponent(m_pPlayerController, pPlayer));
     pPlayer->CreateBody(m_pPhysicsWorld, true, 1);
-    //pPlayer->GetPhysicsBody()->RegisterForEvents(pGame->GetFramework()->GetEventManager());
     m_Objects.push_back(pPlayer);
     
     //Spinner
@@ -52,17 +51,22 @@ Assignment2Scene::Assignment2Scene(Game* pGame)
     m_Objects.push_back(pDistance);
 
     //Right Blocker
-    fw::GameObject* pBlocker = new fw::GameObject("Blocker", this, vec3(9.6f, -5.0f, 0));
+    fw::GameObject* pBlocker = new fw::GameObject("Right Blocker", this, vec3(9.6f, -5.0f, 0));
     pBlocker->AddComponent(new fw::MeshComponent(pGame->GetMesh("Sprite"), pGame->GetMaterial("Green")));
     pBlocker->CreateBody(m_pPhysicsWorld, false, 1);
     m_Objects.push_back(pBlocker);
+
+    //Left Blocker
+    fw::GameObject* pLBlocker = new fw::GameObject("Left Blocker", this, vec3(-6.7f, -5.0f, 0));
+    pLBlocker->AddComponent(new fw::MeshComponent(pGame->GetMesh("Sprite"), pGame->GetMaterial("Green")));
+    pLBlocker->CreateBody(m_pPhysicsWorld, false, 1);
+    m_Objects.push_back(pLBlocker);
 
 
     //Spinner Sensor
     fw::GameObject* pSpinnerToggle = new fw::GameObject("SpinnerSensor", this, vec3(-5.6f, -5.0f, 0));
     pSpinnerToggle->AddComponent(new fw::MeshComponent(pGame->GetMesh("Sprite"), pGame->GetMaterial("SpinnerToggle")));
-    pSpinnerToggle->AddComponent(new fw::PlayerMovementComponent(m_pPlayerController, pPlayer));
-    pSpinnerToggle->CreateBody(m_pPhysicsWorld, false, 1);
+    pSpinnerToggle->CreateBody(m_pPhysicsWorld, false, 1, true); //Creates Sensor 
     m_Objects.push_back(pSpinnerToggle);
 
 

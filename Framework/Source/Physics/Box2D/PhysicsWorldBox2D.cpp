@@ -121,6 +121,42 @@ PhysicsBody* PhysicsWorldBox2D::CreateBody(TransformComponent* pTransform, bool 
     return new PhysicsBodyBox2D( pBody );
 }
 
+PhysicsBody* PhysicsWorldBox2D::CreateBody(TransformComponent* pTransform, bool isDynamic, float density, GameObject* pGameObject, bool sensor)
+{
+    vec3 pos = pTransform->GetPosition();
+    vec3 rot = pTransform->GetRotation();
+    vec3 scale = pTransform->GetScale();
+
+    // Setup the body definition structure.
+    b2BodyDef bodyDef;
+    bodyDef.position.Set(pos.x, pos.y);
+    bodyDef.angle = -rot.z / 180.0f * PI;
+    if (isDynamic)
+    {
+        bodyDef.type = b2_dynamicBody;
+    }
+    bodyDef.userData.pointer = reinterpret_cast<uintptr_t>(pGameObject);
+
+    // Setup the shape.
+    b2PolygonShape shape;
+    shape.SetAsBox(scale.x / 2, scale.y / 2);
+
+    // Setup the fixture definition with the shape.
+    b2FixtureDef fixtureDef;
+    fixtureDef.shape = &shape;
+    fixtureDef.density = density;
+    if (sensor == true)
+    {
+        fixtureDef.isSensor = true;
+    }
+
+    // Create the body and the fixture.
+    b2Body* pBody = m_pWorld->CreateBody(&bodyDef);
+    pBody->CreateFixture(&fixtureDef);
+
+    return new PhysicsBodyBox2D(pBody);
+}
+
 b2Joint* PhysicsWorldBox2D::CreateJoint(PhysicsBody* pBody, vec3 pos, JointType jointType, PhysicsBody* otherBody)
 {
     if (jointType == JointType::Revolute)

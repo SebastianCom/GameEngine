@@ -46,6 +46,7 @@ public:
     virtual void Update(float deltaTime);
 
     void CreateBody(PhysicsWorld* pWorld, bool isDynamic, float density);
+    void CreateBody(PhysicsWorld* pWorld, bool isDynamic, float density, bool sensor);
 
     void AddComponent(Component* pComponent);
 

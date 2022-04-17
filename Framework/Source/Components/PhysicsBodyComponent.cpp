@@ -19,6 +19,15 @@ PhysicsBodyComponent::PhysicsBodyComponent(PhysicsWorld* pWorld, bool dynamic, f
 
 }
 
+PhysicsBodyComponent::PhysicsBodyComponent(PhysicsWorld* pWorld, bool dynamic, float density, GameObject* pGameObject, TransformComponent* pTransform, bool sensor)
+    : m_pWorld(pWorld)
+    , m_bDynamic(dynamic)
+    , m_Density(density)
+    , m_pGameObject(pGameObject)
+{
+    m_pBody = pWorld->CreateBody(pTransform, dynamic, density, pGameObject, sensor);
+}
+
 PhysicsBodyComponent::~PhysicsBodyComponent()
 {
     delete m_pBody;
