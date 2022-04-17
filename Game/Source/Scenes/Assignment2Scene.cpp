@@ -28,7 +28,6 @@ Assignment2Scene::Assignment2Scene(Game* pGame)
     //Spinner
     fw::GameObject* pSpinner = new fw::GameObject("Spinner", this, vec3(0, 5, 0));
     pSpinner->AddComponent(new fw::MeshComponent(pGame->GetMesh("Sprite"), pGame->GetMaterial("Pink")));
-    pSpinner->AddComponent(new fw::PlayerMovementComponent(m_pPlayerController, pPlayer));
     pSpinner->CreateBody(m_pPhysicsWorld, true, 1);
     pSpinner->GetPhysicsBody()->RegisterForEvents(pGame->GetFramework()->GetEventManager());
     pSpinner->CreateJoint(m_pPhysicsWorld, vec3(0, 5, 0), fw::JointType::Revolute, nullptr); //This joint also has a friction joint
@@ -37,15 +36,26 @@ Assignment2Scene::Assignment2Scene(Game* pGame)
     m_pSpinner = pSpinner->m_pRevJoint;
     m_Objects.push_back(pSpinner);
 
-    //Prismatic Spinner
+    //Gear Spinner
     fw::GameObject* pGearSpinner = new fw::GameObject("GearSpinner", this, vec3(5, 5, 0));
     pGearSpinner->AddComponent(new fw::MeshComponent(pGame->GetMesh("Sprite"), pGame->GetMaterial("Red")));
-    pGearSpinner->AddComponent(new fw::PlayerMovementComponent(m_pPlayerController, pPlayer));
     pGearSpinner->CreateBody(m_pPhysicsWorld, true, 1);
-    pGearSpinner->GetPhysicsBody()->RegisterForEvents(pGame->GetFramework()->GetEventManager());
     pGearSpinner->CreateJoint(m_pPhysicsWorld, vec3(5, 5, 0), fw::JointType::Revolute, nullptr); //Keep it in spot
-    pGearSpinner->CreateJoint(m_pPhysicsWorld, pSpinner->m_pRevJoint, pGearSpinner->m_pRevJoint, pSpinner->GetPhysicsBody()->GetBody()); //Keep it in spot
+    pGearSpinner->CreateJoint(m_pPhysicsWorld, pSpinner->m_pRevJoint, pGearSpinner->m_pRevJoint, pSpinner->GetPhysicsBody()->GetBody()); 
     m_Objects.push_back(pGearSpinner);
+
+    //Distance 
+    fw::GameObject* pDistance = new fw::GameObject("Distance Joint", this, vec3(6, 5, 0));
+    pDistance->AddComponent(new fw::MeshComponent(pGame->GetMesh("Sprite"), pGame->GetMaterial("White")));
+    pDistance->CreateBody(m_pPhysicsWorld, true, 1);
+    pDistance->CreateJoint(m_pPhysicsWorld, vec3(5, 5, 0), fw::JointType::Distance, pPlayer->GetPhysicsBody()->GetBody());
+    m_Objects.push_back(pDistance);
+
+    //Right Blocker
+    fw::GameObject* pBlocker = new fw::GameObject("Blocker", this, vec3(9.6f, -5.0f, 0));
+    pBlocker->AddComponent(new fw::MeshComponent(pGame->GetMesh("Sprite"), pGame->GetMaterial("Green")));
+    pBlocker->CreateBody(m_pPhysicsWorld, false, 1);
+    m_Objects.push_back(pBlocker);
 
 
     //Spinner Sensor
@@ -90,6 +100,7 @@ void Assignment2Scene::Update(float deltaTime)
     HandleCollision();
 
     ImGui::Begin("Spinner Debug");
+    ImGui::Text("Collision only happpens when below false");
     ImGui::Text("Timer: %f", m_CollisionTimer);
     const char* temp;
     if (m_bCollision == true)

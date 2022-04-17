@@ -82,6 +82,7 @@ public:
 
     b2RevoluteJoint* m_pRevJoint = nullptr;
     b2GearJoint* m_pGearJoint = nullptr;
+    b2DistanceJoint* m_pDistanceJoint = nullptr;
 
 protected:
     Scene* m_pScene = nullptr;

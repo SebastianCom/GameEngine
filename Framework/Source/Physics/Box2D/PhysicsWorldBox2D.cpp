@@ -139,6 +139,13 @@ b2Joint* PhysicsWorldBox2D::CreateJoint(PhysicsBody* pBody, vec3 pos, JointType 
         return pJoint;
 
     }
+    else if (jointType == JointType::Distance)
+    {
+        b2DistanceJointDef jointDef;
+        jointDef.Initialize(static_cast<PhysicsBodyBox2D*>(pBody)->Getb2Body(), static_cast<PhysicsBodyBox2D*>(otherBody)->Getb2Body(), pBody->GetPosition(), otherBody->GetPosition());
+        b2Joint* pJoint = m_pWorld->CreateJoint(&jointDef);
+        return pJoint;
+    }
 }
 
 b2Joint* PhysicsWorldBox2D::CreateJoint(PhysicsBody* pBody, b2Joint* jointOne, b2Joint* jointTwo, PhysicsBody* otherBody)

@@ -141,6 +141,7 @@ void Game::Init()
     m_Materials["LightBlue"] = new fw::Material( m_Shaders["Basic"], m_Textures["LightBlue"], fw::Color4f::Blue() );
     m_Materials["Red"] = new fw::Material( m_Shaders["Basic"], m_Textures["Red"], fw::Color4f::Blue() );
     m_Materials["Pink"] = new fw::Material( m_Shaders["Basic"], m_Textures["Pink"], fw::Color4f::Blue() );
+    m_Materials["Green"] = new fw::Material( m_Shaders["Basic"], m_Textures["Green"], fw::Color4f::Blue() );
     
     m_Materials["SpinnerToggle"] = new fw::Material( m_Shaders["Basic"], m_Textures["SpinOF"], fw::Color4f::Blue() );
 

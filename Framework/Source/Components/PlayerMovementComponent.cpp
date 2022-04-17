@@ -10,7 +10,7 @@ PlayerMovementComponent::PlayerMovementComponent(PlayerController* pController, 
 	:m_pPlayerController(pController)
     , m_pGameObject(pGameObject)
 {
-    m_Speed = 5.0f;
+    m_Speed = 10.0f;
 }
 
 PlayerMovementComponent::~PlayerMovementComponent()

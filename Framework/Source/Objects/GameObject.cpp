@@ -60,6 +60,10 @@ void GameObject::CreateJoint(PhysicsWorld* pWorld, vec3 location, JointType join
     {
         m_pRevJoint = static_cast<b2RevoluteJoint*>(pWorld->CreateJoint(m_pPhysicsBody->GetBody(), location, joint, otherBody));
     }
+    if (joint == JointType::Distance)
+    {
+        m_pRevJoint = static_cast<b2RevoluteJoint*>(pWorld->CreateJoint(m_pPhysicsBody->GetBody(), location, joint, otherBody));
+    }
 }
 
 void GameObject::CreateJoint(PhysicsWorld* pWorld, b2Joint* jointOne, b2Joint* jointTwo, PhysicsBody* otherBody)
