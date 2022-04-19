@@ -5,6 +5,7 @@
 #include "GameObjects/PlayerController.h"
 #include "GameObjects/Player.h"
 #include "Game.h"
+#include "Meshes/Shapes.h"
 
 CubemapScene::CubemapScene(Game* pGame)
     : fw::Scene( pGame )
@@ -22,12 +23,12 @@ CubemapScene::CubemapScene(Game* pGame)
     // Player Object.
     fw::GameObject* pPlayer = new fw::GameObject("Player", this, vec3(0, 1, -4));
     pPlayer->GetTransform()->SetScale(vec3(1));
-    pPlayer->AddComponent(new fw::MeshComponent(pGame->GetMesh("Sphere"), pGame->GetMaterial("Purple")));
+    pPlayer->AddComponent(new fw::MeshComponent(pGame->GetMesh("Sphere"), pGame->GetMaterial("Reflection")));
     pPlayer->AddComponent(new fw::PlayerMovementComponent(m_pPlayerController, pPlayer));
     m_Objects.push_back(pPlayer);
 
-    m_pCamera->SetObjectWeAreLookingAt( pPlayer );
 
+    m_pCamera->SetObjectWeAreLookingAt( pPlayer );
 }
 
 CubemapScene::~CubemapScene()

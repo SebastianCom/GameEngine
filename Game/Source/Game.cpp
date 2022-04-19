@@ -87,6 +87,8 @@ void Game::Init()
     m_Meshes["Sprite"] = new fw::Mesh( GL_TRIANGLES, g_SpriteVerts, g_SpriteIndices );
     m_Meshes["Cube"] = new fw::Mesh( GL_TRIANGLES, g_CubeVerts);
     m_Meshes["Plane"] = CreatePlane();
+    m_Meshes["Cylinder"] = CreateCylinder(2.0f, 0.5f, ivec2(200,200), vec2(0,0), vec2(20,20));
+    m_Meshes["PSphere"] = CreateSphere(0.5f, ivec2(200,200), vec2(0,0), vec2(20,20));
     m_Meshes["Obj"] = new fw::Mesh("Data/Meshes/cube.obj");
     m_Meshes["ObjGun"] = new fw::Mesh("Data/Meshes/Sebs_Glock3.obj");
     m_Meshes["ObjTree"] = new fw::Mesh("Data/Meshes/Tree_NotbySeb.obj");
@@ -97,6 +99,7 @@ void Game::Init()
     m_Shaders["Water"] = new fw::ShaderProgram( "Data/Shaders/Water.vert", "Data/Shaders/Water.frag" );
     m_Shaders["LitColor"] = new fw::ShaderProgram("Data/Shaders/Light-SolidColor.vert", "Data/Shaders/Light-SolidColor.frag");
     m_Shaders["Cubemap"] = new fw::ShaderProgram("Data/Shaders/CubeMap.vert", "Data/Shaders/CubeMap.frag");
+    m_Shaders["Reflections"] = new fw::ShaderProgram("Data/Shaders/Relection.vert", "Data/Shaders/Relection.frag");
 
     // Load our Textures.
     m_Textures["Sprites"] = new fw::Texture( "Data/Textures/Sprites.png" );
@@ -134,6 +137,7 @@ void Game::Init()
     m_Materials["LitMat"] = new fw::Material(m_Shaders["LitColor"], nullptr, fw::Color4f::White());
     m_Materials["CubeMap"] = new fw::Material( m_Shaders["Cubemap"], nullptr, fw::Color4f::Blue(), m_Textures["TestCubeMap"]);
     m_Materials["Yokohama"] = new fw::Material( m_Shaders["Cubemap"], nullptr, fw::Color4f::Blue(), m_Textures["Yokohama"]);
+    m_Materials["Reflection"] = new fw::Material( m_Shaders["Reflections"], nullptr, fw::Color4f::Blue(), m_Textures["Yokohama"]);
     
     //Color Mats
     m_Materials["Purple"] = new fw::Material( m_Shaders["Basic"], m_Textures["Purple"], fw::Color4f::Blue() );
@@ -158,7 +162,7 @@ void Game::Init()
     m_Scenes["Light"] = new LightScene( this );
     m_Scenes["CubeMap"] = new CubemapScene( this );
     m_Scenes["A2"] = new Assignment2Scene( this );
-    m_pCurrentScene = m_Scenes["A2"];
+    m_pCurrentScene = m_Scenes["CubeMap"];
 }
 
 void Game::StartFrame(float deltaTime)
