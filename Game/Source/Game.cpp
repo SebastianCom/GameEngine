@@ -16,7 +16,7 @@
 #include "Scenes/Assignment2Scene.h"
 
 
-//Working Copy for maintenance 2 - needed a comment to i could commit again
+//Working Copy for before Test 2 - needed a comment to i could commit again
 Game::Game(fw::FWCore& fwCore)
     : m_FWCore( fwCore )
 {
