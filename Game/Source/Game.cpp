@@ -14,6 +14,7 @@
 #include "Scenes/ObjScene.h"
 #include "Scenes/CubeMap.h"
 #include "Scenes/Assignment2Scene.h"
+#include "Scenes/FinalExamScene.h"
 
 
 //Working Copy for before Test 2 - needed a comment to i could commit again
@@ -130,6 +131,8 @@ void Game::Init()
                                               "Data/Textures/Yokohama2/posz.png",
                                               "Data/Textures/Yokohama2/negz.png" });
 
+    m_Textures["RPS"] = new fw::Texture("Data/Textures/RockPaperScissors.png");
+
     // Create our Materials.
     m_Materials["Sprites"] = new fw::Material( m_Shaders["Basic"], m_Textures["Sprites"], fw::Color4f::Blue());
     m_Materials["Water"] = new fw::Material( m_Shaders["Water"], m_Textures["Water"], fw::Color4f::Blue());
@@ -148,6 +151,11 @@ void Game::Init()
     m_Materials["Green"] = new fw::Material( m_Shaders["Basic"], m_Textures["Green"], fw::Color4f::Blue() );
     
     m_Materials["SpinnerToggle"] = new fw::Material( m_Shaders["Basic"], m_Textures["SpinOF"], fw::Color4f::Blue() );
+    
+    
+    m_Materials["RPS"] = new fw::Material( m_Shaders["Basic"], m_Textures["RPS"], fw::Color4f::Blue() );
+
+
 
     // Load our Spritesheets.
     m_SpriteSheets["Sprites"] = new fw::SpriteSheet( "Data/Textures/Sprites.json", m_Textures["Sprites"] );
@@ -162,7 +170,11 @@ void Game::Init()
     m_Scenes["Light"] = new LightScene( this );
     m_Scenes["CubeMap"] = new CubemapScene( this );
     m_Scenes["A2"] = new Assignment2Scene( this );
-    m_pCurrentScene = m_Scenes["CubeMap"];
+    m_Scenes["FinalExam"] = new FinalScene( this );
+    m_pCurrentScene = m_Scenes["FinalExam"];
+
+
+
 }
 
 void Game::StartFrame(float deltaTime)
@@ -232,6 +244,10 @@ void Game::Update(float deltaTime)
     if (ImGui::Button("A2"))
     {
         m_pCurrentScene = m_Scenes["A2"];
+    }
+    if (ImGui::Button("FinalExam"))
+    {
+        m_pCurrentScene = m_Scenes["FinalExam"];
     }
     ImGui::End(); //"Scene Selector"
 
@@ -335,3 +351,4 @@ void Game::Draw()
     
     m_pImGuiManager->EndFrame();
 }
+

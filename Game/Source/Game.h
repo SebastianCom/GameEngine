@@ -7,6 +7,7 @@ class Player;
 class PlayerController;
 class Tilemap;
 
+
 class Game : public fw::GameCore
 {
 public:
@@ -36,6 +37,7 @@ protected:
     std::map<std::string, fw::Texture*> m_Textures;
     std::map<std::string, fw::Material*> m_Materials;
     std::map<std::string, fw::SpriteSheet*> m_SpriteSheets;
+
     
     std::map<std::string, fw::Scene*> m_Scenes;
     fw::Scene* m_pCurrentScene = nullptr;

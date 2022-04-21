@@ -6,8 +6,6 @@ varying vec3 v_Normal;
 uniform vec3 u_CamPosition;
 
 
-
-
 void main()
 {
     vec3 dirToSurface = v_SurfacePos - u_CamPosition;
