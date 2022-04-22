@@ -171,7 +171,7 @@ void Game::Init()
     m_Scenes["CubeMap"] = new CubemapScene( this );
     m_Scenes["A2"] = new Assignment2Scene( this );
     m_Scenes["FinalExam"] = new FinalScene( this );
-    m_pCurrentScene = m_Scenes["FinalExam"];
+    m_pCurrentScene = m_Scenes["A2"];
 
 
 

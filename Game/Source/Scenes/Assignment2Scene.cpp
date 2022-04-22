@@ -24,7 +24,7 @@ Assignment2Scene::Assignment2Scene(Game* pGame)
     pPlayer->CreateBody(m_pPhysicsWorld, true, 1);
     m_Objects.push_back(pPlayer);
     
-    //Spinner
+    //Spinner - Revolute and friction joints with a motor
     fw::GameObject* pSpinner = new fw::GameObject("Spinner", this, vec3(0, 5, 0));
     pSpinner->AddComponent(new fw::MeshComponent(pGame->GetMesh("Sprite"), pGame->GetMaterial("Pink")));
     pSpinner->CreateBody(m_pPhysicsWorld, true, 1);
@@ -35,7 +35,7 @@ Assignment2Scene::Assignment2Scene(Game* pGame)
     m_pSpinner = pSpinner->m_pRevJoint;
     m_Objects.push_back(pSpinner);
 
-    //Gear Spinner
+    //Gear Spinner - revolute and gear joint that works with the spinner
     fw::GameObject* pGearSpinner = new fw::GameObject("GearSpinner", this, vec3(5, 5, 0));
     pGearSpinner->AddComponent(new fw::MeshComponent(pGame->GetMesh("Sprite"), pGame->GetMaterial("Red")));
     pGearSpinner->CreateBody(m_pPhysicsWorld, true, 1);
@@ -43,27 +43,27 @@ Assignment2Scene::Assignment2Scene(Game* pGame)
     pGearSpinner->CreateJoint(m_pPhysicsWorld, pSpinner->m_pRevJoint, pGearSpinner->m_pRevJoint, pSpinner->GetPhysicsBody()->GetBody()); 
     m_Objects.push_back(pGearSpinner);
 
-    //Distance 
+    //Distance - distance joint that works with the player
     fw::GameObject* pDistance = new fw::GameObject("Distance Joint", this, vec3(6, 5, 0));
     pDistance->AddComponent(new fw::MeshComponent(pGame->GetMesh("Sprite"), pGame->GetMaterial("White")));
     pDistance->CreateBody(m_pPhysicsWorld, true, 1);
     pDistance->CreateJoint(m_pPhysicsWorld, vec3(5, 5, 0), fw::JointType::Distance, pPlayer->GetPhysicsBody()->GetBody());
     m_Objects.push_back(pDistance);
 
-    //Right Blocker
+    //Right Blocker non dynamic obstacle used to show the distance joint
     fw::GameObject* pBlocker = new fw::GameObject("Right Blocker", this, vec3(9.6f, -5.0f, 0));
     pBlocker->AddComponent(new fw::MeshComponent(pGame->GetMesh("Sprite"), pGame->GetMaterial("Green")));
     pBlocker->CreateBody(m_pPhysicsWorld, false, 1);
     m_Objects.push_back(pBlocker);
 
-    //Left Blocker
+    //Left Blocker non dynamic obstacle used to show the distance joint
     fw::GameObject* pLBlocker = new fw::GameObject("Left Blocker", this, vec3(-6.7f, -5.0f, 0));
     pLBlocker->AddComponent(new fw::MeshComponent(pGame->GetMesh("Sprite"), pGame->GetMaterial("Green")));
     pLBlocker->CreateBody(m_pPhysicsWorld, false, 1);
     m_Objects.push_back(pLBlocker);
 
 
-    //Spinner Sensor
+    //Spinner Sensor - toggles the motor of the spinner on and off
     fw::GameObject* pSpinnerToggle = new fw::GameObject("SpinnerSensor", this, vec3(-5.6f, -5.0f, 0));
     pSpinnerToggle->AddComponent(new fw::MeshComponent(pGame->GetMesh("Sprite"), pGame->GetMaterial("SpinnerToggle")));
     pSpinnerToggle->CreateBody(m_pPhysicsWorld, false, 1, true); //Creates Sensor 
@@ -103,7 +103,7 @@ void Assignment2Scene::Update(float deltaTime)
 
     HandleCollision();
 
-    ImGui::Begin("Spinner Debug");
+    ImGui::Begin("Spinner Debug"); //Spinner start
     ImGui::Text("Collision only happpens when below false");
     ImGui::Text("Timer: %f", m_CollisionTimer);
     const char* temp;
@@ -112,10 +112,8 @@ void Assignment2Scene::Update(float deltaTime)
     else
         temp = "false";
     ImGui::Text(temp);
-    ImGui::End();
+    ImGui::End(); //Spinner end
 
-    //TODO
-    //MOVE into playermovementcomponent 
     fw::Component* pComponent = m_pComponentManager->GetComponentOftype(fw::PlayerMovementComponent::GetStaticType());
     fw::PlayerMovementComponent* pPlayerComp = static_cast<fw::PlayerMovementComponent*>(pComponent);
     pPlayerComp->Update(deltaTime);
